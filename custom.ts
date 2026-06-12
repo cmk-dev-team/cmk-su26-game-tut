@@ -205,43 +205,18 @@ namespace HunterSettings {
 
 //% color="#4F7BD9" weight=80 block="🟦 ミッション"
 namespace Missions {
-    let missionMessages: string[] = []
-    let missionTypes: MissionType[] = []
-    let missionDurations: number[] = []
-    let missionTriggers: number[] = []
-    let missionSuccessHandlers: (() => void)[] = []
-    let missionFailHandlers: (() => void)[] = []
-    let registeredTriggers: number[] = []
+    let currentMissionTrigger = 0
+    let missionResult = 0
 
-    function runSuccessHandlers(triggerSec: number): void {
-        for (let i = 0; i < missionTriggers.length; i++) {
-            if (missionTriggers[i] == triggerSec) {
-                missionSuccessHandlers[i]()
-            }
-        }
-    }
-
-    function runFailHandlers(triggerSec: number): void {
-        for (let i = 0; i < missionTriggers.length; i++) {
-            if (missionTriggers[i] == triggerSec) {
-                missionFailHandlers[i]()
-            }
-        }
-    }
-
-    function registerMissionCommands(triggerSec: number): void {
-        for (let i = 0; i < registeredTriggers.length; i++) {
-            if (registeredTriggers[i] == triggerSec) {
-                return
-            }
-        }
-
-        registeredTriggers.push(triggerSec)
-        player.onChat("mission_success_" + triggerSec, function () {
-            runSuccessHandlers(triggerSec)
-        })
-        player.onChat("mission_fail_" + triggerSec, function () {
-            runFailHandlers(triggerSec)
+    //% blockId=cmk_on_remaining_time
+    //% block="のこり $triggerSec びょうになったとき"
+    //% triggerSec.defl=30 triggerSec.min=0
+    //% weight=110
+    export function onRemainingTime(triggerSec: number, handler: () => void): void {
+        player.onChat("remaining_" + triggerSec, function () {
+            currentMissionTrigger = triggerSec
+            missionResult = 0
+            handler()
         })
     }
 
@@ -256,39 +231,39 @@ namespace Missions {
         message: string,
         missionType: MissionType,
         durationSec: number
-    ): number {
-        missionMessages.push(message)
-        missionTypes.push(missionType)
-        missionDurations.push(durationSec)
-        return missionMessages.length - 1
+    ): void {
+        missionResult = 0
+
+        player.onChat("mission_success_" + currentMissionTrigger, function () {
+            missionResult = 1
+        })
+        player.onChat("mission_fail_" + currentMissionTrigger, function () {
+            missionResult = 2
+        })
+
+        sendCommand("scoreboard players set @s g_mission_trigger " + currentMissionTrigger)
+        sendCommand("scoreboard players set @s g_mission_type " + missionType)
+        sendCommand("scoreboard players set @s g_mission_duration " + durationSec)
+        sendCommand("say mission_register:" + currentMissionTrigger + ":" + missionType + ":" + durationSec + ":" + message)
     }
 
-    //% blockId=cmk_on_mission
-    //% block="もし のこり $triggerSec びょう なら $settings|せいこうしたら $onSuccess|しっぱいしたら $onFail"
-    //% triggerSec.defl=30 triggerSec.min=0
-    //% settings.shadow=cmk_mission_settings
+    //% blockId=cmk_mission_result
+    //% block="ミッションにせいこうしたとき $onSuccess|しっぱいしたとき $onFail"
     //% handlerStatement=1
-    //% inlineInputMode=external
     //% weight=99
-    export function onMission(
-        triggerSec: number,
-        settings: number,
+    export function missionResultBranch(
         onSuccess: () => void,
         onFail: () => void
     ): void {
-        const message = missionMessages[settings]
-        const missionType = missionTypes[settings]
-        const durationSec = missionDurations[settings]
+        while (missionResult == 0) {
+            loops.pause(100)
+        }
 
-        missionTriggers.push(triggerSec)
-        missionSuccessHandlers.push(onSuccess)
-        missionFailHandlers.push(onFail)
-        registerMissionCommands(triggerSec)
-
-        sendCommand("scoreboard players set @s g_mission_trigger " + triggerSec)
-        sendCommand("scoreboard players set @s g_mission_type " + missionType)
-        sendCommand("scoreboard players set @s g_mission_duration " + durationSec)
-        sendCommand("say mission_register:" + triggerSec + ":" + missionType + ":" + durationSec + ":" + message)
+        if (missionResult == 1) {
+            onSuccess()
+        } else {
+            onFail()
+        }
     }
 
     //% blockId=cmk_open_zone block="くかく $color $section をひらく"
