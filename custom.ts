@@ -220,12 +220,19 @@ namespace Missions {
         })
     }
 
+    //% blockId=cmk_mission_duration block="$seconds びょう"
+    //% seconds.defl=10 seconds.min=1
+    //% blockHidden=true
+    export function missionDuration(seconds: number): number {
+        return seconds
+    }
+
     //% blockId=cmk_mission_settings
-    //% block="ミッションをせってい|ないようをひょうじ $message|しゅるい $missionType|せいげんじかん $durationSec びょう"
+    //% block="ミッションをせってい|ないようをひょうじ $message|しゅるい $missionType|せいげんじかん $durationSec"
     //% message.defl="ボタンをおそう"
     //% missionType.defl=MissionType.Button
-    //% durationSec.defl=10 durationSec.min=1
-    //% inlineInputMode=inline
+    //% durationSec.shadow=cmk_mission_duration
+    //% inlineInputMode=external
     //% weight=100
     export function missionSettings(
         message: string,
