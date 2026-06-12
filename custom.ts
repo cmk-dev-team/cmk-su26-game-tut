@@ -205,6 +205,9 @@ namespace HunterSettings {
 
 //% color="#4F7BD9" weight=80 block="🟦 ミッション"
 namespace Missions {
+    let missionMessages: string[] = []
+    let missionTypes: MissionType[] = []
+    let missionDurations: number[] = []
     let missionTriggers: number[] = []
     let missionSuccessHandlers: (() => void)[] = []
     let missionFailHandlers: (() => void)[] = []
@@ -242,23 +245,41 @@ namespace Missions {
         })
     }
 
-    //% blockId=cmk_on_mission
-    //% block="もし のこり $triggerSec びょう なら|ないよう: $message|しゅるい: $missionType|じかん: $durationSec びょう|せいこうしたら $onSuccess|しっぱいしたら $onFail"
-    //% triggerSec.defl=30 triggerSec.min=0
+    //% blockId=cmk_mission_settings
+    //% block="ミッションのせってい|ないようをひょうじ $message|しゅるい $missionType|せいげんじかん $durationSec びょう"
     //% message.defl="ボタンをおそう"
     //% missionType.defl=MissionType.Button
     //% durationSec.defl=10 durationSec.min=1
-    //% handlerStatement=1
     //% inlineInputMode=external
     //% weight=100
-    export function onMission(
-        triggerSec: number,
+    export function missionSettings(
         message: string,
         missionType: MissionType,
-        durationSec: number,
+        durationSec: number
+    ): number {
+        missionMessages.push(message)
+        missionTypes.push(missionType)
+        missionDurations.push(durationSec)
+        return missionMessages.length - 1
+    }
+
+    //% blockId=cmk_on_mission
+    //% block="もし のこり $triggerSec びょう なら $settings|せいこうしたら $onSuccess|しっぱいしたら $onFail"
+    //% triggerSec.defl=30 triggerSec.min=0
+    //% settings.shadow=cmk_mission_settings
+    //% handlerStatement=1
+    //% inlineInputMode=external
+    //% weight=99
+    export function onMission(
+        triggerSec: number,
+        settings: number,
         onSuccess: () => void,
         onFail: () => void
     ): void {
+        const message = missionMessages[settings]
+        const missionType = missionTypes[settings]
+        const durationSec = missionDurations[settings]
+
         missionTriggers.push(triggerSec)
         missionSuccessHandlers.push(onSuccess)
         missionFailHandlers.push(onFail)
