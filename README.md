@@ -14,3 +14,9 @@ MakeCode tutorial program for CMK summer camp 2026 game course.
 
 ゲームコマンドは `custom.ts` の `sendCommand()` から、Minecraft MakeCode
 公式の `player.execute()` を使って実行します。
+
+## ローカル検証
+
+```powershell
+npx --yes --package makecode mkc build -j
+```

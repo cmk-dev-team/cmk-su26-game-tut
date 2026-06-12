@@ -1,13 +1,21 @@
 {
-  "name": "cmk-su26-game",
+  "name": "cmk-su26-game-tut",
+  "displayName": "CMK Summer Camp 2026 Game",
   "description": "ハンターからの大脱走！ゲーム設定ブロック",
+  "version": "0.0.1",
   "dependencies": {
-    "device": "*"
+    "core": "*"
   },
   "files": [
-    "custom.ts"
+    "custom.ts",
+    "README.md"
   ],
+  "public": true,
   "targetVersions": {
-    "target": "3.1.29"
-  }
+    "targetId": "minecraft"
+  },
+  "supportedTargets": [
+    "minecraft"
+  ],
+  "preferredEditor": "tsprj"
 }
