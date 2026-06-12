@@ -9,6 +9,7 @@ MakeCode tutorial program for CMK summer camp 2026 game course.
 
 ミッションの成功・失敗は、バックエンドから送られる
 `mission_success_<びょう>` / `mission_fail_<びょう>` のチャットコマンドで通知されます。
+残り時間イベントは `remaining_<びょう>` のチャットコマンドで通知されます。
 
 ## コマンド送信 API
 
