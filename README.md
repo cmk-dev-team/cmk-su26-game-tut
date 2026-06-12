@@ -12,7 +12,5 @@ MakeCode tutorial program for CMK summer camp 2026 game course.
 
 ## コマンド送信 API
 
-仕様に合わせて、ゲームコマンドは `custom.ts` の `sendCommand()` から
-`player.runChatCommand()` へ送っています。利用する Minecraft Education /
-MakeCode の版で slash command が実行されない場合は、`sendCommand()` を
-`player.execute()` を使う実装へ切り替えてください。
+ゲームコマンドは `custom.ts` の `sendCommand()` から、Minecraft MakeCode
+公式の `player.execute()` を使って実行します。
