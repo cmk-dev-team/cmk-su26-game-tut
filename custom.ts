@@ -245,25 +245,17 @@ namespace Missions {
         sendCommand("scoreboard players set @s g_mission_type " + missionType)
         sendCommand("scoreboard players set @s g_mission_duration " + durationSec)
         sendCommand("say mission_register:" + currentMissionTrigger + ":" + missionType + ":" + durationSec + ":" + message)
-    }
 
-    //% blockId=cmk_mission_result
-    //% block="ミッションにせいこうしたとき $onSuccess|しっぱいしたとき $onFail"
-    //% handlerStatement=1
-    //% weight=99
-    export function missionResultBranch(
-        onSuccess: () => void,
-        onFail: () => void
-    ): void {
         while (missionResult == 0) {
             loops.pause(100)
         }
+    }
 
-        if (missionResult == 1) {
-            onSuccess()
-        } else {
-            onFail()
-        }
+    //% blockId=cmk_mission_succeeded
+    //% block="ミッションにせいこうした"
+    //% weight=99
+    export function missionSucceeded(): boolean {
+        return missionResult == 1
     }
 
     //% blockId=cmk_open_zone block="くかく $color $section をひらく"
