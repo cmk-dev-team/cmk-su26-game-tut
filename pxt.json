@@ -1,0 +1,13 @@
+{
+  "name": "cmk-su26-game",
+  "description": "ハンターからの大脱走！ゲーム設定ブロック",
+  "dependencies": {
+    "device": "*"
+  },
+  "files": [
+    "custom.ts"
+  ],
+  "targetVersions": {
+    "target": "3.1.29"
+  }
+}
