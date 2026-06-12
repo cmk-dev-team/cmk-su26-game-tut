@@ -113,9 +113,9 @@ enum EffectTarget {
     Self = 2
 }
 
-//% color="#E6952C" weight=100 block="🟧 ゲームのせってい"
+//% color="#E86D26" weight=100 block="ゲームのせってい"
 namespace GameSettings {
-    //% blockId=cmk_set_timelimit block="ゲームじかんを $value にする"
+    //% blockId=cmk_set_timelimit block="ゲームじかんを $value びょうにする"
     //% value.defl=60 value.min=1
     //% weight=100
     export function setTimeLimit(value: number): void {
@@ -139,7 +139,7 @@ namespace GameSettings {
         sendCommand("scoreboard players set @s g_bounty_start " + value)
     }
 
-    //% blockId=cmk_set_bounty_increment block="しょうきんUPを $value にする"
+    //% blockId=cmk_set_bounty_increment block="1びょうあたりのしょうきんを $value にする"
     //% value.defl=5 value.min=0
     //% weight=70
     export function setBountyIncrement(value: number): void {
@@ -147,7 +147,7 @@ namespace GameSettings {
         sendCommand("scoreboard players set @s g_bounty_inc " + value)
     }
 
-    //% blockId=cmk_set_countdown block="カウントダウンを $value にする"
+    //% blockId=cmk_set_countdown block="カウントダウンを $value びょうにしてうごかす"
     //% value.defl=5 value.min=0
     //% weight=60
     export function setCountdown(value: number): void {
@@ -186,24 +186,24 @@ namespace GameSettings {
     }
 }
 
-//% color="#D94F4F" weight=90 block="🟥 ハンターのせってい"
+//% color="#E74C3C" weight=90 block="ハンターのせってい"
 namespace HunterSettings {
     //% blockId=cmk_set_hunter_speed block="ハンターのすばやさを $level にする"
-    //% level.defl=HunterLevel.Lv2
+    //% level.defl=HunterLevel.Lv1
     //% weight=100
     export function setSpeed(level: HunterLevel): void {
         sendCommand("scoreboard players set @s g_hunter_spd " + level)
     }
 
     //% blockId=cmk_set_hunter_strength block="ハンターのつよさを $level にする"
-    //% level.defl=HunterLevel.Lv2
+    //% level.defl=HunterLevel.Lv1
     //% weight=90
     export function setStrength(level: HunterLevel): void {
         sendCommand("scoreboard players set @s g_hunter_str " + level)
     }
 }
 
-//% color="#4F7BD9" weight=80 block="🟦 ミッション"
+//% color="#0071BC" weight=80 block="ミッション"
 namespace Missions {
     let currentMissionTrigger = 0
     let missionResult = 0
@@ -221,11 +221,11 @@ namespace Missions {
     }
 
     //% blockId=cmk_mission_settings
-    //% block="ミッションのせってい|ないようをひょうじ $message|しゅるい $missionType|せいげんじかん $durationSec びょう"
+    //% block="ミッションをせってい|ないようをひょうじ $message|しゅるい $missionType|せいげんじかん $durationSec びょう"
     //% message.defl="ボタンをおそう"
     //% missionType.defl=MissionType.Button
     //% durationSec.defl=10 durationSec.min=1
-    //% inlineInputMode=external
+    //% inlineInputMode=inline
     //% weight=100
     export function missionSettings(
         message: string,
@@ -277,7 +277,7 @@ namespace Missions {
         sendCommand("say bounty_multiply:" + value)
     }
 
-    //% blockId=cmk_add_bounty block="しょうきんに $value たす"
+    //% blockId=cmk_add_bounty block="しょうきんを $value ふやす"
     //% value.defl=100
     //% weight=79
     export function addBounty(value: number): void {
@@ -291,7 +291,7 @@ namespace Missions {
         sendCommand("say bounty_sub:" + value)
     }
 
-    //% blockId=cmk_set_bounty_increment_action block="1びょうごとのUPを $value にする"
+    //% blockId=cmk_set_bounty_increment_action block="1びょうごとのしょうきんを $value にする"
     //% value.defl=5 value.min=0
     //% weight=77
     export function setBountyIncrement(value: number): void {
@@ -319,7 +319,7 @@ namespace Missions {
         sendCommand("say role_hunter:" + target)
     }
 
-    //% blockId=cmk_spawn_hunter_mob block="ハンターモブを $x $y $z にスポーンさせる"
+    //% blockId=cmk_spawn_hunter_mob block="ハンターを $x $y $z にスポーンさせる"
     //% x.defl=0 y.defl=0 z.defl=0
     //% weight=59
     export function spawnHunterMob(x: number, y: number, z: number): void {
@@ -334,7 +334,7 @@ namespace Missions {
         sendCommand("say effect_speed:" + target + ":" + level + ":" + seconds)
     }
 
-    //% blockId=cmk_effect_slow block="$target にスロウネス $level を $seconds びょうつける"
+    //% blockId=cmk_effect_slow block="$target にスピードていか $level を $seconds びょうつける"
     //% level.defl=HunterLevel.Lv1
     //% seconds.defl=10 seconds.min=1
     //% weight=49
