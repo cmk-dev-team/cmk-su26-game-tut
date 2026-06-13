@@ -153,6 +153,8 @@ namespace GameSettings {
     export function setCountdown(value: number): void {
         _countdown = value
         sendCommand("scoreboard players set @s g_countdown " + value)
+        sendCommand("scriptevent cmk:configure " + _timelimit + "|" + value)
+        sendCommand("scriptevent cmk:start")
     }
 
     //% blockId=cmk_get_timelimit block="ゲームじかん"
@@ -213,11 +215,12 @@ namespace Missions {
     //% triggerSec.defl=30 triggerSec.min=0
     //% weight=110
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
-        player.onChat("remaining_" + triggerSec, function () {
+        player.onTellCommand("remaining_" + triggerSec, function () {
             currentMissionTrigger = triggerSec
             missionResult = 0
             handler()
         })
+        sendCommand("scriptevent cmk:register_remaining " + triggerSec)
     }
 
     //% blockId=cmk_mission_duration block="$seconds びょう"
@@ -241,17 +244,17 @@ namespace Missions {
     ): void {
         missionResult = 0
 
-        player.onChat("mission_success_" + currentMissionTrigger, function () {
+        player.onTellCommand("mission_success_" + currentMissionTrigger, function () {
             missionResult = 1
         })
-        player.onChat("mission_fail_" + currentMissionTrigger, function () {
+        player.onTellCommand("mission_fail_" + currentMissionTrigger, function () {
             missionResult = 2
         })
 
         sendCommand("scoreboard players set @s g_mission_trigger " + currentMissionTrigger)
         sendCommand("scoreboard players set @s g_mission_type " + missionType)
         sendCommand("scoreboard players set @s g_mission_duration " + durationSec)
-        sendCommand("say mission_register:" + currentMissionTrigger + ":" + missionType + ":" + durationSec + ":" + message)
+        sendCommand("scriptevent cmk:mission_register " + currentMissionTrigger + "|" + missionType + "|" + durationSec + "|" + message)
 
         while (missionResult == 0) {
             loops.pause(100)
@@ -352,6 +355,7 @@ namespace Missions {
     //% blockId=cmk_stop_game block="ゲームをとめる"
     //% weight=40
     export function stopGame(): void {
+        sendCommand("scriptevent cmk:stop")
         sendCommand("say game_stop")
     }
 }
