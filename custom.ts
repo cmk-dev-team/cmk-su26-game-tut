@@ -118,7 +118,7 @@ namespace GameSettings {
     //% blockId=cmk_extension_version block="れんけいバージョン"
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.1"
+        return "1.0.2"
     }
 
     //% blockId=cmk_set_timelimit block="ゲームじかんを $value びょうにする"
@@ -289,21 +289,21 @@ namespace Missions {
     //% value.defl=2 value.min=0
     //% weight=80
     export function multiplyBounty(value: number): void {
-        sendCommand("say bounty_multiply:" + value)
+        sendCommand("scriptevent cmk:bounty_multiply " + value)
     }
 
     //% blockId=cmk_add_bounty block="しょうきんを $value ふやす"
     //% value.defl=100
     //% weight=79
     export function addBounty(value: number): void {
-        sendCommand("say bounty_add:" + value)
+        sendCommand("scriptevent cmk:bounty_add " + value)
     }
 
     //% blockId=cmk_subtract_bounty block="しょうきんを $value へらす"
     //% value.defl=100 value.min=0
     //% weight=78
     export function subtractBounty(value: number): void {
-        sendCommand("say bounty_sub:" + value)
+        sendCommand("scriptevent cmk:bounty_subtract " + value)
     }
 
     //% blockId=cmk_set_bounty_increment_action block="1びょうごとのしょうきんを $value にする"
@@ -311,7 +311,7 @@ namespace Missions {
     //% weight=77
     export function setBountyIncrement(value: number): void {
         _bountyInc = value
-        sendCommand("scoreboard players set @s g_bounty_inc " + value)
+        sendCommand("scriptevent cmk:bounty_increment " + value)
     }
 
     //% blockId=cmk_add_lives block="$target のざんきを $value ふやす"
