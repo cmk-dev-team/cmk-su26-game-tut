@@ -115,6 +115,12 @@ enum EffectTarget {
 
 //% color="#E86D26" weight=100 block="ゲームのせってい"
 namespace GameSettings {
+    //% blockId=cmk_extension_version block="れんけいバージョン"
+    //% weight=110
+    export function extensionVersion(): string {
+        return "1.0.1"
+    }
+
     //% blockId=cmk_set_timelimit block="ゲームじかんを $value びょうにする"
     //% value.defl=60 value.min=1
     //% weight=100
@@ -153,8 +159,7 @@ namespace GameSettings {
     export function setCountdown(value: number): void {
         _countdown = value
         sendCommand("scoreboard players set @s g_countdown " + value)
-        sendCommand("scriptevent cmk:configure " + _timelimit + "|" + value)
-        sendCommand("scriptevent cmk:start")
+        sendCommand("scriptevent cmk:start " + _timelimit + "|" + value)
     }
 
     //% blockId=cmk_get_timelimit block="ゲームじかん"
