@@ -118,7 +118,7 @@ namespace GameSettings {
     //% blockId=cmk_extension_version block="れんけいバージョン"
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.2"
+        return "1.0.3"
     }
 
     //% blockId=cmk_set_timelimit block="ゲームじかんを $value びょうにする"
@@ -338,7 +338,7 @@ namespace Missions {
     //% x.defl=0 y.defl=0 z.defl=0
     //% weight=59
     export function spawnHunterMob(x: number, y: number, z: number): void {
-        sendCommand("say spawn_mob:" + x + ":" + y + ":" + z)
+        sendCommand("scriptevent cmk:spawn_hunter " + x + "|" + y + "|" + z)
     }
 
     //% blockId=cmk_effect_speed block="$target にスピード $level を $seconds びょうつける"
