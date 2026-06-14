@@ -118,7 +118,7 @@ namespace GameSettings {
     //% blockId=cmk_extension_version block="れんけいバージョン"
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.3"
+        return "1.0.4"
     }
 
     //% blockId=cmk_set_timelimit block="ゲームじかんを $value びょうにする"
@@ -199,7 +199,7 @@ namespace HunterSettings {
     //% level.defl=HunterLevel.Lv1
     //% weight=100
     export function setSpeed(level: HunterLevel): void {
-        sendCommand("scoreboard players set @s g_hunter_spd " + level)
+        sendCommand("scriptevent cmk:set_hunter_speed " + level)
     }
 
     //% blockId=cmk_set_hunter_strength block="ハンターのつよさを $level にする"
