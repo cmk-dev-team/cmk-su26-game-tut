@@ -12,6 +12,9 @@ MakeCode tutorial program for CMK summer camp 2026 game course.
 同じ番号の作成ブロックを複数置いた場合、後から置いた重複ブロックは
 非アクティブになります。
 
+ゲーム開始前の秒数は「カウントダウンを設定」ブロックで指定し、
+「ゲームをかいしする」ブロックでカウントダウンを開始します。
+
 MakeCode からアドオンへの通知には `/scriptevent` を使います。
 アドオンから MakeCode への残り時間・ミッション結果通知には `/tell` を使い、
 `player.onTellCommand()` で受信します。

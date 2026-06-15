@@ -127,7 +127,7 @@ namespace GameSettings {
     //% blockId=cmk_extension_version block="れんけいバージョン"
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.5"
+        return "1.0.6"
     }
 
     //% blockId=cmk_set_timelimit block="ゲームじかんを $value びょうにする"
@@ -162,13 +162,30 @@ namespace GameSettings {
         sendCommand("scoreboard players set @s g_bounty_inc " + value)
     }
 
-    //% blockId=cmk_set_countdown block="カウントダウンを $value びょうにしてうごかす"
+    //% blockId=cmk_set_countdown block="カウントダウンを $value びょうにする"
     //% value.defl=5 value.min=0
     //% weight=60
     export function setCountdown(value: number): void {
         _countdown = value
         sendCommand("scoreboard players set @s g_countdown " + value)
-        sendCommand("scriptevent cmk:start " + _timelimit + "|" + value)
+    }
+
+    //% blockId=cmk_start_game block="ゲームをかいしする"
+    //% weight=59
+    export function startGame(): void {
+        sendCommand("scriptevent cmk:start " + _timelimit + "|" + _countdown)
+    }
+
+    //% blockId=cmk_on_game_started block="ゲームがはじまったとき"
+    //% weight=58
+    export function onGameStarted(handler: () => void): void {
+        player.onTellCommand("game_started", handler)
+    }
+
+    //% blockId=cmk_on_game_ended block="ゲームがおわったとき"
+    //% weight=57
+    export function onGameEnded(handler: () => void): void {
+        player.onTellCommand("game_ended", handler)
     }
 
     //% blockId=cmk_get_timelimit block="ゲームじかん"
@@ -229,13 +246,19 @@ namespace Missions {
     let missionTypes = [MissionType.Button, MissionType.Button, MissionType.Button]
     let missionDurations = [10, 10, 10]
     let missionDefined = [false, false, false]
+    let missionDefinitionClaimed = [false, false, false]
 
     //% blockId=cmk_create_mission
     //% block="ミッション $missionNumber をつくる"
     //% missionNumber.defl=MissionNumber.Mission1
-    //% blockAllowMultiple=0
     //% weight=120
     export function createMission(missionNumber: MissionNumber, handler: () => void): void {
+        const missionIndex = missionNumber - 1
+        if (missionDefinitionClaimed[missionIndex]) {
+            return
+        }
+
+        missionDefinitionClaimed[missionIndex] = true
         const previousMissionNumber = currentMissionNumber
         currentMissionNumber = missionNumber
         isDefiningMission = true
@@ -306,6 +329,23 @@ namespace Missions {
         )
     }
 
+    //% blockId=cmk_on_mission_finished
+    //% block="ミッション $missionNumber が終わったとき"
+    //% missionNumber.defl=MissionNumber.Mission1
+    //% weight=98
+    export function onMissionFinished(missionNumber: MissionNumber, handler: () => void): void {
+        player.onTellCommand("mission_success_" + missionNumber, function () {
+            currentMissionNumber = missionNumber
+            missionResult = 1
+            handler()
+        })
+        player.onTellCommand("mission_fail_" + missionNumber, function () {
+            currentMissionNumber = missionNumber
+            missionResult = 2
+            handler()
+        })
+    }
+
     function runMission(
         missionNumber: MissionNumber,
         message: string,
@@ -315,10 +355,10 @@ namespace Missions {
         currentMissionNumber = missionNumber
         missionResult = 0
 
-        player.onTellCommand("mission_success_" + currentMissionTrigger, function () {
+        player.onTellCommand("mission_success_" + missionNumber, function () {
             missionResult = 1
         })
-        player.onTellCommand("mission_fail_" + currentMissionTrigger, function () {
+        player.onTellCommand("mission_fail_" + missionNumber, function () {
             missionResult = 2
         })
 
@@ -326,7 +366,7 @@ namespace Missions {
         sendCommand("scoreboard players set @s g_mission_number " + currentMissionNumber)
         sendCommand("scoreboard players set @s g_mission_type " + missionType)
         sendCommand("scoreboard players set @s g_mission_duration " + durationSec)
-        sendCommand("scriptevent cmk:mission_register " + currentMissionTrigger + "|" + missionType + "|" + durationSec + "|" + message)
+        sendCommand("scriptevent cmk:mission_register " + missionNumber + "|" + currentMissionTrigger + "|" + missionType + "|" + durationSec + "|" + message)
 
         while (missionResult == 0) {
             loops.pause(100)
@@ -335,7 +375,7 @@ namespace Missions {
 
     //% blockId=cmk_mission_succeeded
     //% block="ミッションにせいこうした"
-    //% weight=98
+    //% weight=97
     export function missionSucceeded(): boolean {
         return missionResult == 1
     }
