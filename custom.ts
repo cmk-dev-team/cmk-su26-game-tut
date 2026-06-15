@@ -30,6 +30,15 @@ enum MissionType {
     Survival = 2
 }
 
+enum MissionNumber {
+    //% block="1"
+    Mission1 = 1,
+    //% block="2"
+    Mission2 = 2,
+    //% block="3"
+    Mission3 = 3
+}
+
 enum ZoneColor {
     //% block="🔴あか"
     Red = 0,
@@ -118,7 +127,7 @@ namespace GameSettings {
     //% blockId=cmk_extension_version block="れんけいバージョン"
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.4"
+        return "1.0.5"
     }
 
     //% blockId=cmk_set_timelimit block="ゲームじかんを $value びょうにする"
@@ -212,8 +221,28 @@ namespace HunterSettings {
 
 //% color="#0071BC" weight=80 block="ミッション"
 namespace Missions {
+    let currentMissionNumber = MissionNumber.Mission1
     let currentMissionTrigger = 0
     let missionResult = 0
+    let isDefiningMission = false
+    let missionMessages = ["", "", ""]
+    let missionTypes = [MissionType.Button, MissionType.Button, MissionType.Button]
+    let missionDurations = [10, 10, 10]
+    let missionDefined = [false, false, false]
+
+    //% blockId=cmk_create_mission
+    //% block="ミッション $missionNumber をつくる"
+    //% missionNumber.defl=MissionNumber.Mission1
+    //% blockAllowMultiple=0
+    //% weight=120
+    export function createMission(missionNumber: MissionNumber, handler: () => void): void {
+        const previousMissionNumber = currentMissionNumber
+        currentMissionNumber = missionNumber
+        isDefiningMission = true
+        handler()
+        isDefiningMission = false
+        currentMissionNumber = previousMissionNumber
+    }
 
     //% blockId=cmk_on_remaining_time
     //% block="のこり $triggerSec びょうになったとき"
@@ -247,6 +276,43 @@ namespace Missions {
         missionType: MissionType,
         durationSec: number
     ): void {
+        if (isDefiningMission) {
+            const missionIndex = currentMissionNumber - 1
+            missionMessages[missionIndex] = message
+            missionTypes[missionIndex] = missionType
+            missionDurations[missionIndex] = durationSec
+            missionDefined[missionIndex] = true
+            return
+        }
+
+        runMission(currentMissionNumber, message, missionType, durationSec)
+    }
+
+    //% blockId=cmk_start_mission
+    //% block="ミッション $missionNumber をかいしする"
+    //% missionNumber.defl=MissionNumber.Mission1
+    //% weight=99
+    export function startMission(missionNumber: MissionNumber): void {
+        const missionIndex = missionNumber - 1
+        if (!missionDefined[missionIndex]) {
+            return
+        }
+
+        runMission(
+            missionNumber,
+            missionMessages[missionIndex],
+            missionTypes[missionIndex],
+            missionDurations[missionIndex]
+        )
+    }
+
+    function runMission(
+        missionNumber: MissionNumber,
+        message: string,
+        missionType: MissionType,
+        durationSec: number
+    ): void {
+        currentMissionNumber = missionNumber
         missionResult = 0
 
         player.onTellCommand("mission_success_" + currentMissionTrigger, function () {
@@ -257,6 +323,7 @@ namespace Missions {
         })
 
         sendCommand("scoreboard players set @s g_mission_trigger " + currentMissionTrigger)
+        sendCommand("scoreboard players set @s g_mission_number " + currentMissionNumber)
         sendCommand("scoreboard players set @s g_mission_type " + missionType)
         sendCommand("scoreboard players set @s g_mission_duration " + durationSec)
         sendCommand("scriptevent cmk:mission_register " + currentMissionTrigger + "|" + missionType + "|" + durationSec + "|" + message)
@@ -268,7 +335,7 @@ namespace Missions {
 
     //% blockId=cmk_mission_succeeded
     //% block="ミッションにせいこうした"
-    //% weight=99
+    //% weight=98
     export function missionSucceeded(): boolean {
         return missionResult == 1
     }
