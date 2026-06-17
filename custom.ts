@@ -1,7 +1,6 @@
 let _timelimit = 5
 let _lives = 3
 let _bountyStart = 0
-let _bountyInc = 5
 let _countdown = 0
 
 function sendCommand(command: string): void {
@@ -134,15 +133,6 @@ namespace GameSettings {
         sendCommand("scoreboard players set @s g_bounty_start " + value)
     }
 
-    //% blockId=cmk_set_bounty_increment block="1びょうあたりのしょうきんを $value にする"
-    //% blockHidden=true
-    //% value.defl=5 value.min=0 value.max=1000
-    //% weight=70
-    export function setBountyIncrement(value: number): void {
-        _bountyInc = value
-        sendCommand("scoreboard players set @s g_bounty_inc " + value)
-    }
-
     //% blockId=cmk_start_game block="カウントダウン $countdown びょうで|ゲームをかいしする"
     //% countdown.defl=0 countdown.min=0 countdown.max=30
     //% weight=59
@@ -170,14 +160,14 @@ namespace GameSettings {
         player.onTellCommand("player_caught", handler)
     }
 
-    //% blockId=cmk_every_seconds block="$seconds びょうごとにじっこう"
+    //% blockId=cmk_every_seconds block="ゲームちゅう $seconds びょうごとにじっこう"
     //% seconds.defl=1 seconds.min=1 seconds.max=600
     //% weight=55
     export function everySeconds(seconds: number, handler: () => void): void {
-        loops.forever(function () {
-            loops.pause(seconds * 1000)
+        player.onTellCommand("tick_" + seconds, function () {
             handler()
         })
+        sendCommand("scriptevent cmk:register_tick " + seconds)
     }
 
     //% blockId=cmk_on_remaining_time
@@ -418,10 +408,11 @@ namespace Missions {
     }
 
     //% blockId=cmk_mission_settings
-    //% block="ミッション $missionNumber をせっていしてかいしする|ないようをひょうじ $message|しゅるい $missionType|せいげんじかん $durationSec"
+    //% block="ミッション $missionNumber をせっていしてかいしする|ないようをひょうじ $message|しゅるい $missionType|クリアにひつようなにんずう $requiredPlayers にん|せいげんじかん $durationSec"
     //% missionNumber.defl=MissionNumber.Mission1
     //% message.defl="ボタンをおそう"
     //% missionType.defl=MissionType.Button
+    //% requiredPlayers.defl=1 requiredPlayers.min=1 requiredPlayers.max=30
     //% durationSec.shadow=cmk_mission_duration
     //% inlineInputMode=external
     //% weight=100
@@ -429,9 +420,10 @@ namespace Missions {
         missionNumber: MissionNumber,
         message: string,
         missionType: MissionType,
+        requiredPlayers: number,
         durationSec: number
     ): void {
-        runMission(missionNumber, message, missionType, durationSec)
+        runMission(missionNumber, message, missionType, requiredPlayers, durationSec)
     }
 
     //% blockId=cmk_on_mission_finished
@@ -455,6 +447,7 @@ namespace Missions {
         missionNumber: MissionNumber,
         message: string,
         missionType: MissionType,
+        requiredPlayers: number,
         durationSec: number
     ): void {
         currentMissionNumber = missionNumber
@@ -471,7 +464,7 @@ namespace Missions {
         sendCommand("scoreboard players set @s g_mission_number " + currentMissionNumber)
         sendCommand("scoreboard players set @s g_mission_type " + missionType)
         sendCommand("scoreboard players set @s g_mission_duration " + durationSec)
-        sendCommand("scriptevent cmk:mission_register " + missionNumber + "|" + currentMissionTrigger + "|" + missionType + "|" + durationSec + "|" + message)
+        sendCommand("scriptevent cmk:mission_register " + missionNumber + "|" + currentMissionTrigger + "|" + missionType + "|" + durationSec + "|" + requiredPlayers + "|" + message)
 
         while (missionResult == 0) {
             loops.pause(100)
