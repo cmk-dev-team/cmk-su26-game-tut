@@ -2,9 +2,25 @@ let _timelimit = 5
 let _lives = 3
 let _bountyStart = 0
 let _countdown = 0
+let _gameRunning = false
+let _gameStateListenersReady = false
 
 function sendCommand(command: string): void {
     player.execute(command)
+}
+
+function ensureGameStateListeners(): void {
+    if (_gameStateListenersReady) {
+        return
+    }
+
+    _gameStateListenersReady = true
+    player.onTellCommand("game_started", function () {
+        _gameRunning = true
+    })
+    player.onTellCommand("game_ended", function () {
+        _gameRunning = false
+    })
 }
 
 enum HunterLevel {
@@ -137,6 +153,8 @@ namespace GameSettings {
     //% countdown.defl=0 countdown.min=0 countdown.max=20
     //% weight=59
     export function startGame(countdown: number): void {
+        ensureGameStateListeners()
+        _gameRunning = false
         _countdown = countdown
         sendCommand("scoreboard players set @s g_countdown " + countdown)
         sendCommand("scriptevent cmk:start " + _timelimit + "|" + _countdown)
@@ -151,6 +169,7 @@ namespace GameSettings {
     //% blockId=cmk_end_game block="ゲームをしゅうりょうする"
     //% weight=57
     export function endGame(): void {
+        _gameRunning = false
         sendCommand("scriptevent cmk:stop")
     }
 
@@ -164,9 +183,12 @@ namespace GameSettings {
     //% seconds.defl=1 seconds.min=1 seconds.max=600
     //% weight=55
     export function everySeconds(seconds: number, handler: () => void): void {
+        ensureGameStateListeners()
         loops.forever(function () {
             loops.pause(seconds * 1000)
-            handler()
+            if (_gameRunning) {
+                handler()
+            }
         })
     }
 
