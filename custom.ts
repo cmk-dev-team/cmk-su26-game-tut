@@ -1,8 +1,8 @@
-let _timelimit = 60
+let _timelimit = 5
 let _lives = 3
-let _bountyStart = 100
+let _bountyStart = 0
 let _bountyInc = 5
-let _countdown = 5
+let _countdown = 0
 
 function sendCommand(command: string): void {
     player.execute(command)
@@ -127,11 +127,11 @@ namespace GameSettings {
     //% blockId=cmk_extension_version block="れんけいバージョン"
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.6"
+        return "1.0.7"
     }
 
     //% blockId=cmk_set_timelimit block="ゲームじかんを $value びょうにする"
-    //% value.defl=60 value.min=1
+    //% value.defl=5 value.min=1 value.max=600
     //% weight=100
     export function setTimeLimit(value: number): void {
         _timelimit = value
@@ -139,7 +139,7 @@ namespace GameSettings {
     }
 
     //% blockId=cmk_set_lives block="ざんきを $value にする"
-    //% value.defl=3 value.min=0
+    //% value.defl=3 value.min=0 value.max=10
     //% weight=90
     export function setLives(value: number): void {
         _lives = value
@@ -147,7 +147,7 @@ namespace GameSettings {
     }
 
     //% blockId=cmk_set_bounty_start block="しょうきんを $value にする"
-    //% value.defl=100 value.min=0
+    //% value.defl=0 value.min=0 value.max=100000
     //% weight=80
     export function setBountyStart(value: number): void {
         _bountyStart = value
@@ -155,71 +155,125 @@ namespace GameSettings {
     }
 
     //% blockId=cmk_set_bounty_increment block="1びょうあたりのしょうきんを $value にする"
-    //% value.defl=5 value.min=0
+    //% value.defl=5 value.min=0 value.max=1000
     //% weight=70
     export function setBountyIncrement(value: number): void {
         _bountyInc = value
         sendCommand("scoreboard players set @s g_bounty_inc " + value)
     }
 
-    //% blockId=cmk_set_countdown block="カウントダウンを $value びょうにする"
-    //% value.defl=5 value.min=0
-    //% weight=60
-    export function setCountdown(value: number): void {
-        _countdown = value
-        sendCommand("scoreboard players set @s g_countdown " + value)
-    }
-
-    //% blockId=cmk_start_game block="ゲームをかいしする"
+    //% blockId=cmk_start_game block="カウントダウン $countdown びょうで|ゲームをかいしする"
+    //% countdown.defl=0 countdown.min=0 countdown.max=30
+    //% inlineInputMode=external
     //% weight=59
-    export function startGame(): void {
+    export function startGame(countdown: number): void {
+        _countdown = countdown
+        sendCommand("scoreboard players set @s g_countdown " + countdown)
         sendCommand("scriptevent cmk:start " + _timelimit + "|" + _countdown)
     }
 
-    //% blockId=cmk_on_game_started block="ゲームがはじまったとき"
+    //% blockId=cmk_pause_game block="ゲームを一時停止する"
     //% weight=58
-    export function onGameStarted(handler: () => void): void {
-        player.onTellCommand("game_started", handler)
+    export function pauseGame(): void {
+        sendCommand("scriptevent cmk:pause")
     }
 
-    //% blockId=cmk_on_game_ended block="ゲームがおわったとき"
+    //% blockId=cmk_on_player_caught block="プレイヤーがつかまったとき"
     //% weight=57
-    export function onGameEnded(handler: () => void): void {
-        player.onTellCommand("game_ended", handler)
+    export function onPlayerCaught(handler: () => void): void {
+        player.onTellCommand("player_caught", handler)
+    }
+
+    //% blockId=cmk_every_seconds block="$seconds びょうごとにじっこう"
+    //% seconds.defl=1 seconds.min=1 seconds.max=600
+    //% weight=56
+    export function everySeconds(seconds: number, handler: () => void): void {
+        loops.forever(function () {
+            loops.pause(seconds * 1000)
+            handler()
+        })
+    }
+
+    //% blockId=cmk_add_timelimit block="ゲームじかんを $value びょうふやす"
+    //% value.defl=10 value.min=0 value.max=600
+    //% weight=55
+    export function addTimeLimit(value: number): void {
+        _timelimit = _timelimit + value
+        sendCommand("scriptevent cmk:timer_add " + value)
+    }
+
+    //% blockId=cmk_subtract_timelimit block="ゲームじかんを $value びょうへらす"
+    //% value.defl=10 value.min=0 value.max=600
+    //% weight=54
+    export function subtractTimeLimit(value: number): void {
+        _timelimit = Math.max(0, _timelimit - value)
+        sendCommand("scriptevent cmk:timer_subtract " + value)
+    }
+
+    //% blockId=cmk_add_lives_setting block="ざんきを $value ふやす"
+    //% value.defl=1 value.min=0 value.max=10
+    //% weight=53
+    export function addLives(value: number): void {
+        _lives = _lives + value
+        sendCommand("scriptevent cmk:lives_add " + value)
+    }
+
+    //% blockId=cmk_subtract_lives_setting block="ざんきを $value へらす"
+    //% value.defl=1 value.min=0 value.max=10
+    //% weight=52
+    export function subtractLives(value: number): void {
+        _lives = Math.max(0, _lives - value)
+        sendCommand("scriptevent cmk:lives_subtract " + value)
+    }
+
+    //% blockId=cmk_add_bounty_setting block="しょうきんを $value ふやす"
+    //% value.defl=100 value.min=0 value.max=100000
+    //% weight=51
+    export function addBounty(value: number): void {
+        _bountyStart = _bountyStart + value
+        sendCommand("scriptevent cmk:bounty_add " + value)
+    }
+
+    //% blockId=cmk_subtract_bounty_setting block="しょうきんを $value へらす"
+    //% value.defl=100 value.min=0 value.max=100000
+    //% weight=50
+    export function subtractBounty(value: number): void {
+        _bountyStart = Math.max(0, _bountyStart - value)
+        sendCommand("scriptevent cmk:bounty_subtract " + value)
     }
 
     //% blockId=cmk_get_timelimit block="ゲームじかん"
-    //% weight=50
+    //% weight=40
     export function timeLimit(): number {
         return _timelimit
     }
 
     //% blockId=cmk_get_half_timelimit block="ゲームじかん ÷ 2"
-    //% weight=40
+    //% weight=30
     export function halfTimeLimit(): number {
         return Math.floor(_timelimit / 2)
     }
 
     //% blockId=cmk_get_quarter_timelimit block="ゲームじかん ÷ 4"
-    //% weight=30
+    //% weight=20
     export function quarterTimeLimit(): number {
         return Math.floor(_timelimit / 4)
     }
 
     //% blockId=cmk_get_lives block="ざんき"
-    //% weight=20
+    //% weight=10
     export function lives(): number {
         return _lives
     }
 
     //% blockId=cmk_get_bounty_start block="しょうきん"
-    //% weight=10
+    //% weight=9
     export function bountyStart(): number {
         return _bountyStart
     }
 }
 
-//% color="#E74C3C" weight=90 block="ハンターのせってい"
+//% color="#E74C3C" weight=90 block="ハンター"
 namespace HunterSettings {
     //% blockId=cmk_set_hunter_speed block="ハンターのすばやさを $level にする"
     //% level.defl=HunterLevel.Lv1
@@ -228,11 +282,23 @@ namespace HunterSettings {
         sendCommand("scriptevent cmk:set_hunter_speed " + level)
     }
 
-    //% blockId=cmk_set_hunter_strength block="ハンターのつよさを $level にする"
+    //% blockId=cmk_set_hunter_strength block="ハンターのしかいをレベル $level にする"
     //% level.defl=HunterLevel.Lv1
     //% weight=90
     export function setStrength(level: HunterLevel): void {
-        sendCommand("scoreboard players set @s g_hunter_str " + level)
+        sendCommand("scriptevent cmk:set_hunter_sight " + level)
+    }
+
+    //% blockId=cmk_stop_hunters block="ハンターをていしさせる"
+    //% weight=80
+    export function stopHunters(): void {
+        sendCommand("scriptevent cmk:stop_hunters")
+    }
+
+    //% blockId=cmk_resume_hunters block="ハンターをさいかいする"
+    //% weight=79
+    export function resumeHunters(): void {
+        sendCommand("scriptevent cmk:resume_hunters")
     }
 }
 
