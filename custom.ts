@@ -164,10 +164,10 @@ namespace GameSettings {
     //% seconds.defl=1 seconds.min=1 seconds.max=600
     //% weight=55
     export function everySeconds(seconds: number, handler: () => void): void {
-        player.onTellCommand("tick_" + seconds, function () {
+        loops.forever(function () {
+            loops.pause(seconds * 1000)
             handler()
         })
-        sendCommand("scriptevent cmk:register_tick " + seconds)
     }
 
     //% blockId=cmk_on_remaining_time
