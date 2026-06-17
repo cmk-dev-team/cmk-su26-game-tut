@@ -126,7 +126,7 @@ namespace GameSettings {
     }
 
     //% blockId=cmk_set_bounty_start block="しょうきんを $value にする"
-    //% value.defl=0 value.min=0 value.max=100000
+    //% value.defl=0
     //% weight=80
     export function setBountyStart(value: number): void {
         _bountyStart = value
@@ -134,7 +134,7 @@ namespace GameSettings {
     }
 
     //% blockId=cmk_start_game block="カウントダウン $countdown びょうで|ゲームをかいしする"
-    //% countdown.defl=0 countdown.min=0 countdown.max=30
+    //% countdown.defl=0 countdown.min=0 countdown.max=20
     //% weight=59
     export function startGame(countdown: number): void {
         _countdown = countdown
@@ -179,7 +179,7 @@ namespace GameSettings {
     }
 
     //% blockId=cmk_add_timelimit block="ゲームじかんを $value びょうふやす"
-    //% value.defl=10 value.min=0 value.max=600
+    //% value.defl=10 value.min=0 value.max=30
     //% weight=54
     export function addTimeLimit(value: number): void {
         _timelimit = _timelimit + value
@@ -187,7 +187,7 @@ namespace GameSettings {
     }
 
     //% blockId=cmk_subtract_timelimit block="ゲームじかんを $value びょうへらす"
-    //% value.defl=10 value.min=0 value.max=600
+    //% value.defl=10 value.min=0 value.max=30
     //% weight=54
     export function subtractTimeLimit(value: number): void {
         _timelimit = Math.max(0, _timelimit - value)
@@ -231,7 +231,7 @@ namespace GameSettings {
     }
 
     //% blockId=cmk_add_bounty_setting block="しょうきんを $value ふやす"
-    //% value.defl=100 value.min=0 value.max=100000
+    //% value.defl=100
     //% weight=51
     export function addBounty(value: number): void {
         _bountyStart = _bountyStart + value
@@ -239,7 +239,7 @@ namespace GameSettings {
     }
 
     //% blockId=cmk_subtract_bounty_setting block="しょうきんを $value へらす"
-    //% value.defl=100 value.min=0 value.max=100000
+    //% value.defl=100
     //% weight=50
     export function subtractBounty(value: number): void {
         _bountyStart = Math.max(0, _bountyStart - value)
@@ -408,11 +408,11 @@ namespace Missions {
     }
 
     //% blockId=cmk_mission_settings
-    //% block="ミッション $missionNumber をせっていしてかいしする|ないようをひょうじ $message|しゅるい $missionType|クリアにひつようなにんずう $requiredPlayers にん|せいげんじかん $durationSec"
+    //% block="ミッション $missionNumber をせっていしてかいしする|ないようをひょうじ $message|しゅるい $missionType|クリアにひつようなにんずう $requiredPlayers|せいげんじかん $durationSec"
     //% missionNumber.defl=MissionNumber.Mission1
     //% message.defl="ボタンをおそう"
     //% missionType.defl=MissionType.Button
-    //% requiredPlayers.defl=1 requiredPlayers.min=1 requiredPlayers.max=30
+    //% requiredPlayers.defl=1 requiredPlayers.min=1 requiredPlayers.max=5
     //% durationSec.shadow=cmk_mission_duration
     //% inlineInputMode=external
     //% weight=100
