@@ -44,7 +44,7 @@ enum ZoneColor {
     White = 0,
     //% block="オレンジ"
     Orange = 1,
-    //% block="マゼンタ"
+    //% block="あかむらさき"
     Magenta = 2,
     //% block="そらいろ"
     LightBlue = 3,
@@ -58,7 +58,7 @@ enum ZoneColor {
     Gray = 7,
     //% block="うすいはいいろ"
     LightGray = 8,
-    //% block="シアン"
+    //% block="あおみどり"
     Cyan = 9,
     //% block="むらさき"
     Purple = 10,
@@ -108,9 +108,10 @@ enum EffectTarget {
 //% color="#E86D26" weight=100 block="ゲームのせってい"
 namespace GameSettings {
     //% blockId=cmk_extension_version block="れんけいバージョン"
+    //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.8"
+        return "1.0.9"
     }
 
     //% blockId=cmk_set_timelimit block="ゲームじかんを $value びょうにする"
@@ -138,6 +139,7 @@ namespace GameSettings {
     }
 
     //% blockId=cmk_set_bounty_increment block="1びょうあたりのしょうきんを $value にする"
+    //% blockHidden=true
     //% value.defl=5 value.min=0 value.max=1000
     //% weight=70
     export function setBountyIncrement(value: number): void {
@@ -145,9 +147,8 @@ namespace GameSettings {
         sendCommand("scoreboard players set @s g_bounty_inc " + value)
     }
 
-    //% blockId=cmk_start_game block="カウントダウン $countdown びょうで ゲームをかいしする"
+    //% blockId=cmk_start_game block="カウントダウン $countdown びょうで|ゲームをかいしする"
     //% countdown.defl=0 countdown.min=0 countdown.max=30
-    //% inlineInputMode=external
     //% weight=59
     export function startGame(countdown: number): void {
         _countdown = countdown
@@ -181,6 +182,14 @@ namespace GameSettings {
             loops.pause(seconds * 1000)
             handler()
         })
+    }
+
+    //% blockId=cmk_on_remaining_time
+    //% block="のこり $triggerSec びょうになったとき"
+    //% triggerSec.defl=30 triggerSec.min=0
+    //% weight=54
+    export function onRemainingTime(triggerSec: number, handler: () => void): void {
+        Missions.onRemainingTime(triggerSec, handler)
     }
 
     //% blockId=cmk_add_timelimit block="ゲームじかんを $value びょうふやす"
@@ -292,7 +301,7 @@ namespace HunterSettings {
         sendCommand("scriptevent cmk:stop_hunters")
     }
 
-    //% blockId=cmk_resume_hunters block="ハンターをさいかいする"
+    //% blockId=cmk_resume_hunters block="ハンターをうごかす"
     //% weight=79
     export function resumeHunters(): void {
         sendCommand("scriptevent cmk:resume_hunters")
@@ -316,16 +325,16 @@ function sendZoneCommand(area: string, color: ZoneColor, open: boolean): void {
     sendCommand("say zone_" + (open ? "open" : "close") + ":" + area + ":" + color)
 }
 
-//% color="#E74C3C" weight=87 block="エリアA"
+//% color="#E74C3C" weight=87 block="エリアあか"
 namespace AreaA {
-    //% blockId=cmk_open_area_a block="エリアAの $color をひらく"
+    //% blockId=cmk_open_area_a block="エリアあかの $color ゲートをひらく"
     //% color.defl=ZoneColor.Red
     //% weight=100
     export function open(color: ZoneColor): void {
         sendZoneCommand("A", color, true)
     }
 
-    //% blockId=cmk_close_area_a block="エリアAの $color をとじる"
+    //% blockId=cmk_close_area_a block="エリアあかの $color ゲートをとじる"
     //% color.defl=ZoneColor.Red
     //% weight=90
     export function close(color: ZoneColor): void {
@@ -333,16 +342,16 @@ namespace AreaA {
     }
 }
 
-//% color="#3498DB" weight=86 block="エリアB"
+//% color="#3498DB" weight=86 block="エリアあお"
 namespace AreaB {
-    //% blockId=cmk_open_area_b block="エリアBの $color をひらく"
+    //% blockId=cmk_open_area_b block="エリアあおの $color ゲートをひらく"
     //% color.defl=ZoneColor.Blue
     //% weight=100
     export function open(color: ZoneColor): void {
         sendZoneCommand("B", color, true)
     }
 
-    //% blockId=cmk_close_area_b block="エリアBの $color をとじる"
+    //% blockId=cmk_close_area_b block="エリアあおの $color ゲートをとじる"
     //% color.defl=ZoneColor.Blue
     //% weight=90
     export function close(color: ZoneColor): void {
@@ -350,16 +359,16 @@ namespace AreaB {
     }
 }
 
-//% color="#F1C40F" weight=85 block="エリアC"
+//% color="#F1C40F" weight=85 block="エリアきいろ"
 namespace AreaC {
-    //% blockId=cmk_open_area_c block="エリアCの $color をひらく"
+    //% blockId=cmk_open_area_c block="エリアきいろの $color ゲートをひらく"
     //% color.defl=ZoneColor.Yellow
     //% weight=100
     export function open(color: ZoneColor): void {
         sendZoneCommand("C", color, true)
     }
 
-    //% blockId=cmk_close_area_c block="エリアCの $color をとじる"
+    //% blockId=cmk_close_area_c block="エリアきいろの $color ゲートをとじる"
     //% color.defl=ZoneColor.Yellow
     //% weight=90
     export function close(color: ZoneColor): void {
@@ -367,16 +376,16 @@ namespace AreaC {
     }
 }
 
-//% color="#2ECC71" weight=84 block="エリアD"
+//% color="#2ECC71" weight=84 block="エリアみどり"
 namespace AreaD {
-    //% blockId=cmk_open_area_d block="エリアDの $color をひらく"
+    //% blockId=cmk_open_area_d block="エリアみどりの $color ゲートをひらく"
     //% color.defl=ZoneColor.Green
     //% weight=100
     export function open(color: ZoneColor): void {
         sendZoneCommand("D", color, true)
     }
 
-    //% blockId=cmk_close_area_d block="エリアDの $color をとじる"
+    //% blockId=cmk_close_area_d block="エリアみどりの $color ゲートをとじる"
     //% color.defl=ZoneColor.Green
     //% weight=90
     export function close(color: ZoneColor): void {
@@ -392,6 +401,7 @@ namespace Missions {
 
     //% blockId=cmk_on_remaining_time
     //% block="のこり $triggerSec びょうになったとき"
+    //% blockHidden=true
     //% triggerSec.defl=30 triggerSec.min=0
     //% weight=110
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
@@ -484,6 +494,7 @@ namespace Missions {
     }
 
     //% blockId=cmk_effect_slow block="$target にスピードていか $level を $seconds びょうつける"
+    //% blockHidden=true
     //% level.defl=HunterLevel.Lv1
     //% seconds.defl=10 seconds.min=1
     //% weight=49
