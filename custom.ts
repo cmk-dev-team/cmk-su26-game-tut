@@ -23,11 +23,7 @@ enum HunterLevel {
 
 enum MissionType {
     //% block="ボタンをおす"
-    Button = 0,
-    //% block="タイムアタック"
-    TimeAttack = 1,
-    //% block="サバイバル"
-    Survival = 2
+    Button = 0
 }
 
 enum MissionNumber {
@@ -156,7 +152,7 @@ namespace GameSettings {
         sendCommand("scriptevent cmk:start " + _timelimit + "|" + _countdown)
     }
 
-    //% blockId=cmk_pause_game block="ゲームを一時停止する"
+    //% blockId=cmk_pause_game block="ゲームをいちじていしする"
     //% weight=58
     export function pauseGame(): void {
         sendCommand("scriptevent cmk:pause")
@@ -187,14 +183,14 @@ namespace GameSettings {
     //% blockId=cmk_on_remaining_time
     //% block="のこり $triggerSec びょうになったとき"
     //% triggerSec.defl=30 triggerSec.min=0
-    //% weight=54
+    //% weight=55
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
         Missions.onRemainingTime(triggerSec, handler)
     }
 
     //% blockId=cmk_add_timelimit block="ゲームじかんを $value びょうふやす"
     //% value.defl=10 value.min=0 value.max=600
-    //% weight=55
+    //% weight=54
     export function addTimeLimit(value: number): void {
         _timelimit = _timelimit + value
         sendCommand("scriptevent cmk:timer_add " + value)
@@ -308,6 +304,7 @@ namespace HunterSettings {
     }
 
     //% blockId=cmk_make_hunter block="$target をハンターにする"
+    //% blockHidden=true
     //% weight=70
     export function makeHunter(target: HunterTarget): void {
         sendCommand("say role_hunter:" + target)
@@ -322,19 +319,19 @@ namespace HunterSettings {
 }
 
 function sendZoneCommand(area: string, color: ZoneColor, open: boolean): void {
-    sendCommand("say zone_" + (open ? "open" : "close") + ":" + area + ":" + color)
+    sendCommand("scriptevent cmk:zone_" + (open ? "open" : "close") + " " + area + "|" + color)
 }
 
-//% color="#E74C3C" weight=87 block="エリアあか"
+//% color="#E74C3C" weight=87 block="あかエリア"
 namespace AreaA {
-    //% blockId=cmk_open_area_a block="エリアあかの $color ゲートをひらく"
+    //% blockId=cmk_open_area_a block="あかエリアの $color ゲートをひらく"
     //% color.defl=ZoneColor.Red
     //% weight=100
     export function open(color: ZoneColor): void {
         sendZoneCommand("A", color, true)
     }
 
-    //% blockId=cmk_close_area_a block="エリアあかの $color ゲートをとじる"
+    //% blockId=cmk_close_area_a block="あかエリアの $color ゲートをとじる"
     //% color.defl=ZoneColor.Red
     //% weight=90
     export function close(color: ZoneColor): void {
@@ -342,58 +339,58 @@ namespace AreaA {
     }
 }
 
-//% color="#3498DB" weight=86 block="エリアあお"
+//% color="#3498DB" weight=86 block="あおエリア"
 namespace AreaB {
-    //% blockId=cmk_open_area_b block="エリアあおの $color ゲートをひらく"
-    //% color.defl=ZoneColor.Blue
+    //% blockId=cmk_open_area_b block="あおエリアの $color ゲートをひらく"
+    //% color.defl=ZoneColor.Red
     //% weight=100
     export function open(color: ZoneColor): void {
         sendZoneCommand("B", color, true)
     }
 
-    //% blockId=cmk_close_area_b block="エリアあおの $color ゲートをとじる"
-    //% color.defl=ZoneColor.Blue
+    //% blockId=cmk_close_area_b block="あおエリアの $color ゲートをとじる"
+    //% color.defl=ZoneColor.Red
     //% weight=90
     export function close(color: ZoneColor): void {
         sendZoneCommand("B", color, false)
     }
 }
 
-//% color="#F1C40F" weight=85 block="エリアきいろ"
+//% color="#F1C40F" weight=85 block="きいろエリア"
 namespace AreaC {
-    //% blockId=cmk_open_area_c block="エリアきいろの $color ゲートをひらく"
-    //% color.defl=ZoneColor.Yellow
+    //% blockId=cmk_open_area_c block="きいろエリアの $color ゲートをひらく"
+    //% color.defl=ZoneColor.Red
     //% weight=100
     export function open(color: ZoneColor): void {
         sendZoneCommand("C", color, true)
     }
 
-    //% blockId=cmk_close_area_c block="エリアきいろの $color ゲートをとじる"
-    //% color.defl=ZoneColor.Yellow
+    //% blockId=cmk_close_area_c block="きいろエリアの $color ゲートをとじる"
+    //% color.defl=ZoneColor.Red
     //% weight=90
     export function close(color: ZoneColor): void {
         sendZoneCommand("C", color, false)
     }
 }
 
-//% color="#2ECC71" weight=84 block="エリアみどり"
+//% color="#2ECC71" weight=84 block="みどりエリア"
 namespace AreaD {
-    //% blockId=cmk_open_area_d block="エリアみどりの $color ゲートをひらく"
-    //% color.defl=ZoneColor.Green
+    //% blockId=cmk_open_area_d block="みどりエリアの $color ゲートをひらく"
+    //% color.defl=ZoneColor.Red
     //% weight=100
     export function open(color: ZoneColor): void {
         sendZoneCommand("D", color, true)
     }
 
-    //% blockId=cmk_close_area_d block="エリアみどりの $color ゲートをとじる"
-    //% color.defl=ZoneColor.Green
+    //% blockId=cmk_close_area_d block="みどりエリアの $color ゲートをとじる"
+    //% color.defl=ZoneColor.Red
     //% weight=90
     export function close(color: ZoneColor): void {
         sendZoneCommand("D", color, false)
     }
 }
 
-//% color="#0071BC" weight=80 block="ミッション"
+//% color="#0071BC" weight=89 block="ミッション"
 namespace Missions {
     let currentMissionNumber = MissionNumber.Mission1
     let currentMissionTrigger = 0
@@ -421,18 +418,20 @@ namespace Missions {
     }
 
     //% blockId=cmk_mission_settings
-    //% block="ミッション $missionNumber をせっていしてかいしする|ないようをひょうじ $message|せいげんじかん $durationSec"
+    //% block="ミッション $missionNumber をせっていしてかいしする|ないようをひょうじ $message|しゅるい $missionType|せいげんじかん $durationSec"
     //% missionNumber.defl=MissionNumber.Mission1
     //% message.defl="ボタンをおそう"
+    //% missionType.defl=MissionType.Button
     //% durationSec.shadow=cmk_mission_duration
     //% inlineInputMode=external
     //% weight=100
     export function missionSettings(
         missionNumber: MissionNumber,
         message: string,
+        missionType: MissionType,
         durationSec: number
     ): void {
-        runMission(missionNumber, message, MissionType.Button, durationSec)
+        runMission(missionNumber, message, missionType, durationSec)
     }
 
     //% blockId=cmk_on_mission_finished
