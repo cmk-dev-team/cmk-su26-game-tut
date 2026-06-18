@@ -117,6 +117,13 @@ enum BountyChange {
     Decrease = 0
 }
 
+enum CmkGameMode {
+    //% block="個別モード"
+    Individual = 0,
+    //% block="本番モード"
+    Production = 1
+}
+
 enum HunterTarget {
     //% block="じぶん"
     Self = 1,
@@ -143,7 +150,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.16"
+        return "1.0.17"
     }
 
     //% blockId=cmk_set_timelimit block="ゲーム じかんを $value びょうに する"
@@ -152,6 +159,12 @@ namespace GameSettings {
     export function setTimeLimit(value: number): void {
         _timelimit = value
         sendCommand("scoreboard players set @s g_timelimit " + value)
+    }
+
+    //% blockId=cmk_set_game_mode block="ゲームモードを $mode に する"
+    //% weight=95
+    export function setGameMode(mode: CmkGameMode): void {
+        sendCommand("scriptevent cmk:set_mode " + mode)
     }
 
     //% blockId=cmk_set_lives block="ざんきを $value に する"
