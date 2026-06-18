@@ -1,26 +1,11 @@
 let _timelimit = 5
 let _lives = 3
 let _bountyStart = 0
+let _bountyIncrement = 0
 let _countdown = 0
-let _gameRunning = false
-let _gameStateListenersReady = false
 
 function sendCommand(command: string): void {
     player.execute(command)
-}
-
-function ensureGameStateListeners(): void {
-    if (_gameStateListenersReady) {
-        return
-    }
-
-    _gameStateListenersReady = true
-    player.onTellCommand("game_started", function () {
-        _gameRunning = true
-    })
-    player.onTellCommand("game_ended", function () {
-        _gameRunning = false
-    })
 }
 
 enum HunterLevel {
@@ -96,6 +81,13 @@ enum TargetPlayer {
     MissionFail = 3
 }
 
+enum BountyChange {
+    //% block="ふやす"
+    Increase = 1,
+    //% block="へらす"
+    Decrease = 0
+}
+
 enum HunterTarget {
     //% block="じぶん"
     Self = 1,
@@ -122,7 +114,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.9"
+        return "1.0.14"
     }
 
     //% blockId=cmk_set_timelimit block="ゲームじかんを $value びょうにする"
@@ -153,8 +145,6 @@ namespace GameSettings {
     //% countdown.defl=0 countdown.min=0 countdown.max=20
     //% weight=59
     export function startGame(countdown: number): void {
-        ensureGameStateListeners()
-        _gameRunning = false
         _countdown = countdown
         sendCommand("scoreboard players set @s g_countdown " + countdown)
         sendCommand("scriptevent cmk:start " + _timelimit + "|" + _countdown)
@@ -169,7 +159,6 @@ namespace GameSettings {
     //% blockId=cmk_end_game block="ゲームをしゅうりょうする"
     //% weight=57
     export function endGame(): void {
-        _gameRunning = false
         sendCommand("scriptevent cmk:stop")
     }
 
@@ -177,19 +166,6 @@ namespace GameSettings {
     //% weight=56
     export function onPlayerCaught(handler: () => void): void {
         player.onTellCommand("player_caught", handler)
-    }
-
-    //% blockId=cmk_every_seconds block="ゲームちゅう $seconds びょうごとにじっこう"
-    //% seconds.defl=1 seconds.min=1 seconds.max=600
-    //% weight=55
-    export function everySeconds(seconds: number, handler: () => void): void {
-        ensureGameStateListeners()
-        loops.forever(function () {
-            loops.pause(seconds * 1000)
-            if (_gameRunning) {
-                handler()
-            }
-        })
     }
 
     //% blockId=cmk_on_remaining_time
@@ -260,6 +236,16 @@ namespace GameSettings {
         sendCommand("scriptevent cmk:bounty_add " + value)
     }
 
+    //% blockId=cmk_set_bounty_increment block="1びょうごとのしょうきんを $mode $value 円にする"
+    //% mode.defl=BountyChange.Increase
+    //% value.defl=100 value.min=0 value.max=10000
+    //% weight=51
+    export function setBountyIncrement(mode: BountyChange, value: number): void {
+        _bountyIncrement = mode == BountyChange.Increase ? value : -value
+        sendCommand("scoreboard players set @s g_bounty_inc " + _bountyIncrement)
+        sendCommand("scriptevent cmk:bounty_increment " + _bountyIncrement)
+    }
+
     //% blockId=cmk_subtract_bounty_setting block="しょうきんを $value へらす"
     //% value.defl=100
     //% weight=50
@@ -284,6 +270,12 @@ namespace GameSettings {
     //% weight=9
     export function bountyStart(): number {
         return _bountyStart
+    }
+
+    //% blockId=cmk_get_bounty_increment block="1びょうごとのしょうきん"
+    //% weight=8
+    export function bountyIncrement(): number {
+        return _bountyIncrement
     }
 }
 
