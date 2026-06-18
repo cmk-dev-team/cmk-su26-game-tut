@@ -8,6 +8,19 @@ function sendCommand(command: string): void {
     player.execute(command)
 }
 
+function getMinecraftGameModeCommand(mode: MinecraftGameMode): string {
+    switch (mode) {
+        case MinecraftGameMode.Creative:
+            return "creative"
+        case MinecraftGameMode.Adventure:
+            return "adventure"
+        case MinecraftGameMode.Spectator:
+            return "spectator"
+        default:
+            return "survival"
+    }
+}
+
 enum HunterLevel {
     //% block="1"
     Lv1 = 1,
@@ -117,11 +130,15 @@ enum BountyChange {
     Decrease = 0
 }
 
-enum CmkGameMode {
-    //% block="個別モード"
-    Individual = 0,
-    //% block="本番モード"
-    Production = 1
+enum MinecraftGameMode {
+    //% block="クリエイティブ"
+    Creative = 0,
+    //% block="アドベンチャー"
+    Adventure = 1,
+    //% block="サバイバル"
+    Survival = 2,
+    //% block="スペクテイター"
+    Spectator = 3
 }
 
 enum HunterTarget {
@@ -150,7 +167,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.17"
+        return "1.0.18"
     }
 
     //% blockId=cmk_set_timelimit block="ゲーム じかんを $value びょうに する"
@@ -163,8 +180,8 @@ namespace GameSettings {
 
     //% blockId=cmk_set_game_mode block="ゲームモードを $mode に する"
     //% weight=95
-    export function setGameMode(mode: CmkGameMode): void {
-        sendCommand("scriptevent cmk:set_mode " + mode)
+    export function setGameMode(mode: MinecraftGameMode): void {
+        sendCommand("gamemode " + getMinecraftGameModeCommand(mode) + " @s")
     }
 
     //% blockId=cmk_set_lives block="ざんきを $value に する"
