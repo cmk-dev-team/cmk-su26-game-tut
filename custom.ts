@@ -21,6 +21,19 @@ enum HunterLevel {
     Lv5 = 5
 }
 
+enum HunterSightRange {
+    //% block="16"
+    Range16 = 16,
+    //% block="32"
+    Range32 = 32,
+    //% block="48"
+    Range48 = 48,
+    //% block="64"
+    Range64 = 64,
+    //% block="80"
+    Range80 = 80
+}
+
 enum MissionType {
     //% block="ボタンを おす"
     Button = 0
@@ -37,36 +50,52 @@ enum MissionNumber {
 
 enum ZoneColor {
     //% block="しろ"
+    //% jres=ZoneIcon.white
     White = 0,
     //% block="オレンジ"
+    //% jres=ZoneIcon.orange
     Orange = 1,
     //% block="あかむらさき"
+    //% jres=ZoneIcon.magenta
     Magenta = 2,
     //% block="そらいろ"
+    //% jres=ZoneIcon.lightBlue
     LightBlue = 3,
     //% block="きいろ"
+    //% jres=ZoneIcon.yellow
     Yellow = 4,
     //% block="きみどり"
+    //% jres=ZoneIcon.lime
     Lime = 5,
     //% block="ピンク"
+    //% jres=ZoneIcon.pink
     Pink = 6,
     //% block="はいいろ"
+    //% jres=ZoneIcon.gray
     Gray = 7,
     //% block="うすいはいいろ"
+    //% jres=ZoneIcon.lightGray
     LightGray = 8,
     //% block="あおみどり"
+    //% jres=ZoneIcon.cyan
     Cyan = 9,
     //% block="むらさき"
+    //% jres=ZoneIcon.purple
     Purple = 10,
     //% block="あお"
+    //% jres=ZoneIcon.blue
     Blue = 11,
     //% block="ちゃいろ"
+    //% jres=ZoneIcon.brown
     Brown = 12,
     //% block="みどり"
+    //% jres=ZoneIcon.green
     Green = 13,
     //% block="あか"
+    //% jres=ZoneIcon.red
     Red = 14,
     //% block="くろ"
+    //% jres=ZoneIcon.black
     Black = 15
 }
 
@@ -114,7 +143,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.15"
+        return "1.0.16"
     }
 
     //% blockId=cmk_set_timelimit block="ゲーム じかんを $value びょうに する"
@@ -288,11 +317,11 @@ namespace HunterSettings {
         sendCommand("scriptevent cmk:set_hunter_speed " + level)
     }
 
-    //% blockId=cmk_set_hunter_strength block="ハンターの しかいを レベル $level に する"
-    //% level.defl=HunterLevel.Lv1
+    //% blockId=cmk_set_hunter_strength block="ハンターの しかいの はんいを $range ブロックに する"
+    //% range.defl=HunterSightRange.Range16
     //% weight=90
-    export function setStrength(level: HunterLevel): void {
-        sendCommand("scriptevent cmk:set_hunter_sight " + level)
+    export function setStrength(range: HunterSightRange): void {
+        sendCommand("scriptevent cmk:set_hunter_sight " + range)
     }
 
     //% blockId=cmk_stop_hunters block="ハンターを ていしさせる"
@@ -330,6 +359,8 @@ function sendZoneCommand(area: string, color: ZoneColor, open: boolean): void {
 namespace AreaA {
     //% blockId=cmk_open_area_a block="あか エリアの $color ゲートを ひらく"
     //% color.defl=ZoneColor.Red
+    //% color.fieldEditor="imagedropdown"
+    //% color.fieldOptions.columns=4
     //% weight=100
     export function open(color: ZoneColor): void {
         sendZoneCommand("A", color, true)
@@ -337,6 +368,8 @@ namespace AreaA {
 
     //% blockId=cmk_close_area_a block="あか エリアの $color ゲートを とじる"
     //% color.defl=ZoneColor.Red
+    //% color.fieldEditor="imagedropdown"
+    //% color.fieldOptions.columns=4
     //% weight=90
     export function close(color: ZoneColor): void {
         sendZoneCommand("A", color, false)
@@ -347,6 +380,8 @@ namespace AreaA {
 namespace AreaB {
     //% blockId=cmk_open_area_b block="あお エリアの $color ゲートを ひらく"
     //% color.defl=ZoneColor.Red
+    //% color.fieldEditor="imagedropdown"
+    //% color.fieldOptions.columns=4
     //% weight=100
     export function open(color: ZoneColor): void {
         sendZoneCommand("B", color, true)
@@ -354,6 +389,8 @@ namespace AreaB {
 
     //% blockId=cmk_close_area_b block="あお エリアの $color ゲートを とじる"
     //% color.defl=ZoneColor.Red
+    //% color.fieldEditor="imagedropdown"
+    //% color.fieldOptions.columns=4
     //% weight=90
     export function close(color: ZoneColor): void {
         sendZoneCommand("B", color, false)
@@ -364,6 +401,8 @@ namespace AreaB {
 namespace AreaC {
     //% blockId=cmk_open_area_c block="きいろ エリアの $color ゲートを ひらく"
     //% color.defl=ZoneColor.Red
+    //% color.fieldEditor="imagedropdown"
+    //% color.fieldOptions.columns=4
     //% weight=100
     export function open(color: ZoneColor): void {
         sendZoneCommand("C", color, true)
@@ -371,6 +410,8 @@ namespace AreaC {
 
     //% blockId=cmk_close_area_c block="きいろ エリアの $color ゲートを とじる"
     //% color.defl=ZoneColor.Red
+    //% color.fieldEditor="imagedropdown"
+    //% color.fieldOptions.columns=4
     //% weight=90
     export function close(color: ZoneColor): void {
         sendZoneCommand("C", color, false)
@@ -381,6 +422,8 @@ namespace AreaC {
 namespace AreaD {
     //% blockId=cmk_open_area_d block="みどり エリアの $color ゲートを ひらく"
     //% color.defl=ZoneColor.Red
+    //% color.fieldEditor="imagedropdown"
+    //% color.fieldOptions.columns=4
     //% weight=100
     export function open(color: ZoneColor): void {
         sendZoneCommand("D", color, true)
@@ -388,6 +431,8 @@ namespace AreaD {
 
     //% blockId=cmk_close_area_d block="みどり エリアの $color ゲートを とじる"
     //% color.defl=ZoneColor.Red
+    //% color.fieldEditor="imagedropdown"
+    //% color.fieldOptions.columns=4
     //% weight=90
     export function close(color: ZoneColor): void {
         sendZoneCommand("D", color, false)
