@@ -161,13 +161,13 @@ enum EffectTarget {
     Self = 2
 }
 
-//% color="#E86D26" weight=100 block="ゲームの せってい"
+//% color="#E04A3A" weight=100 block="ゲームしんこう"
 namespace GameSettings {
     //% blockId=cmk_extension_version block="れんけい バージョン"
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.18"
+        return "1.0.19"
     }
 
     //% blockId=cmk_set_timelimit block="ゲーム じかんを $value びょうに する"
@@ -338,7 +338,23 @@ namespace GameSettings {
     }
 }
 
-//% color="#E74C3C" weight=90 block="ハンター"
+//% color="#175BB4" weight=99 block="プレイヤー"
+namespace PlayerBlocks {
+    //% blockId=cmk_player_placeholder block="プレイヤーは まだ つかえません"
+    //% weight=1
+    export function placeholder(): void {
+    }
+}
+
+//% color="#CC4BC3" weight=98 block="へんすう"
+namespace VariableBlocks {
+    //% blockId=cmk_variable_placeholder block="へんすうは まだ つかえません"
+    //% weight=1
+    export function placeholder(): void {
+    }
+}
+
+//% color="#303030" weight=90 block="ハンター"
 namespace HunterSettings {
     //% blockId=cmk_set_hunter_speed block="ハンターの すばやさを $level に する"
     //% level.defl=HunterLevel.Lv1
@@ -385,7 +401,7 @@ function sendZoneCommand(area: string, color: ZoneColor, open: boolean): void {
     sendCommand("scriptevent cmk:zone_" + (open ? "open" : "close") + " " + area + "|" + color)
 }
 
-//% color="#E74C3C" weight=87 block="あか エリア"
+//% color="#CF7475" weight=87 block="オオカミ"
 namespace AreaA {
     //% blockId=cmk_open_area_a block="あか エリアの $color ゲートを ひらく"
     //% color.defl=ZoneColor.Red
@@ -406,7 +422,7 @@ namespace AreaA {
     }
 }
 
-//% color="#3498DB" weight=86 block="あお エリア"
+//% color="#567D43" weight=86 block="クリーパー"
 namespace AreaB {
     //% blockId=cmk_open_area_b block="あお エリアの $color ゲートを ひらく"
     //% color.defl=ZoneColor.Red
@@ -427,7 +443,7 @@ namespace AreaB {
     }
 }
 
-//% color="#F1C40F" weight=85 block="きいろ エリア"
+//% color="#CF9450" weight=85 block="アレックス"
 namespace AreaC {
     //% blockId=cmk_open_area_c block="きいろ エリアの $color ゲートを ひらく"
     //% color.defl=ZoneColor.Red
@@ -448,7 +464,7 @@ namespace AreaC {
     }
 }
 
-//% color="#2ECC71" weight=84 block="みどり エリア"
+//% color="#7C5582" weight=84 block="エンダーマン"
 namespace AreaD {
     //% blockId=cmk_open_area_d block="みどり エリアの $color ゲートを ひらく"
     //% color.defl=ZoneColor.Red
@@ -469,7 +485,7 @@ namespace AreaD {
     }
 }
 
-//% color="#0071BC" weight=89 block="ミッション"
+//% color="#2FB3D0" weight=89 block="ミッション"
 namespace Missions {
     let currentMissionNumber = MissionNumber.Mission1
     let currentMissionTrigger = 0
