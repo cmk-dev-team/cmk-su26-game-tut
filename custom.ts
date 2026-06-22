@@ -161,13 +161,13 @@ enum EffectTarget {
     Self = 2
 }
 
-//% color="#E04A3A" weight=100 block="ゲームしんこう"
+//% color="#E04A3A" weight=98 block="ゲームしんこう"
 namespace GameSettings {
     //% blockId=cmk_extension_version block="れんけい バージョン"
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.19"
+        return "1.0.20"
     }
 
     //% blockId=cmk_set_timelimit block="ゲーム じかんを $value びょうに する"
@@ -338,7 +338,7 @@ namespace GameSettings {
     }
 }
 
-//% color="#175BB4" weight=99 block="プレイヤー"
+//% color="#175BB4" weight=100 block="プレイヤー"
 namespace PlayerBlocks {
     //% blockId=cmk_player_placeholder block="プレイヤーは まだ つかえません"
     //% weight=1
@@ -346,7 +346,7 @@ namespace PlayerBlocks {
     }
 }
 
-//% color="#CC4BC3" weight=98 block="へんすう"
+//% color="#CC4BC3" weight=99 block="へんすう"
 namespace VariableBlocks {
     //% blockId=cmk_variable_placeholder block="へんすうは まだ つかえません"
     //% weight=1
@@ -401,7 +401,7 @@ function sendZoneCommand(area: string, color: ZoneColor, open: boolean): void {
     sendCommand("scriptevent cmk:zone_" + (open ? "open" : "close") + " " + area + "|" + color)
 }
 
-//% color="#CF7475" weight=87 block="オオカミ"
+//% color="#CF7475" weight=87 icon="\uf1b0" block="エリア"
 namespace AreaA {
     //% blockId=cmk_open_area_a block="あか エリアの $color ゲートを ひらく"
     //% color.defl=ZoneColor.Red
@@ -422,7 +422,7 @@ namespace AreaA {
     }
 }
 
-//% color="#567D43" weight=86 block="クリーパー"
+//% color="#567D43" weight=86 icon="\uf188" block="エリア"
 namespace AreaB {
     //% blockId=cmk_open_area_b block="あお エリアの $color ゲートを ひらく"
     //% color.defl=ZoneColor.Red
@@ -443,7 +443,7 @@ namespace AreaB {
     }
 }
 
-//% color="#CF9450" weight=85 block="アレックス"
+//% color="#CF9450" weight=85 icon="\uf007" block="エリア"
 namespace AreaC {
     //% blockId=cmk_open_area_c block="きいろ エリアの $color ゲートを ひらく"
     //% color.defl=ZoneColor.Red
@@ -464,7 +464,7 @@ namespace AreaC {
     }
 }
 
-//% color="#7C5582" weight=84 block="エンダーマン"
+//% color="#7C5582" weight=84 icon="\uf06e" block="エリア"
 namespace AreaD {
     //% blockId=cmk_open_area_d block="みどり エリアの $color ゲートを ひらく"
     //% color.defl=ZoneColor.Red
