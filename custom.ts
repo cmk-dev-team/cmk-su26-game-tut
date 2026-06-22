@@ -152,6 +152,21 @@ enum HunterTarget {
     Spectator = 5
 }
 
+enum HunterRemoveTarget {
+    //% block="すべてのハンター"
+    All = 0,
+    //% block="ハンターA"
+    HunterA = 1,
+    //% block="ハンターB"
+    HunterB = 2,
+    //% block="ハンターC"
+    HunterC = 3,
+    //% block="ハンターD"
+    HunterD = 4,
+    //% block="ハンターE"
+    HunterE = 5
+}
+
 enum EffectTarget {
     //% block="にげる 人 ぜんいん"
     AllRunner = 0,
@@ -167,9 +182,12 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.20"
+        return "1.0.21"
     }
+}
 
+//% color="#CC4BC3" weight=99 block="へんすう"
+namespace VariableBlocks {
     //% blockId=cmk_set_timelimit block="ゲーム じかんを $value びょうに する"
     //% value.defl=5 value.min=1 value.max=600
     //% weight=100
@@ -177,13 +195,18 @@ namespace GameSettings {
         _timelimit = value
         sendCommand("scoreboard players set @s g_timelimit " + value)
     }
+}
 
+//% color="#175BB4" weight=100 block="プレイヤー"
+namespace PlayerBlocks {
     //% blockId=cmk_set_game_mode block="ゲームモードを $mode に する"
     //% weight=95
     export function setGameMode(mode: MinecraftGameMode): void {
         sendCommand("gamemode " + getMinecraftGameModeCommand(mode) + " @s")
     }
+}
 
+namespace VariableBlocks {
     //% blockId=cmk_set_lives block="ざんきを $value に する"
     //% value.defl=3 value.min=0 value.max=10
     //% weight=90
@@ -199,7 +222,9 @@ namespace GameSettings {
         _bountyStart = value
         sendCommand("scoreboard players set @s g_bounty_start " + value)
     }
+}
 
+namespace GameSettings {
     //% blockId=cmk_start_game block="カウントダウン $countdown びょうで|ゲームを かいしする"
     //% countdown.defl=0 countdown.min=0 countdown.max=20
     //% weight=59
@@ -220,21 +245,28 @@ namespace GameSettings {
     export function endGame(): void {
         sendCommand("scriptevent cmk:stop")
     }
+}
 
+namespace PlayerBlocks {
     //% blockId=cmk_on_player_caught block="プレイヤーが つかまった とき"
     //% weight=56
     export function onPlayerCaught(handler: () => void): void {
         player.onTellCommand("player_caught", handler)
     }
+}
 
+namespace GameSettings {
     //% blockId=cmk_on_remaining_time
     //% block="のこり $triggerSec びょうに なった とき"
+    //% blockHidden=true
     //% triggerSec.defl=30 triggerSec.min=0
     //% weight=55
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
         Missions.onRemainingTime(triggerSec, handler)
     }
+}
 
+namespace VariableBlocks {
     //% blockId=cmk_add_timelimit block="ゲーム じかんを $value びょう ふやす"
     //% value.defl=10 value.min=0 value.max=30
     //% weight=54
@@ -338,22 +370,6 @@ namespace GameSettings {
     }
 }
 
-//% color="#175BB4" weight=100 block="プレイヤー"
-namespace PlayerBlocks {
-    //% blockId=cmk_player_placeholder block="プレイヤーは まだ つかえません"
-    //% weight=1
-    export function placeholder(): void {
-    }
-}
-
-//% color="#CC4BC3" weight=99 block="へんすう"
-namespace VariableBlocks {
-    //% blockId=cmk_variable_placeholder block="へんすうは まだ つかえません"
-    //% weight=1
-    export function placeholder(): void {
-    }
-}
-
 //% color="#303030" weight=90 block="ハンター"
 namespace HunterSettings {
     //% blockId=cmk_set_hunter_speed block="ハンターの すばやさを $level に する"
@@ -363,7 +379,7 @@ namespace HunterSettings {
         sendCommand("scriptevent cmk:set_hunter_speed " + level)
     }
 
-    //% blockId=cmk_set_hunter_strength block="ハンターの しかいの はんいを $range ブロックに する"
+    //% blockId=cmk_set_hunter_strength block="ハンターの みつける ひろさを $range ブロックに する"
     //% range.defl=HunterSightRange.Range16
     //% weight=90
     export function setStrength(range: HunterSightRange): void {
@@ -376,7 +392,7 @@ namespace HunterSettings {
         sendCommand("scriptevent cmk:stop_hunters")
     }
 
-    //% blockId=cmk_resume_hunters block="ハンターを うごかす"
+    //% blockId=cmk_resume_hunters block="ハンターを きどうする"
     //% weight=79
     export function resumeHunters(): void {
         sendCommand("scriptevent cmk:resume_hunters")
@@ -395,15 +411,29 @@ namespace HunterSettings {
     export function spawnHunterMob(x: number, y: number, z: number): void {
         sendCommand("scriptevent cmk:spawn_hunter " + x + "|" + y + "|" + z)
     }
+
+    //% blockId=cmk_spawn_hunter_here block="ハンターを じぶんの ばしょに スポーンさせる"
+    //% weight=68
+    export function spawnHunterHere(): void {
+        let currentPosition = player.position()
+        sendCommand("scriptevent cmk:spawn_hunter " + currentPosition.getValue(Axis.X) + "|" + currentPosition.getValue(Axis.Y) + "|" + currentPosition.getValue(Axis.Z))
+    }
+
+    //% blockId=cmk_remove_hunter block="$target を さくじょする"
+    //% target.defl=HunterRemoveTarget.All
+    //% weight=67
+    export function removeHunter(target: HunterRemoveTarget): void {
+        sendCommand("scriptevent cmk:remove_hunter " + target)
+    }
 }
 
 function sendZoneCommand(area: string, color: ZoneColor, open: boolean): void {
     sendCommand("scriptevent cmk:zone_" + (open ? "open" : "close") + " " + area + "|" + color)
 }
 
-//% color="#CF7475" weight=87 icon="\uf1b0" block="エリア"
+//% color="#CF7475" weight=87 icon="\uf557" block="チーム オオカミ"
 namespace AreaA {
-    //% blockId=cmk_open_area_a block="あか エリアの $color ゲートを ひらく"
+    //% blockId=cmk_open_area_a block="エリア「$color」ゲートブロックを とおれる ようにする"
     //% color.defl=ZoneColor.Red
     //% color.fieldEditor="imagedropdown"
     //% color.fieldOptions.columns=4
@@ -412,7 +442,7 @@ namespace AreaA {
         sendZoneCommand("A", color, true)
     }
 
-    //% blockId=cmk_close_area_a block="あか エリアの $color ゲートを とじる"
+    //% blockId=cmk_close_area_a block="エリア「$color」ゲートブロックを とおれない ようにする"
     //% color.defl=ZoneColor.Red
     //% color.fieldEditor="imagedropdown"
     //% color.fieldOptions.columns=4
@@ -422,9 +452,9 @@ namespace AreaA {
     }
 }
 
-//% color="#567D43" weight=86 icon="\uf188" block="エリア"
+//% color="#567D43" weight=86 icon="\uf557" block="チーム クリーパー"
 namespace AreaB {
-    //% blockId=cmk_open_area_b block="あお エリアの $color ゲートを ひらく"
+    //% blockId=cmk_open_area_b block="エリア「$color」ゲートブロックを とおれる ようにする"
     //% color.defl=ZoneColor.Red
     //% color.fieldEditor="imagedropdown"
     //% color.fieldOptions.columns=4
@@ -433,7 +463,7 @@ namespace AreaB {
         sendZoneCommand("B", color, true)
     }
 
-    //% blockId=cmk_close_area_b block="あお エリアの $color ゲートを とじる"
+    //% blockId=cmk_close_area_b block="エリア「$color」ゲートブロックを とおれない ようにする"
     //% color.defl=ZoneColor.Red
     //% color.fieldEditor="imagedropdown"
     //% color.fieldOptions.columns=4
@@ -443,9 +473,9 @@ namespace AreaB {
     }
 }
 
-//% color="#CF9450" weight=85 icon="\uf007" block="エリア"
+//% color="#CF9450" weight=85 icon="\uf557" block="チーム アレックス"
 namespace AreaC {
-    //% blockId=cmk_open_area_c block="きいろ エリアの $color ゲートを ひらく"
+    //% blockId=cmk_open_area_c block="エリア「$color」ゲートブロックを とおれる ようにする"
     //% color.defl=ZoneColor.Red
     //% color.fieldEditor="imagedropdown"
     //% color.fieldOptions.columns=4
@@ -454,7 +484,7 @@ namespace AreaC {
         sendZoneCommand("C", color, true)
     }
 
-    //% blockId=cmk_close_area_c block="きいろ エリアの $color ゲートを とじる"
+    //% blockId=cmk_close_area_c block="エリア「$color」ゲートブロックを とおれない ようにする"
     //% color.defl=ZoneColor.Red
     //% color.fieldEditor="imagedropdown"
     //% color.fieldOptions.columns=4
@@ -464,9 +494,9 @@ namespace AreaC {
     }
 }
 
-//% color="#7C5582" weight=84 icon="\uf06e" block="エリア"
+//% color="#7C5582" weight=84 icon="\uf557" block="チーム エンダーマン"
 namespace AreaD {
-    //% blockId=cmk_open_area_d block="みどり エリアの $color ゲートを ひらく"
+    //% blockId=cmk_open_area_d block="エリア「$color」ゲートブロックを とおれる ようにする"
     //% color.defl=ZoneColor.Red
     //% color.fieldEditor="imagedropdown"
     //% color.fieldOptions.columns=4
@@ -475,7 +505,7 @@ namespace AreaD {
         sendZoneCommand("D", color, true)
     }
 
-    //% blockId=cmk_close_area_d block="みどり エリアの $color ゲートを とじる"
+    //% blockId=cmk_close_area_d block="エリア「$color」ゲートブロックを とおれない ようにする"
     //% color.defl=ZoneColor.Red
     //% color.fieldEditor="imagedropdown"
     //% color.fieldOptions.columns=4
