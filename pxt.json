@@ -9,6 +9,7 @@
   "files": [
     "custom.ts",
     "icons.jres",
+    "tutorials/debug.md",
     "README.md"
   ],
   "public": true,
