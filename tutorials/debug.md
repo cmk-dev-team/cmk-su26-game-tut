@@ -1,4 +1,4 @@
-# CMKゲーム デバッグ用
+﻿# CMK繧ｲ繝ｼ繝 繝・ヰ繝・げ逕ｨ
 
 ### @explicitHints true
 
@@ -10,13 +10,16 @@ cmk-su26-game-tut=github:cmk-dev-team/cmk-su26-game-tut#v1.0.21
 //
 ```
 
-## はじめに @showdialog
+## 縺ｯ縺倥ａ縺ｫ @showdialog
 
-拡張ブロックだけを確認するためのデバッグ用チュートリアルです。
-
+諡｡蠑ｵ繝悶Ο繝・け縺縺代ｒ遒ｺ隱阪☆繧九◆繧√・繝・ヰ繝・げ逕ｨ繝√Η繝ｼ繝医Μ繧｢繝ｫ縺ｧ縺吶・
 ```ghost
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
+})
+PlayerBlocks.onChatCommand("start", function () {
+})
+PlayerBlocks.onRemainingTime(30, function () {
 })
 VariableBlocks.setTimeLimit(300)
 VariableBlocks.addTimeLimit(10)
@@ -39,22 +42,22 @@ GameSettings.pauseGame()
 GameSettings.endGame()
 HunterSettings.setSpeed(HunterLevel.Lv1)
 HunterSettings.setStrength(HunterSightRange.Range16)
-HunterSettings.stopHunters()
-HunterSettings.resumeHunters()
+HunterSettings.stopHunters(HunterRemoveTarget.All)
+HunterSettings.resumeHunters(HunterRemoveTarget.All)
 HunterSettings.spawnHunterMob(0, 0, 0)
-HunterSettings.spawnHunterHere()
+PlayerBlocks.spawnHunterHere()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
-AreaA.open(ZoneColor.Red)
-AreaA.close(ZoneColor.Red)
-AreaB.open(ZoneColor.Red)
-AreaB.close(ZoneColor.Red)
-AreaC.open(ZoneColor.Red)
-AreaC.close(ZoneColor.Red)
-AreaD.open(ZoneColor.Red)
-AreaD.close(ZoneColor.Red)
-Missions.onRemainingTime(30, function () {
+AreaA.setGate(ZoneColor.Red, GateState.Open)
+AreaA.setGate(ZoneColor.Red, GateState.Closed)
+AreaB.setGate(ZoneColor.Red, GateState.Open)
+AreaB.setGate(ZoneColor.Red, GateState.Closed)
+AreaC.setGate(ZoneColor.Red, GateState.Open)
+AreaC.setGate(ZoneColor.Red, GateState.Closed)
+AreaD.setGate(ZoneColor.Red, GateState.Open)
+AreaD.setGate(ZoneColor.Red, GateState.Closed)
+PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, "ボタンをおそう", MissionType.Button, 1, 30)
+Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
 Missions.onMissionFinished(MissionNumber.Mission1, function () {
 })
 if (Missions.missionSucceeded()) {
@@ -63,13 +66,16 @@ if (Missions.missionFailed()) {
 }
 ```
 
-## プレイヤー
+## 繝励Ξ繧､繝､繝ｼ
 
-プレイヤーカテゴリの表示確認用です。
-
+繝励Ξ繧､繝､繝ｼ繧ｫ繝・ざ繝ｪ縺ｮ陦ｨ遉ｺ遒ｺ隱咲畑縺ｧ縺吶・
 ```ghost
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
+})
+PlayerBlocks.onChatCommand("start", function () {
+})
+PlayerBlocks.onRemainingTime(30, function () {
 })
 VariableBlocks.setTimeLimit(300)
 VariableBlocks.addTimeLimit(10)
@@ -92,79 +98,22 @@ GameSettings.pauseGame()
 GameSettings.endGame()
 HunterSettings.setSpeed(HunterLevel.Lv1)
 HunterSettings.setStrength(HunterSightRange.Range16)
-HunterSettings.stopHunters()
-HunterSettings.resumeHunters()
+HunterSettings.stopHunters(HunterRemoveTarget.All)
+HunterSettings.resumeHunters(HunterRemoveTarget.All)
 HunterSettings.spawnHunterMob(0, 0, 0)
-HunterSettings.spawnHunterHere()
+PlayerBlocks.spawnHunterHere()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
-AreaA.open(ZoneColor.Red)
-AreaA.close(ZoneColor.Red)
-AreaB.open(ZoneColor.Red)
-AreaB.close(ZoneColor.Red)
-AreaC.open(ZoneColor.Red)
-AreaC.close(ZoneColor.Red)
-AreaD.open(ZoneColor.Red)
-AreaD.close(ZoneColor.Red)
-Missions.onRemainingTime(30, function () {
+AreaA.setGate(ZoneColor.Red, GateState.Open)
+AreaA.setGate(ZoneColor.Red, GateState.Closed)
+AreaB.setGate(ZoneColor.Red, GateState.Open)
+AreaB.setGate(ZoneColor.Red, GateState.Closed)
+AreaC.setGate(ZoneColor.Red, GateState.Open)
+AreaC.setGate(ZoneColor.Red, GateState.Closed)
+AreaD.setGate(ZoneColor.Red, GateState.Open)
+AreaD.setGate(ZoneColor.Red, GateState.Closed)
+PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, "ボタンをおそう", MissionType.Button, 1, 30)
-Missions.onMissionFinished(MissionNumber.Mission1, function () {
-})
-if (Missions.missionSucceeded()) {
-}
-if (Missions.missionFailed()) {
-}
-```
-
-```blocks
-PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
-```
-
-## へんすう
-
-へんすうカテゴリの表示確認用です。
-
-```ghost
-PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
-PlayerBlocks.onPlayerCaught(function () {
-})
-VariableBlocks.setTimeLimit(300)
-VariableBlocks.addTimeLimit(10)
-VariableBlocks.subtractTimeLimit(10)
-VariableBlocks.setLives(3)
-VariableBlocks.addLives(1)
-VariableBlocks.subtractLives(1)
-VariableBlocks.addLivesTo(TargetPlayer.Self, 1)
-VariableBlocks.subtractLivesFrom(TargetPlayer.Self, 1)
-VariableBlocks.setBountyStart(0)
-VariableBlocks.addBounty(100)
-VariableBlocks.subtractBounty(100)
-VariableBlocks.setBountyIncrement(BountyChange.Increase, 100)
-VariableBlocks.timeLimit()
-VariableBlocks.lives()
-VariableBlocks.bountyStart()
-VariableBlocks.bountyIncrement()
-GameSettings.startGame(10)
-GameSettings.pauseGame()
-GameSettings.endGame()
-HunterSettings.setSpeed(HunterLevel.Lv1)
-HunterSettings.setStrength(HunterSightRange.Range16)
-HunterSettings.stopHunters()
-HunterSettings.resumeHunters()
-HunterSettings.spawnHunterMob(0, 0, 0)
-HunterSettings.spawnHunterHere()
-HunterSettings.removeHunter(HunterRemoveTarget.All)
-AreaA.open(ZoneColor.Red)
-AreaA.close(ZoneColor.Red)
-AreaB.open(ZoneColor.Red)
-AreaB.close(ZoneColor.Red)
-AreaC.open(ZoneColor.Red)
-AreaC.close(ZoneColor.Red)
-AreaD.open(ZoneColor.Red)
-AreaD.close(ZoneColor.Red)
-Missions.onRemainingTime(30, function () {
-})
-Missions.missionSettings(MissionNumber.Mission1, "ボタンをおそう", MissionType.Button, 1, 30)
+Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
 Missions.onMissionFinished(MissionNumber.Mission1, function () {
 })
 if (Missions.missionSucceeded()) {
@@ -174,18 +123,18 @@ if (Missions.missionFailed()) {
 ```
 
 ```blocks
-VariableBlocks.setTimeLimit(300)
-VariableBlocks.setLives(3)
-VariableBlocks.setBountyStart(0)
+PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 ```
 
-## ゲームしんこう
-
-ゲームしんこうカテゴリの表示確認用です。
-
+## 縺ｸ繧薙☆縺・
+縺ｸ繧薙☆縺・き繝・ざ繝ｪ縺ｮ陦ｨ遉ｺ遒ｺ隱咲畑縺ｧ縺吶・
 ```ghost
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
+})
+PlayerBlocks.onChatCommand("start", function () {
+})
+PlayerBlocks.onRemainingTime(30, function () {
 })
 VariableBlocks.setTimeLimit(300)
 VariableBlocks.addTimeLimit(10)
@@ -208,22 +157,22 @@ GameSettings.pauseGame()
 GameSettings.endGame()
 HunterSettings.setSpeed(HunterLevel.Lv1)
 HunterSettings.setStrength(HunterSightRange.Range16)
-HunterSettings.stopHunters()
-HunterSettings.resumeHunters()
+HunterSettings.stopHunters(HunterRemoveTarget.All)
+HunterSettings.resumeHunters(HunterRemoveTarget.All)
 HunterSettings.spawnHunterMob(0, 0, 0)
-HunterSettings.spawnHunterHere()
+PlayerBlocks.spawnHunterHere()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
-AreaA.open(ZoneColor.Red)
-AreaA.close(ZoneColor.Red)
-AreaB.open(ZoneColor.Red)
-AreaB.close(ZoneColor.Red)
-AreaC.open(ZoneColor.Red)
-AreaC.close(ZoneColor.Red)
-AreaD.open(ZoneColor.Red)
-AreaD.close(ZoneColor.Red)
-Missions.onRemainingTime(30, function () {
+AreaA.setGate(ZoneColor.Red, GateState.Open)
+AreaA.setGate(ZoneColor.Red, GateState.Closed)
+AreaB.setGate(ZoneColor.Red, GateState.Open)
+AreaB.setGate(ZoneColor.Red, GateState.Closed)
+AreaC.setGate(ZoneColor.Red, GateState.Open)
+AreaC.setGate(ZoneColor.Red, GateState.Closed)
+AreaD.setGate(ZoneColor.Red, GateState.Open)
+AreaD.setGate(ZoneColor.Red, GateState.Closed)
+PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, "ボタンをおそう", MissionType.Button, 1, 30)
+Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
 Missions.onMissionFinished(MissionNumber.Mission1, function () {
 })
 if (Missions.missionSucceeded()) {
@@ -233,18 +182,21 @@ if (Missions.missionFailed()) {
 ```
 
 ```blocks
-GameSettings.startGame(10)
-GameSettings.pauseGame()
-GameSettings.endGame()
+VariableBlocks.setTimeLimit(300)
+VariableBlocks.setLives(3)
+VariableBlocks.setBountyStart(0)
 ```
 
-## ハンター
+## 繧ｲ繝ｼ繝縺励ｓ縺薙≧
 
-ハンターカテゴリの表示確認用です。
-
+繧ｲ繝ｼ繝縺励ｓ縺薙≧繧ｫ繝・ざ繝ｪ縺ｮ陦ｨ遉ｺ遒ｺ隱咲畑縺ｧ縺吶・
 ```ghost
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
+})
+PlayerBlocks.onChatCommand("start", function () {
+})
+PlayerBlocks.onRemainingTime(30, function () {
 })
 VariableBlocks.setTimeLimit(300)
 VariableBlocks.addTimeLimit(10)
@@ -267,22 +219,22 @@ GameSettings.pauseGame()
 GameSettings.endGame()
 HunterSettings.setSpeed(HunterLevel.Lv1)
 HunterSettings.setStrength(HunterSightRange.Range16)
-HunterSettings.stopHunters()
-HunterSettings.resumeHunters()
+HunterSettings.stopHunters(HunterRemoveTarget.All)
+HunterSettings.resumeHunters(HunterRemoveTarget.All)
 HunterSettings.spawnHunterMob(0, 0, 0)
-HunterSettings.spawnHunterHere()
+PlayerBlocks.spawnHunterHere()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
-AreaA.open(ZoneColor.Red)
-AreaA.close(ZoneColor.Red)
-AreaB.open(ZoneColor.Red)
-AreaB.close(ZoneColor.Red)
-AreaC.open(ZoneColor.Red)
-AreaC.close(ZoneColor.Red)
-AreaD.open(ZoneColor.Red)
-AreaD.close(ZoneColor.Red)
-Missions.onRemainingTime(30, function () {
+AreaA.setGate(ZoneColor.Red, GateState.Open)
+AreaA.setGate(ZoneColor.Red, GateState.Closed)
+AreaB.setGate(ZoneColor.Red, GateState.Open)
+AreaB.setGate(ZoneColor.Red, GateState.Closed)
+AreaC.setGate(ZoneColor.Red, GateState.Open)
+AreaC.setGate(ZoneColor.Red, GateState.Closed)
+AreaD.setGate(ZoneColor.Red, GateState.Open)
+AreaD.setGate(ZoneColor.Red, GateState.Closed)
+PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, "ボタンをおそう", MissionType.Button, 1, 30)
+Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
 Missions.onMissionFinished(MissionNumber.Mission1, function () {
 })
 if (Missions.missionSucceeded()) {
@@ -292,20 +244,21 @@ if (Missions.missionFailed()) {
 ```
 
 ```blocks
-HunterSettings.setSpeed(HunterLevel.Lv1)
-HunterSettings.setStrength(HunterSightRange.Range16)
-HunterSettings.resumeHunters()
-HunterSettings.spawnHunterHere()
-HunterSettings.removeHunter(HunterRemoveTarget.All)
+GameSettings.startGame(10)
+GameSettings.pauseGame()
+GameSettings.endGame()
 ```
 
-## チームエリア
+## 繝上Φ繧ｿ繝ｼ
 
-チームエリアカテゴリの表示確認用です。
-
+繝上Φ繧ｿ繝ｼ繧ｫ繝・ざ繝ｪ縺ｮ陦ｨ遉ｺ遒ｺ隱咲畑縺ｧ縺吶・
 ```ghost
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
+})
+PlayerBlocks.onChatCommand("start", function () {
+})
+PlayerBlocks.onRemainingTime(30, function () {
 })
 VariableBlocks.setTimeLimit(300)
 VariableBlocks.addTimeLimit(10)
@@ -328,22 +281,22 @@ GameSettings.pauseGame()
 GameSettings.endGame()
 HunterSettings.setSpeed(HunterLevel.Lv1)
 HunterSettings.setStrength(HunterSightRange.Range16)
-HunterSettings.stopHunters()
-HunterSettings.resumeHunters()
+HunterSettings.stopHunters(HunterRemoveTarget.All)
+HunterSettings.resumeHunters(HunterRemoveTarget.All)
 HunterSettings.spawnHunterMob(0, 0, 0)
-HunterSettings.spawnHunterHere()
+PlayerBlocks.spawnHunterHere()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
-AreaA.open(ZoneColor.Red)
-AreaA.close(ZoneColor.Red)
-AreaB.open(ZoneColor.Red)
-AreaB.close(ZoneColor.Red)
-AreaC.open(ZoneColor.Red)
-AreaC.close(ZoneColor.Red)
-AreaD.open(ZoneColor.Red)
-AreaD.close(ZoneColor.Red)
-Missions.onRemainingTime(30, function () {
+AreaA.setGate(ZoneColor.Red, GateState.Open)
+AreaA.setGate(ZoneColor.Red, GateState.Closed)
+AreaB.setGate(ZoneColor.Red, GateState.Open)
+AreaB.setGate(ZoneColor.Red, GateState.Closed)
+AreaC.setGate(ZoneColor.Red, GateState.Open)
+AreaC.setGate(ZoneColor.Red, GateState.Closed)
+AreaD.setGate(ZoneColor.Red, GateState.Open)
+AreaD.setGate(ZoneColor.Red, GateState.Closed)
+PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, "ボタンをおそう", MissionType.Button, 1, 30)
+Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
 Missions.onMissionFinished(MissionNumber.Mission1, function () {
 })
 if (Missions.missionSucceeded()) {
@@ -353,19 +306,23 @@ if (Missions.missionFailed()) {
 ```
 
 ```blocks
-AreaB.open(ZoneColor.Red)
-AreaB.close(ZoneColor.Red)
-AreaD.open(ZoneColor.Red)
-AreaD.close(ZoneColor.Red)
+HunterSettings.setSpeed(HunterLevel.Lv1)
+HunterSettings.setStrength(HunterSightRange.Range16)
+HunterSettings.resumeHunters(HunterRemoveTarget.All)
+PlayerBlocks.spawnHunterHere()
+HunterSettings.removeHunter(HunterRemoveTarget.All)
 ```
 
-## ミッション
+## 繝√・繝繧ｨ繝ｪ繧｢
 
-ミッションカテゴリの表示確認用です。
-
+繝√・繝繧ｨ繝ｪ繧｢繧ｫ繝・ざ繝ｪ縺ｮ陦ｨ遉ｺ遒ｺ隱咲畑縺ｧ縺吶・
 ```ghost
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
+})
+PlayerBlocks.onChatCommand("start", function () {
+})
+PlayerBlocks.onRemainingTime(30, function () {
 })
 VariableBlocks.setTimeLimit(300)
 VariableBlocks.addTimeLimit(10)
@@ -388,22 +345,22 @@ GameSettings.pauseGame()
 GameSettings.endGame()
 HunterSettings.setSpeed(HunterLevel.Lv1)
 HunterSettings.setStrength(HunterSightRange.Range16)
-HunterSettings.stopHunters()
-HunterSettings.resumeHunters()
+HunterSettings.stopHunters(HunterRemoveTarget.All)
+HunterSettings.resumeHunters(HunterRemoveTarget.All)
 HunterSettings.spawnHunterMob(0, 0, 0)
-HunterSettings.spawnHunterHere()
+PlayerBlocks.spawnHunterHere()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
-AreaA.open(ZoneColor.Red)
-AreaA.close(ZoneColor.Red)
-AreaB.open(ZoneColor.Red)
-AreaB.close(ZoneColor.Red)
-AreaC.open(ZoneColor.Red)
-AreaC.close(ZoneColor.Red)
-AreaD.open(ZoneColor.Red)
-AreaD.close(ZoneColor.Red)
-Missions.onRemainingTime(30, function () {
+AreaA.setGate(ZoneColor.Red, GateState.Open)
+AreaA.setGate(ZoneColor.Red, GateState.Closed)
+AreaB.setGate(ZoneColor.Red, GateState.Open)
+AreaB.setGate(ZoneColor.Red, GateState.Closed)
+AreaC.setGate(ZoneColor.Red, GateState.Open)
+AreaC.setGate(ZoneColor.Red, GateState.Closed)
+AreaD.setGate(ZoneColor.Red, GateState.Open)
+AreaD.setGate(ZoneColor.Red, GateState.Closed)
+PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, "ボタンをおそう", MissionType.Button, 1, 30)
+Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
 Missions.onMissionFinished(MissionNumber.Mission1, function () {
 })
 if (Missions.missionSucceeded()) {
@@ -413,11 +370,80 @@ if (Missions.missionFailed()) {
 ```
 
 ```blocks
-Missions.onRemainingTime(30, function () {
-    Missions.missionSettings(MissionNumber.Mission1, "ボタンをおそう", MissionType.Button, 1, 30)
+AreaB.setGate(ZoneColor.Red, GateState.Open)
+AreaB.setGate(ZoneColor.Red, GateState.Closed)
+AreaD.setGate(ZoneColor.Red, GateState.Open)
+AreaD.setGate(ZoneColor.Red, GateState.Closed)
+```
+
+## 繝溘ャ繧ｷ繝ｧ繝ｳ
+
+繝溘ャ繧ｷ繝ｧ繝ｳ繧ｫ繝・ざ繝ｪ縺ｮ陦ｨ遉ｺ遒ｺ隱咲畑縺ｧ縺吶・
+```ghost
+PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
+PlayerBlocks.onPlayerCaught(function () {
+})
+PlayerBlocks.onChatCommand("start", function () {
+})
+PlayerBlocks.onRemainingTime(30, function () {
+})
+VariableBlocks.setTimeLimit(300)
+VariableBlocks.addTimeLimit(10)
+VariableBlocks.subtractTimeLimit(10)
+VariableBlocks.setLives(3)
+VariableBlocks.addLives(1)
+VariableBlocks.subtractLives(1)
+VariableBlocks.addLivesTo(TargetPlayer.Self, 1)
+VariableBlocks.subtractLivesFrom(TargetPlayer.Self, 1)
+VariableBlocks.setBountyStart(0)
+VariableBlocks.addBounty(100)
+VariableBlocks.subtractBounty(100)
+VariableBlocks.setBountyIncrement(BountyChange.Increase, 100)
+VariableBlocks.timeLimit()
+VariableBlocks.lives()
+VariableBlocks.bountyStart()
+VariableBlocks.bountyIncrement()
+GameSettings.startGame(10)
+GameSettings.pauseGame()
+GameSettings.endGame()
+HunterSettings.setSpeed(HunterLevel.Lv1)
+HunterSettings.setStrength(HunterSightRange.Range16)
+HunterSettings.stopHunters(HunterRemoveTarget.All)
+HunterSettings.resumeHunters(HunterRemoveTarget.All)
+HunterSettings.spawnHunterMob(0, 0, 0)
+PlayerBlocks.spawnHunterHere()
+HunterSettings.removeHunter(HunterRemoveTarget.All)
+AreaA.setGate(ZoneColor.Red, GateState.Open)
+AreaA.setGate(ZoneColor.Red, GateState.Closed)
+AreaB.setGate(ZoneColor.Red, GateState.Open)
+AreaB.setGate(ZoneColor.Red, GateState.Closed)
+AreaC.setGate(ZoneColor.Red, GateState.Open)
+AreaC.setGate(ZoneColor.Red, GateState.Closed)
+AreaD.setGate(ZoneColor.Red, GateState.Open)
+AreaD.setGate(ZoneColor.Red, GateState.Closed)
+PlayerBlocks.onRemainingTime(30, function () {
+})
+Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
+Missions.onMissionFinished(MissionNumber.Mission1, function () {
+})
+if (Missions.missionSucceeded()) {
+}
+if (Missions.missionFailed()) {
+}
+```
+
+```blocks
+PlayerBlocks.onRemainingTime(30, function () {
+    Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
 })
 Missions.onMissionFinished(MissionNumber.Mission1, function () {
     if (Missions.missionSucceeded()) {
     }
 })
 ```
+
+
+
+
+
+
