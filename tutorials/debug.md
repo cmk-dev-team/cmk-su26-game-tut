@@ -3,7 +3,7 @@
 ### @explicitHints true
 
 ```package
-cmk-su26-game-tut=github:cmk-dev-team/cmk-su26-game-tut#v1.0.21
+cmk-su26-game-tut=github:cmk-dev-team/cmk-su26-game-tut
 ```
 
 ```template
