@@ -183,21 +183,21 @@ enum EffectTarget {
     Self = 2
 }
 
-//% color="#E04A3A" weight=98 block="ゲームしんこう" groups='["ゲーム"]'
+//% color="#E04A3A" weight=98 block="ゲームしんこう" groups='["げーむ"]'
 namespace GameSettings {
     //% blockId=cmk_extension_version block="れんけい バージョン"
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.23"
+        return "1.0.24"
     }
 }
 
-//% color="#CC4BC3" weight=99 block="へんすう" groups='["設定", "へんこう", "値"]'
+//% color="#CC4BC3" weight=99 block="へんすう" groups='["せってい", "へんこう", "あたい"]'
 namespace VariableBlocks {
     //% blockId=cmk_set_timelimit block="ゲーム じかんを $value びょうに する"
     //% value.defl=5 value.min=1 value.max=600
-    //% group="設定"
+    //% group="せってい"
     //% weight=100
     export function setTimeLimit(value: number): void {
         _timelimit = value
@@ -205,10 +205,10 @@ namespace VariableBlocks {
     }
 }
 
-//% color="#175BB4" weight=100 block="プレイヤー" groups='["設定", "イベント", "スポーン"]'
+//% color="#175BB4" weight=100 block="プレイヤー" groups='["せってい", "いべんと", "すぽーん"]'
 namespace PlayerBlocks {
     //% blockId=cmk_set_game_mode block="ゲームモードを $mode に する"
-    //% group="設定"
+    //% group="せってい"
     //% weight=95
     export function setGameMode(mode: MinecraftGameMode): void {
         sendCommand("gamemode " + getMinecraftGameModeCommand(mode) + " @s")
@@ -218,7 +218,7 @@ namespace PlayerBlocks {
 namespace VariableBlocks {
     //% blockId=cmk_set_lives block="ざんきを $value に する"
     //% value.defl=3 value.min=0 value.max=10
-    //% group="設定"
+    //% group="せってい"
     //% weight=90
     export function setLives(value: number): void {
         _lives = value
@@ -227,7 +227,7 @@ namespace VariableBlocks {
 
     //% blockId=cmk_set_bounty_start block="しょうきんを $value に する"
     //% value.defl=0
-    //% group="設定"
+    //% group="せってい"
     //% weight=80
     export function setBountyStart(value: number): void {
         _bountyStart = value
@@ -238,7 +238,7 @@ namespace VariableBlocks {
 namespace GameSettings {
     //% blockId=cmk_start_game block="カウントダウン $countdown びょうで|ゲームを かいしする"
     //% countdown.defl=0 countdown.min=0 countdown.max=20
-    //% group="ゲーム"
+    //% group="げーむ"
     //% weight=59
     export function startGame(countdown: number): void {
         _countdown = countdown
@@ -247,14 +247,14 @@ namespace GameSettings {
     }
 
     //% blockId=cmk_pause_game block="ゲームを いちじ ていしする"
-    //% group="ゲーム"
+    //% group="げーむ"
     //% weight=58
     export function pauseGame(): void {
         sendCommand("scriptevent cmk:pause")
     }
 
     //% blockId=cmk_end_game block="ゲームを しゅうりょうする"
-    //% group="ゲーム"
+    //% group="げーむ"
     //% weight=57
     export function endGame(): void {
         sendCommand("scriptevent cmk:stop")
@@ -263,7 +263,7 @@ namespace GameSettings {
 
 namespace PlayerBlocks {
     //% blockId=cmk_on_player_caught block="プレイヤーが つかまった とき"
-    //% group="イベント"
+    //% group="いべんと"
     //% weight=56
     export function onPlayerCaught(handler: () => void): void {
         player.onTellCommand("player_caught", handler)
@@ -271,7 +271,7 @@ namespace PlayerBlocks {
 
     //% blockId=cmk_on_chat_command block="チャットコマンド $command を にゅうりょくした とき"
     //% command.defl="start"
-    //% group="イベント"
+    //% group="いべんと"
     //% weight=55
     export function onChatCommand(command: string, handler: () => void): void {
         player.onChat(command, handler)
@@ -280,18 +280,17 @@ namespace PlayerBlocks {
     //% blockId=cmk_player_on_remaining_time
     //% block="のこり $triggerSec びょうに なった とき"
     //% triggerSec.defl=30 triggerSec.min=0
-    //% group="イベント"
+    //% group="いべんと"
     //% weight=54
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
         Missions.onRemainingTime(triggerSec, handler)
     }
 
-    //% blockId=cmk_spawn_hunter_here block="ハンターを じぶんのばしょに スポーンさせる"
-    //% group="スポーン"
+    //% blockId=cmk_player_position block="じぶんのばしょ"
+    //% group="すぽーん"
     //% weight=53
-    export function spawnHunterHere(): void {
-        let currentPosition = player.position()
-        sendCommand("scriptevent cmk:spawn_hunter " + currentPosition.getValue(Axis.X) + "|" + currentPosition.getValue(Axis.Y) + "|" + currentPosition.getValue(Axis.Z))
+    export function currentPosition(): Position {
+        return player.position()
     }
 }
 
@@ -377,7 +376,7 @@ namespace VariableBlocks {
     //% blockId=cmk_set_bounty_increment block="1びょうごとの しょうきんを $mode $value に する"
     //% mode.defl=BountyChange.Increase
     //% value.defl=100 value.min=0 value.max=10000
-    //% group="設定"
+    //% group="せってい"
     //% weight=51
     export function setBountyIncrement(mode: BountyChange, value: number): void {
         _bountyIncrement = mode == BountyChange.Increase ? value : -value
@@ -395,39 +394,39 @@ namespace VariableBlocks {
     }
 
     //% blockId=cmk_get_timelimit block="ゲーム じかん"
-    //% group="値"
+    //% group="あたい"
     //% weight=40
     export function timeLimit(): number {
         return _timelimit
     }
 
     //% blockId=cmk_get_lives block="ざんき"
-    //% group="値"
+    //% group="あたい"
     //% weight=10
     export function lives(): number {
         return _lives
     }
 
     //% blockId=cmk_get_bounty_start block="しょうきん"
-    //% group="値"
+    //% group="あたい"
     //% weight=9
     export function bountyStart(): number {
         return _bountyStart
     }
 
     //% blockId=cmk_get_bounty_increment block="1びょうごとの しょうきん"
-    //% group="値"
+    //% group="あたい"
     //% weight=8
     export function bountyIncrement(): number {
         return _bountyIncrement
     }
 }
 
-//% color="#303030" weight=90 block="ハンター" groups='["設定", "操作", "スポーン", "さくじょ"]'
+//% color="#303030" weight=90 block="ハンター" groups='["せってい", "そうさ", "すぽーん", "さくじょ"]'
 namespace HunterSettings {
     //% blockId=cmk_set_hunter_speed block="ハンターの すばやさを $level に する"
     //% level.defl=HunterLevel.Lv1
-    //% group="設定"
+    //% group="せってい"
     //% weight=100
     export function setSpeed(level: HunterLevel): void {
         sendCommand("scriptevent cmk:set_hunter_speed " + level)
@@ -435,7 +434,7 @@ namespace HunterSettings {
 
     //% blockId=cmk_set_hunter_strength block="ハンターの みつける ひろさを $range ブロックに する"
     //% range.defl=HunterSightRange.Range16
-    //% group="設定"
+    //% group="せってい"
     //% weight=90
     export function setStrength(range: HunterSightRange): void {
         sendCommand("scriptevent cmk:set_hunter_sight " + range)
@@ -443,7 +442,7 @@ namespace HunterSettings {
 
     //% blockId=cmk_stop_hunters block="$target を ていしさせる"
     //% target.defl=HunterRemoveTarget.All
-    //% group="操作"
+    //% group="そうさ"
     //% weight=80
     export function stopHunters(target: HunterRemoveTarget): void {
         sendCommand("scriptevent cmk:stop_hunters " + target)
@@ -451,7 +450,7 @@ namespace HunterSettings {
 
     //% blockId=cmk_resume_hunters block="$target を きどうする"
     //% target.defl=HunterRemoveTarget.All
-    //% group="操作"
+    //% group="そうさ"
     //% weight=79
     export function resumeHunters(target: HunterRemoveTarget): void {
         sendCommand("scriptevent cmk:resume_hunters " + target)
@@ -459,16 +458,25 @@ namespace HunterSettings {
 
     //% blockId=cmk_make_hunter block="$target を ハンターに する"
     //% blockHidden=true
-    //% group="設定"
+    //% group="せってい"
     //% weight=70
     export function makeHunter(target: HunterTarget): void {
         sendCommand("say role_hunter:" + target)
     }
 
-    //% blockId=cmk_spawn_hunter_mob block="ハンターを $x $y $z に スポーンさせる"
-    //% x.defl=0 y.defl=0 z.defl=0
-    //% group="スポーン"
+    //% blockId=cmk_spawn_hunter_at block="ハンターを $position に スポーンさせる"
+    //% position.shadow=cmk_player_position
+    //% group="すぽーん"
     //% weight=69
+    export function spawnHunterAt(position: Position): void {
+        sendCommand("scriptevent cmk:spawn_hunter " + position.getValue(Axis.X) + "|" + position.getValue(Axis.Y) + "|" + position.getValue(Axis.Z))
+    }
+
+    //% blockId=cmk_spawn_hunter_mob block="ハンターを $x $y $z に スポーンさせる"
+    //% blockHidden=true
+    //% x.defl=0 y.defl=0 z.defl=0
+    //% group="すぽーん"
+    //% weight=68
     export function spawnHunterMob(x: number, y: number, z: number): void {
         sendCommand("scriptevent cmk:spawn_hunter " + x + "|" + y + "|" + z)
     }
@@ -486,14 +494,14 @@ function sendZoneCommand(area: string, color: ZoneColor, open: boolean): void {
     sendCommand("scriptevent cmk:zone_" + (open ? "open" : "close") + " " + area + "|" + color)
 }
 
-//% color="#CF7475" weight=87 icon="\uf557" block="チーム オオカミ" groups='["ゲート"]'
+//% color="#CF7475" weight=87 block="チーム オオカミ" groups='["げーと"]'
 namespace AreaA {
     //% blockId=cmk_set_area_a_gate block="エリア $color いろ ゲートブロックを $state ようにする"
     //% color.defl=ZoneColor.Red
     //% color.fieldEditor="imagedropdown"
     //% color.fieldOptions.columns=4
     //% state.defl=GateState.Open
-    //% group="ゲート"
+    //% group="げーと"
     //% weight=100
     export function setGate(color: ZoneColor, state: GateState): void {
         sendZoneCommand("A", color, state == GateState.Open)
@@ -520,14 +528,14 @@ namespace AreaA {
     }
 }
 
-//% color="#567D43" weight=86 icon="\uf557" block="チーム クリーパー" groups='["ゲート"]'
+//% color="#567D43" weight=86 block="チーム クリーパー" groups='["げーと"]'
 namespace AreaB {
     //% blockId=cmk_set_area_b_gate block="エリア $color いろ ゲートブロックを $state ようにする"
     //% color.defl=ZoneColor.Red
     //% color.fieldEditor="imagedropdown"
     //% color.fieldOptions.columns=4
     //% state.defl=GateState.Open
-    //% group="ゲート"
+    //% group="げーと"
     //% weight=100
     export function setGate(color: ZoneColor, state: GateState): void {
         sendZoneCommand("B", color, state == GateState.Open)
@@ -554,14 +562,14 @@ namespace AreaB {
     }
 }
 
-//% color="#CF9450" weight=85 icon="\uf557" block="チーム アレックス" groups='["ゲート"]'
+//% color="#CF9450" weight=85 block="チーム アレックス" groups='["げーと"]'
 namespace AreaC {
     //% blockId=cmk_set_area_c_gate block="エリア $color いろ ゲートブロックを $state ようにする"
     //% color.defl=ZoneColor.Red
     //% color.fieldEditor="imagedropdown"
     //% color.fieldOptions.columns=4
     //% state.defl=GateState.Open
-    //% group="ゲート"
+    //% group="げーと"
     //% weight=100
     export function setGate(color: ZoneColor, state: GateState): void {
         sendZoneCommand("C", color, state == GateState.Open)
@@ -588,14 +596,14 @@ namespace AreaC {
     }
 }
 
-//% color="#7C5582" weight=84 icon="\uf557" block="チーム エンダーマン" groups='["ゲート"]'
+//% color="#7C5582" weight=84 block="チーム エンダーマン" groups='["げーと"]'
 namespace AreaD {
     //% blockId=cmk_set_area_d_gate block="エリア $color いろ ゲートブロックを $state ようにする"
     //% color.defl=ZoneColor.Red
     //% color.fieldEditor="imagedropdown"
     //% color.fieldOptions.columns=4
     //% state.defl=GateState.Open
-    //% group="ゲート"
+    //% group="げーと"
     //% weight=100
     export function setGate(color: ZoneColor, state: GateState): void {
         sendZoneCommand("D", color, state == GateState.Open)
@@ -622,7 +630,7 @@ namespace AreaD {
     }
 }
 
-//% color="#2FB3D0" weight=89 block="ミッション" groups='["イベント", "設定", "結果"]'
+//% color="#2FB3D0" weight=89 block="ミッション" groups='["いべんと", "せってい", "けっか"]'
 namespace Missions {
     let currentMissionNumber = MissionNumber.Mission1
     let currentMissionTrigger = 0
@@ -632,7 +640,7 @@ namespace Missions {
     //% block="のこり $triggerSec びょうに なった とき"
     //% blockHidden=true
     //% triggerSec.defl=30 triggerSec.min=0
-    //% group="イベント"
+    //% group="いべんと"
     //% weight=110
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
         player.onTellCommand("remaining_" + triggerSec, function () {
@@ -646,7 +654,7 @@ namespace Missions {
     //% blockId=cmk_mission_duration block="$seconds びょう"
     //% seconds.defl=10 seconds.min=1
     //% blockHidden=true
-    //% group="設定"
+    //% group="せってい"
     export function missionDuration(seconds: number): number {
         return seconds
     }
@@ -659,7 +667,7 @@ namespace Missions {
     //% requiredPlayers.defl=1 requiredPlayers.min=1 requiredPlayers.max=5
     //% durationSec.shadow=cmk_mission_duration
     //% inlineInputMode=external
-    //% group="設定"
+    //% group="せってい"
     //% weight=100
     export function missionSettings(
         missionNumber: MissionNumber,
@@ -674,7 +682,7 @@ namespace Missions {
     //% blockId=cmk_on_mission_finished
     //% block="ミッション $missionNumber が おわった とき"
     //% missionNumber.defl=MissionNumber.Mission1
-    //% group="イベント"
+    //% group="いべんと"
     //% weight=98
     export function onMissionFinished(missionNumber: MissionNumber, handler: () => void): void {
         player.onTellCommand("mission_success_" + missionNumber, function () {
@@ -719,7 +727,7 @@ namespace Missions {
 
     //% blockId=cmk_mission_succeeded
     //% block="ミッションに せいこうした"
-    //% group="結果"
+    //% group="けっか"
     //% weight=97
     export function missionSucceeded(): boolean {
         return missionResult == 1
@@ -727,7 +735,7 @@ namespace Missions {
 
     //% blockId=cmk_mission_failed
     //% block="ミッションに しっぱいした"
-    //% group="結果"
+    //% group="けっか"
     //% weight=96
     export function missionFailed(): boolean {
         return missionResult == 2
@@ -737,7 +745,7 @@ namespace Missions {
     //% blockHidden=true
     //% level.defl=HunterLevel.Lv1
     //% seconds.defl=10 seconds.min=1
-    //% group="結果"
+    //% group="けっか"
     //% weight=49
     export function giveSlowness(target: EffectTarget, level: HunterLevel, seconds: number): void {
         sendCommand("say effect_slow:" + target + ":" + level + ":" + seconds)
