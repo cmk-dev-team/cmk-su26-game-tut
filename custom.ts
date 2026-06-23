@@ -157,7 +157,9 @@ enum TargetPlayer {
     //% block="ミッションに せいこうした 人"
     MissionSuccess = 2,
     //% block="ミッションに しっぱいした 人"
-    MissionFail = 3
+    MissionFail = 3,
+    //% block="つかまった 人"
+    Caught = 4
 }
 
 enum BountyChange {
@@ -219,7 +221,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.25"
+        return "1.0.26"
     }
 }
 
