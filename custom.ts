@@ -61,6 +61,36 @@ enum MissionNumber {
     Mission3 = 3
 }
 
+enum ButtonType {
+    //% block="オーク"
+    Oak = 0,
+    //% block="トウヒ"
+    Spruce = 1,
+    //% block="シラカバ"
+    Birch = 2,
+    //% block="ジャングル"
+    Jungle = 3,
+    //% block="アカシア"
+    Acacia = 4,
+    //% block="ダークオーク"
+    DarkOak = 5,
+    //% block="マングローブ"
+    Mangrove = 6,
+    //% block="サクラ"
+    Cherry = 7,
+    //% block="竹"
+    Bamboo = 8,
+    //% block="石"
+    Stone = 9
+}
+
+enum MissionJudgeTiming {
+    //% block="ボタンを おしたら すぐ"
+    Immediate = 0,
+    //% block="じかんぎれに なったら"
+    OnTimeout = 1
+}
+
 enum ZoneColor {
     //% block="しろ"
     //% jres=ZoneIcon.white
@@ -189,7 +219,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.24"
+        return "1.0.25"
     }
 }
 
@@ -201,7 +231,7 @@ namespace VariableBlocks {
     //% weight=100
     export function setTimeLimit(value: number): void {
         _timelimit = value
-        sendCommand("scoreboard players set @s g_timelimit " + value)
+        sendCommand("scriptevent cmk:timer_set " + value)
     }
 }
 
@@ -635,6 +665,132 @@ namespace Missions {
     let currentMissionNumber = MissionNumber.Mission1
     let currentMissionTrigger = 0
     let missionResult = 0
+    let missionTimeout1 = false
+    let missionTimeout2 = false
+    let missionTimeout3 = false
+    let oakButtonPressed = false
+    let spruceButtonPressed = false
+    let birchButtonPressed = false
+    let jungleButtonPressed = false
+    let acaciaButtonPressed = false
+    let darkOakButtonPressed = false
+    let mangroveButtonPressed = false
+    let cherryButtonPressed = false
+    let bambooButtonPressed = false
+    let stoneButtonPressed = false
+
+    function resetMissionFlags(missionNumber: MissionNumber): void {
+        if (missionNumber == MissionNumber.Mission1) {
+            missionTimeout1 = false
+        } else if (missionNumber == MissionNumber.Mission2) {
+            missionTimeout2 = false
+        } else {
+            missionTimeout3 = false
+        }
+        resetButtonFlags()
+    }
+
+    function resetButtonFlags(): void {
+        oakButtonPressed = false
+        spruceButtonPressed = false
+        birchButtonPressed = false
+        jungleButtonPressed = false
+        acaciaButtonPressed = false
+        darkOakButtonPressed = false
+        mangroveButtonPressed = false
+        cherryButtonPressed = false
+        bambooButtonPressed = false
+        stoneButtonPressed = false
+    }
+
+    function setMissionTimedOut(missionNumber: MissionNumber): void {
+        if (missionNumber == MissionNumber.Mission1) {
+            missionTimeout1 = true
+        } else if (missionNumber == MissionNumber.Mission2) {
+            missionTimeout2 = true
+        } else {
+            missionTimeout3 = true
+        }
+    }
+
+    function getButtonTypeKey(buttonType: ButtonType): string {
+        if (buttonType == ButtonType.Oak) {
+            return "oak"
+        } else if (buttonType == ButtonType.Spruce) {
+            return "spruce"
+        } else if (buttonType == ButtonType.Birch) {
+            return "birch"
+        } else if (buttonType == ButtonType.Jungle) {
+            return "jungle"
+        } else if (buttonType == ButtonType.Acacia) {
+            return "acacia"
+        } else if (buttonType == ButtonType.DarkOak) {
+            return "dark_oak"
+        } else if (buttonType == ButtonType.Mangrove) {
+            return "mangrove"
+        } else if (buttonType == ButtonType.Cherry) {
+            return "cherry"
+        } else if (buttonType == ButtonType.Bamboo) {
+            return "bamboo"
+        }
+        return "stone"
+    }
+
+    function setButtonPressed(buttonType: ButtonType): void {
+        if (buttonType == ButtonType.Oak) {
+            oakButtonPressed = true
+        } else if (buttonType == ButtonType.Spruce) {
+            spruceButtonPressed = true
+        } else if (buttonType == ButtonType.Birch) {
+            birchButtonPressed = true
+        } else if (buttonType == ButtonType.Jungle) {
+            jungleButtonPressed = true
+        } else if (buttonType == ButtonType.Acacia) {
+            acaciaButtonPressed = true
+        } else if (buttonType == ButtonType.DarkOak) {
+            darkOakButtonPressed = true
+        } else if (buttonType == ButtonType.Mangrove) {
+            mangroveButtonPressed = true
+        } else if (buttonType == ButtonType.Cherry) {
+            cherryButtonPressed = true
+        } else if (buttonType == ButtonType.Bamboo) {
+            bambooButtonPressed = true
+        } else {
+            stoneButtonPressed = true
+        }
+    }
+
+    function hasMissionTimedOut(missionNumber: MissionNumber): boolean {
+        if (missionNumber == MissionNumber.Mission1) {
+            return missionTimeout1
+        } else if (missionNumber == MissionNumber.Mission2) {
+            return missionTimeout2
+        }
+        return missionTimeout3
+    }
+
+    function hasButtonPressed(buttonType: ButtonType): boolean {
+        if (buttonType == ButtonType.Oak) {
+            return oakButtonPressed
+        } else if (buttonType == ButtonType.Spruce) {
+            return spruceButtonPressed
+        } else if (buttonType == ButtonType.Birch) {
+            return birchButtonPressed
+        } else if (buttonType == ButtonType.Jungle) {
+            return jungleButtonPressed
+        } else if (buttonType == ButtonType.Acacia) {
+            return acaciaButtonPressed
+        } else if (buttonType == ButtonType.DarkOak) {
+            return darkOakButtonPressed
+        } else if (buttonType == ButtonType.Mangrove) {
+            return mangroveButtonPressed
+        } else if (buttonType == ButtonType.Cherry) {
+            return cherryButtonPressed
+        } else if (buttonType == ButtonType.Bamboo) {
+            return bambooButtonPressed
+        }
+        return stoneButtonPressed
+    }
 
     //% blockId=cmk_on_remaining_time
     //% block="のこり $triggerSec びょうに なった とき"
@@ -660,12 +816,13 @@ namespace Missions {
     }
 
     //% blockId=cmk_mission_settings
-    //% block="ミッション $missionNumber を せっていして かいしする|ないようを ひょうじ $message|しゅるい $missionType|クリアに ひつような にんずう $requiredPlayers|せいげん じかん $durationSec"
+    //% block="ミッション $missionNumber を せっていして かいしする|ないようを ひょうじ $message|しゅるい $missionType|クリアに ひつような にんずう $requiredPlayers|せいげん じかん $durationSec|クリア はんてい $judgeTiming"
     //% missionNumber.defl=MissionNumber.Mission1
     //% message.defl="ボタンを おそう"
     //% missionType.defl=MissionType.Button
     //% requiredPlayers.defl=1 requiredPlayers.min=1 requiredPlayers.max=5
     //% durationSec.shadow=cmk_mission_duration
+    //% judgeTiming.defl=MissionJudgeTiming.Immediate
     //% inlineInputMode=external
     //% group="せってい"
     //% weight=100
@@ -674,9 +831,35 @@ namespace Missions {
         message: string,
         missionType: MissionType,
         requiredPlayers: number,
-        durationSec: number
+        durationSec: number,
+        judgeTiming: MissionJudgeTiming
     ): void {
-        runMission(missionNumber, message, missionType, requiredPlayers, durationSec)
+        runMission(missionNumber, message, missionType, requiredPlayers, durationSec, judgeTiming)
+    }
+
+    //% blockId=cmk_on_mission_timeout
+    //% block="ミッション $missionNumber が じかんぎれの とき"
+    //% missionNumber.defl=MissionNumber.Mission1
+    //% group="いべんと"
+    //% weight=99
+    export function onMissionTimeout(missionNumber: MissionNumber, handler: () => void): void {
+        player.onTellCommand("mission_timeout_" + missionNumber, function () {
+            currentMissionNumber = missionNumber
+            setMissionTimedOut(missionNumber)
+            handler()
+        })
+    }
+
+    //% blockId=cmk_on_mission_button_pressed
+    //% block="$buttonType の ボタンを おした とき"
+    //% buttonType.defl=ButtonType.Oak
+    //% group="いべんと"
+    //% weight=98
+    export function onButtonPressed(buttonType: ButtonType, handler: () => void): void {
+        player.onTellCommand("button_pressed_" + getButtonTypeKey(buttonType), function () {
+            setButtonPressed(buttonType)
+            handler()
+        })
     }
 
     //% blockId=cmk_on_mission_finished
@@ -702,10 +885,12 @@ namespace Missions {
         message: string,
         missionType: MissionType,
         requiredPlayers: number,
-        durationSec: number
+        durationSec: number,
+        judgeTiming: MissionJudgeTiming
     ): void {
         currentMissionNumber = missionNumber
         missionResult = 0
+        resetMissionFlags(missionNumber)
 
         player.onTellCommand("mission_success_" + missionNumber, function () {
             missionResult = 1
@@ -718,7 +903,7 @@ namespace Missions {
         sendCommand("scoreboard players set @s g_mission_number " + currentMissionNumber)
         sendCommand("scoreboard players set @s g_mission_type " + missionType)
         sendCommand("scoreboard players set @s g_mission_duration " + durationSec)
-        sendCommand("scriptevent cmk:mission_register " + missionNumber + "|" + currentMissionTrigger + "|" + missionType + "|" + durationSec + "|" + requiredPlayers + "|" + message)
+        sendCommand("scriptevent cmk:mission_register " + missionNumber + "|" + currentMissionTrigger + "|" + missionType + "|" + durationSec + "|" + requiredPlayers + "|" + judgeTiming + "|" + message)
 
         while (missionResult == 0) {
             loops.pause(100)
@@ -739,6 +924,24 @@ namespace Missions {
     //% weight=96
     export function missionFailed(): boolean {
         return missionResult == 2
+    }
+
+    //% blockId=cmk_mission_timed_out
+    //% block="ミッション $missionNumber が じかんぎれに なった"
+    //% missionNumber.defl=MissionNumber.Mission1
+    //% group="けっか"
+    //% weight=94
+    export function missionTimedOut(missionNumber: MissionNumber): boolean {
+        return hasMissionTimedOut(missionNumber)
+    }
+
+    //% blockId=cmk_button_was_pressed
+    //% block="$buttonType の ボタンが おされた"
+    //% buttonType.defl=ButtonType.Oak
+    //% group="けっか"
+    //% weight=93
+    export function buttonWasPressed(buttonType: ButtonType): boolean {
+        return hasButtonPressed(buttonType)
     }
 
     //% blockId=cmk_effect_slow block="$target に スピード ていか $level を $seconds びょう つける"
