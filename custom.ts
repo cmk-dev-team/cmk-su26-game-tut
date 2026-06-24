@@ -221,7 +221,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.26"
+        return "1.0.27"
     }
 }
 
@@ -659,6 +659,44 @@ namespace AreaD {
     //% weight=90
     export function close(color: ZoneColor): void {
         sendZoneCommand("D", color, false)
+    }
+}
+
+//% color="#C58B45" weight=83 block="けんちく" groups='["たてる", "さくじょ"]'
+namespace BuildingBlocks {
+    //% blockId=cmk_build_white_house block="あしもとに ペールオーク ブロックがあったら たてもの 白い家 をたてる"
+    //% group="たてる"
+    //% weight=100
+    export function buildWhiteHouse(): void {
+        sendCommand("scriptevent cmk:building_place 0")
+    }
+
+    //% blockId=cmk_build_blue_house block="あしもとに あおみどりいろのようもう ブロックがあったら たてもの 青い家 をたてる"
+    //% group="たてる"
+    //% weight=90
+    export function buildBlueHouse(): void {
+        sendCommand("scriptevent cmk:building_place 1")
+    }
+
+    //% blockId=cmk_build_red_house block="あしもとに ネザーレンガ ブロックがあったら たてもの 赤い家 をたてる"
+    //% group="たてる"
+    //% weight=80
+    export function buildRedHouse(): void {
+        sendCommand("scriptevent cmk:building_place 2")
+    }
+
+    //% blockId=cmk_build_stone_tower block="あしもとに いしレンガ ブロックがあったら たてもの 石の塔 をたてる"
+    //% group="たてる"
+    //% weight=70
+    export function buildStoneTower(): void {
+        sendCommand("scriptevent cmk:building_place 3")
+    }
+
+    //% blockId=cmk_remove_building block="あしもとに けんちくブロックがあったら たてものを さくじょする"
+    //% group="さくじょ"
+    //% weight=60
+    export function removeBuilding(): void {
+        sendCommand("scriptevent cmk:building_remove")
     }
 }
 
