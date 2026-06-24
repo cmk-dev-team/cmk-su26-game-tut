@@ -2,7 +2,7 @@
   "name": "cmk-su26-game-tut",
   "displayName": "CMK Summer Camp 2026 Game",
   "description": "ハンターからの大脱走！ゲーム設定ブロック",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "dependencies": {
     "core": "*"
   },

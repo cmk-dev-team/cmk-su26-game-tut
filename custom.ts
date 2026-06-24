@@ -165,11 +165,11 @@ enum BuildingMarker {
 }
 
 enum BuildingType {
-    //% block="白い家"
+    //% block="しろいいえ"
     WhiteHouse = 0,
     //% block="青い家"
     BlueHouse = 1,
-    //% block="赤い家"
+    //% block="あかいいえ"
     RedHouse = 2,
     //% block="石の塔"
     StoneTower = 3
@@ -247,7 +247,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.28"
+        return "1.0.29"
     }
 }
 
@@ -701,7 +701,7 @@ namespace BuildingBlocks {
         sendCommand("scriptevent cmk:building_place " + marker + "|" + building)
     }
 
-    //% blockId=cmk_build_white_house block="あしもとに ペールオーク ブロックがあったら たてもの 白い家 をたてる"
+    //% blockId=cmk_build_white_house block="あしもとに ペールオーク ブロックがあったら たてもの しろいいえ をたてる"
     //% blockHidden=true
     //% group="たてる"
     //% weight=100
@@ -717,7 +717,7 @@ namespace BuildingBlocks {
         sendCommand("scriptevent cmk:building_place 1")
     }
 
-    //% blockId=cmk_build_red_house block="あしもとに ネザーレンガ ブロックがあったら たてもの 赤い家 をたてる"
+    //% blockId=cmk_build_red_house block="あしもとに ネザーレンガ ブロックがあったら たてもの あかいいえ をたてる"
     //% blockHidden=true
     //% group="たてる"
     //% weight=80
@@ -733,7 +733,7 @@ namespace BuildingBlocks {
         sendCommand("scriptevent cmk:building_place 3")
     }
 
-    //% blockId=cmk_remove_selected_building block="あしもとに $marker ブロックがあったら たてものを さくじょする"
+    //% blockId=cmk_remove_selected_building block="あしもとに $marker ブロックがあったら そのばしょの たてものを さくじょする"
     //% marker.defl=BuildingMarker.PaleOak
     //% marker.fieldEditor="imagedropdown"
     //% marker.fieldOptions.columns=4
