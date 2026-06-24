@@ -149,6 +149,32 @@ enum GateState {
     Closed = 0
 }
 
+enum BuildingMarker {
+    //% block="ペールオーク"
+    //% jres=BuildingIcon.paleOak
+    PaleOak = 0,
+    //% block="あおみどりいろのようもう"
+    //% jres=BuildingIcon.cyanWool
+    CyanWool = 1,
+    //% block="ネザーレンガ"
+    //% jres=BuildingIcon.netherBricks
+    NetherBricks = 2,
+    //% block="いしレンガ"
+    //% jres=BuildingIcon.stoneBricks
+    StoneBricks = 3
+}
+
+enum BuildingType {
+    //% block="白い家"
+    WhiteHouse = 0,
+    //% block="青い家"
+    BlueHouse = 1,
+    //% block="赤い家"
+    RedHouse = 2,
+    //% block="石の塔"
+    StoneTower = 3
+}
+
 enum TargetPlayer {
     //% block="じぶん"
     Self = 1,
@@ -221,7 +247,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.27"
+        return "1.0.28"
     }
 }
 
@@ -664,7 +690,19 @@ namespace AreaD {
 
 //% color="#C58B45" weight=83 block="けんちく" groups='["たてる", "さくじょ"]'
 namespace BuildingBlocks {
+    //% blockId=cmk_build_structure block="あしもとに $marker ブロックがあったら たてもの $building をたてる"
+    //% marker.defl=BuildingMarker.PaleOak
+    //% marker.fieldEditor="imagedropdown"
+    //% marker.fieldOptions.columns=4
+    //% building.defl=BuildingType.WhiteHouse
+    //% group="たてる"
+    //% weight=110
+    export function build(marker: BuildingMarker, building: BuildingType): void {
+        sendCommand("scriptevent cmk:building_place " + marker + "|" + building)
+    }
+
     //% blockId=cmk_build_white_house block="あしもとに ペールオーク ブロックがあったら たてもの 白い家 をたてる"
+    //% blockHidden=true
     //% group="たてる"
     //% weight=100
     export function buildWhiteHouse(): void {
@@ -672,6 +710,7 @@ namespace BuildingBlocks {
     }
 
     //% blockId=cmk_build_blue_house block="あしもとに あおみどりいろのようもう ブロックがあったら たてもの 青い家 をたてる"
+    //% blockHidden=true
     //% group="たてる"
     //% weight=90
     export function buildBlueHouse(): void {
@@ -679,6 +718,7 @@ namespace BuildingBlocks {
     }
 
     //% blockId=cmk_build_red_house block="あしもとに ネザーレンガ ブロックがあったら たてもの 赤い家 をたてる"
+    //% blockHidden=true
     //% group="たてる"
     //% weight=80
     export function buildRedHouse(): void {
@@ -686,15 +726,25 @@ namespace BuildingBlocks {
     }
 
     //% blockId=cmk_build_stone_tower block="あしもとに いしレンガ ブロックがあったら たてもの 石の塔 をたてる"
+    //% blockHidden=true
     //% group="たてる"
     //% weight=70
     export function buildStoneTower(): void {
         sendCommand("scriptevent cmk:building_place 3")
     }
 
-    //% blockId=cmk_remove_building block="あしもとに けんちくブロックがあったら たてものを さくじょする"
+    //% blockId=cmk_remove_selected_building block="あしもとに $marker ブロックがあったら たてものを さくじょする"
+    //% marker.defl=BuildingMarker.PaleOak
+    //% marker.fieldEditor="imagedropdown"
+    //% marker.fieldOptions.columns=4
     //% group="さくじょ"
-    //% weight=60
+    //% weight=100
+    export function removeSelectedBuilding(marker: BuildingMarker): void {
+        sendCommand("scriptevent cmk:building_remove " + marker)
+    }
+
+    //% blockId=cmk_remove_building block="あしもとに けんちくブロックがあったら たてものを さくじょする"
+    //% blockHidden=true
     export function removeBuilding(): void {
         sendCommand("scriptevent cmk:building_remove")
     }
