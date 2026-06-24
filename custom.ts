@@ -167,11 +167,11 @@ enum BuildingMarker {
 enum BuildingType {
     //% block="しろいいえ"
     WhiteHouse = 0,
-    //% block="青い家"
+    //% block="あおいいえ"
     BlueHouse = 1,
     //% block="あかいいえ"
     RedHouse = 2,
-    //% block="石の塔"
+    //% block="いしのとう"
     StoneTower = 3
 }
 
@@ -247,7 +247,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.29"
+        return "1.0.30"
     }
 }
 
@@ -709,7 +709,7 @@ namespace BuildingBlocks {
         sendCommand("scriptevent cmk:building_place 0")
     }
 
-    //% blockId=cmk_build_blue_house block="あしもとに あおみどりいろのようもう ブロックがあったら たてもの 青い家 をたてる"
+    //% blockId=cmk_build_blue_house block="あしもとに あおみどりいろのようもう ブロックがあったら たてもの あおいいえ をたてる"
     //% blockHidden=true
     //% group="たてる"
     //% weight=90
@@ -725,7 +725,7 @@ namespace BuildingBlocks {
         sendCommand("scriptevent cmk:building_place 2")
     }
 
-    //% blockId=cmk_build_stone_tower block="あしもとに いしレンガ ブロックがあったら たてもの 石の塔 をたてる"
+    //% blockId=cmk_build_stone_tower block="あしもとに いしレンガ ブロックがあったら たてもの いしのとう をたてる"
     //% blockHidden=true
     //% group="たてる"
     //% weight=70
