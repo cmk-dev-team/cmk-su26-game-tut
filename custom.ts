@@ -156,7 +156,7 @@ enum BuildingMarker {
     //% block="あおみどりいろのようもう"
     //% jres=BuildingIcon.cyanWool
     CyanWool = 1,
-    //% block="ネザーレンガ"
+    //% block="あかいネザーレンガ"
     //% jres=BuildingIcon.netherBricks
     NetherBricks = 2,
     //% block="いしレンガ"
@@ -717,7 +717,7 @@ namespace BuildingBlocks {
         sendCommand("scriptevent cmk:building_place 1")
     }
 
-    //% blockId=cmk_build_red_house block="あしもとに ネザーレンガ ブロックがあったら たてもの あかいいえ をたてる"
+    //% blockId=cmk_build_red_house block="あしもとに あかいネザーレンガ ブロックがあったら たてもの あかいいえ をたてる"
     //% blockHidden=true
     //% group="たてる"
     //% weight=80
