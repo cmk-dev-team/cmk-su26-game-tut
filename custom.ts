@@ -180,7 +180,7 @@ enum BountyChange {
     Decrease = 0
 }
 
-enum HunterSpawnTarget {
+enum PlayerSelector {
     //% block="じぶん"
     Self = 1,
     //% block="ミッションに せいこうした 人"
@@ -258,7 +258,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.33"
+        return "1.0.34"
     }
 }
 
@@ -283,7 +283,7 @@ namespace VariableBlocks {
     }
 }
 
-//% color="#175BB4" weight=100 block="プレイヤー" groups='["せってい", "イベント", "スポーン"]'
+//% color="#175BB4" weight=100 block="プレイヤー" groups='["せってい", "イベント", "スポーン", "テレポート", "セレクター"]'
 namespace PlayerBlocks {
     //% blockId=cmk_set_game_mode block="ゲームモードを $mode に する"
     //% group="せってい"
@@ -374,6 +374,29 @@ namespace PlayerBlocks {
     //% weight=52
     export function worldPosition(x: number, y: number, z: number): Position {
         return world(x, y, z)
+    }
+
+    //% blockId=cmk_player_selector block="$target"
+    //% target.defl=PlayerSelector.Self
+    //% group="セレクター"
+    //% weight=51
+    export function selector(target: PlayerSelector): number {
+        return target
+    }
+
+    //% blockId=cmk_teleport_players block="$target を $position に テレポートさせる"
+    //% target.shadow=cmk_player_selector
+    //% position.shadow=cmk_world_position
+    //% group="テレポート"
+    //% weight=50
+    export function teleport(target: number, position: Position): void {
+        sendCommand(
+            "scriptevent cmk:teleport_players "
+            + target + "|"
+            + position.getValue(Axis.X) + "|"
+            + position.getValue(Axis.Y) + "|"
+            + position.getValue(Axis.Z)
+        )
     }
 }
 
@@ -600,16 +623,17 @@ namespace HunterSettings {
     }
 
     //% blockId=cmk_hunter_spawn_target block="$target"
-    //% target.defl=HunterSpawnTarget.Self
+    //% blockHidden=true
+    //% target.defl=PlayerSelector.Self
     //% group="セレクター"
     //% weight=75
-    export function spawnTarget(target: HunterSpawnTarget): number {
+    export function spawnTarget(target: PlayerSelector): number {
         return target
     }
 
     //% blockId=cmk_spawn_hunter_at_target block="$hunterType を $target の ばしょに スポーンさせる"
     //% hunterType.defl=HunterType.HunterA
-    //% target.shadow=cmk_hunter_spawn_target
+    //% target.shadow=cmk_player_selector
     //% group="スポーン"
     //% weight=70
     export function spawnHunterAtTarget(hunterType: HunterType, target: number): void {
@@ -787,6 +811,7 @@ namespace AreaD {
 namespace BuildingBlocks {
     //% blockId=cmk_build_structure block="あしもとに あかいネザーレンガブロック があったら|たてもの $building をたてる"
     //% building.defl=BuildingType.WhiteHouse
+    //% inlineInputMode="external"
     //% group="たてる"
     //% weight=110
     export function build(building: BuildingType): void {
@@ -826,6 +851,7 @@ namespace BuildingBlocks {
     }
 
     //% blockId=cmk_remove_selected_building block="あしもとに あかいネザーレンガブロック があったら|そのばしょの たてものを さくじょする"
+    //% inlineInputMode="external"
     //% group="さくじょ"
     //% weight=100
     export function removeSelectedBuilding(): void {
@@ -1088,22 +1114,6 @@ namespace Missions {
         while (missionResult == 0) {
             loops.pause(100)
         }
-    }
-
-    //% blockId=cmk_mission_succeeded
-    //% block="ミッションに せいこうした"
-    //% group="けっか"
-    //% weight=97
-    export function missionSucceeded(): boolean {
-        return missionResult == 1
-    }
-
-    //% blockId=cmk_mission_failed
-    //% block="ミッションに しっぱいした"
-    //% group="けっか"
-    //% weight=96
-    export function missionFailed(): boolean {
-        return missionResult == 2
     }
 
     //% blockId=cmk_mission_timed_out

@@ -59,10 +59,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-if (Missions.missionSucceeded()) {
-}
-if (Missions.missionFailed()) {
-}
 ```
 
 ## 繝励Ξ繧､繝､繝ｼ
@@ -114,10 +110,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-if (Missions.missionSucceeded()) {
-}
-if (Missions.missionFailed()) {
-}
 ```
 
 ```blocks
@@ -172,10 +164,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-if (Missions.missionSucceeded()) {
-}
-if (Missions.missionFailed()) {
-}
 ```
 
 ```blocks
@@ -233,10 +221,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-if (Missions.missionSucceeded()) {
-}
-if (Missions.missionFailed()) {
-}
 ```
 
 ```blocks
@@ -295,10 +279,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-if (Missions.missionSucceeded()) {
-}
-if (Missions.missionFailed()) {
-}
 ```
 
 ```blocks
@@ -358,10 +338,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-if (Missions.missionSucceeded()) {
-}
-if (Missions.missionFailed()) {
-}
 ```
 
 ```blocks
@@ -420,10 +396,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-if (Missions.missionSucceeded()) {
-}
-if (Missions.missionFailed()) {
-}
 ```
 
 ```blocks
