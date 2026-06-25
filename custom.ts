@@ -84,13 +84,6 @@ enum ButtonType {
     Stone = 9
 }
 
-enum MissionJudgeTiming {
-    //% block="ボタンを おしたら すぐ"
-    Immediate = 0,
-    //% block="じかんぎれに なったら"
-    OnTimeout = 1
-}
-
 enum ZoneColor {
     //% block="しろ"
     //% jres=ZoneIcon.white
@@ -258,7 +251,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.34"
+        return "1.0.35"
     }
 }
 
@@ -582,20 +575,22 @@ namespace VariableBlocks {
 
 //% color="#303030" weight=90 block="ハンター" groups='["せってい", "そうさ", "スポーン", "セレクター", "さくじょ"]'
 namespace HunterSettings {
-    //% blockId=cmk_set_hunter_speed block="ハンターの すばやさを $level に する"
+    //% blockId=cmk_set_hunter_speed block="$target の すばやさを $level に する"
     //% level.defl=HunterLevel.Lv1
+    //% target.defl=HunterRemoveTarget.All
     //% group="せってい"
     //% weight=100
-    export function setSpeed(level: HunterLevel): void {
-        sendCommand("scriptevent cmk:set_hunter_speed " + level)
+    export function setSpeed(level: HunterLevel, target: HunterRemoveTarget = HunterRemoveTarget.All): void {
+        sendCommand("scriptevent cmk:set_hunter_speed " + target + "|" + level)
     }
 
-    //% blockId=cmk_set_hunter_strength block="ハンターの みつける ひろさを $range ブロックに する"
+    //% blockId=cmk_set_hunter_strength block="$target の みつける ひろさを $range ブロックに する"
     //% range.defl=HunterSightRange.Range16
+    //% target.defl=HunterRemoveTarget.All
     //% group="せってい"
     //% weight=90
-    export function setStrength(range: HunterSightRange): void {
-        sendCommand("scriptevent cmk:set_hunter_sight " + range)
+    export function setStrength(range: HunterSightRange, target: HunterRemoveTarget = HunterRemoveTarget.All): void {
+        sendCommand("scriptevent cmk:set_hunter_sight " + target + "|" + range)
     }
 
     //% blockId=cmk_stop_hunters block="$target を ていしさせる"
@@ -1021,13 +1016,12 @@ namespace Missions {
     }
 
     //% blockId=cmk_mission_settings
-    //% block="ミッション $missionNumber を せっていして かいしする|ないようを ひょうじ $message|しゅるい $missionType|クリアに ひつような にんずう $requiredPlayers|せいげん じかん $durationSec|クリア はんてい $judgeTiming"
+    //% block="ミッション $missionNumber を せっていして かいしする|ないようを ひょうじ $message|しゅるい $missionType|クリアに ひつような にんずう $requiredPlayers|せいげん じかん $durationSec"
     //% missionNumber.defl=MissionNumber.Mission1
     //% message.defl="ボタンを おそう"
     //% missionType.defl=MissionType.Button
     //% requiredPlayers.defl=1 requiredPlayers.min=1 requiredPlayers.max=5
     //% durationSec.shadow=cmk_mission_duration
-    //% judgeTiming.defl=MissionJudgeTiming.Immediate
     //% inlineInputMode=external
     //% group="せってい"
     //% weight=100
@@ -1036,10 +1030,9 @@ namespace Missions {
         message: string,
         missionType: MissionType,
         requiredPlayers: number,
-        durationSec: number,
-        judgeTiming: MissionJudgeTiming
+        durationSec: number
     ): void {
-        runMission(missionNumber, message, missionType, requiredPlayers, durationSec, judgeTiming)
+        runMission(missionNumber, message, missionType, requiredPlayers, durationSec)
     }
 
     //% blockId=cmk_on_mission_timeout
@@ -1067,6 +1060,20 @@ namespace Missions {
         })
     }
 
+    //% blockId=cmk_mission_success block="ミッションを せいこうに する"
+    //% group="けっか"
+    //% weight=100
+    export function succeed(): void {
+        sendCommand("scriptevent cmk:mission_success")
+    }
+
+    //% blockId=cmk_mission_fail block="ミッションを しっぱいに する"
+    //% group="けっか"
+    //% weight=99
+    export function fail(): void {
+        sendCommand("scriptevent cmk:mission_fail")
+    }
+
     //% blockId=cmk_on_mission_finished
     //% block="ミッション $missionNumber が おわった とき"
     //% blockHidden=true
@@ -1091,8 +1098,7 @@ namespace Missions {
         message: string,
         missionType: MissionType,
         requiredPlayers: number,
-        durationSec: number,
-        judgeTiming: MissionJudgeTiming
+        durationSec: number
     ): void {
         currentMissionNumber = missionNumber
         missionResult = 0
@@ -1109,7 +1115,7 @@ namespace Missions {
         sendCommand("scoreboard players set @s g_mission_number " + currentMissionNumber)
         sendCommand("scoreboard players set @s g_mission_type " + missionType)
         sendCommand("scoreboard players set @s g_mission_duration " + durationSec)
-        sendCommand("scriptevent cmk:mission_register " + missionNumber + "|" + currentMissionTrigger + "|" + missionType + "|" + durationSec + "|" + requiredPlayers + "|" + judgeTiming + "|" + message)
+        sendCommand("scriptevent cmk:mission_register " + missionNumber + "|" + currentMissionTrigger + "|" + missionType + "|" + durationSec + "|" + requiredPlayers + "|" + message)
 
         while (missionResult == 0) {
             loops.pause(100)
