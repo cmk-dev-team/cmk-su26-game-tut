@@ -230,6 +230,19 @@ enum HunterRemoveTarget {
     HunterE = 5
 }
 
+enum HunterType {
+    //% block="ハンターA"
+    HunterA = 1,
+    //% block="ハンターB"
+    HunterB = 2,
+    //% block="ハンターC"
+    HunterC = 3,
+    //% block="ハンターD"
+    HunterD = 4,
+    //% block="ハンターE"
+    HunterE = 5
+}
+
 enum EffectTarget {
     //% block="にげる 人 ぜんいん"
     AllRunner = 0,
@@ -245,7 +258,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.32"
+        return "1.0.33"
     }
 }
 
@@ -332,7 +345,7 @@ namespace PlayerBlocks {
     }
 
     //% blockId=cmk_on_chat_command block="チャットコマンド $command を にゅうりょくした とき"
-    //% command.defl="start"
+    //% command.defl="run"
     //% group="イベント"
     //% weight=55
     export function onChatCommand(command: string, handler: () => void): void {
@@ -594,20 +607,22 @@ namespace HunterSettings {
         return target
     }
 
-    //% blockId=cmk_spawn_hunter_at_target block="ハンターを $target の ばしょに スポーンさせる"
+    //% blockId=cmk_spawn_hunter_at_target block="$hunterType を $target の ばしょに スポーンさせる"
+    //% hunterType.defl=HunterType.HunterA
     //% target.shadow=cmk_hunter_spawn_target
     //% group="スポーン"
     //% weight=70
-    export function spawnHunterAtTarget(target: number): void {
-        sendCommand("scriptevent cmk:spawn_hunter_target " + target)
+    export function spawnHunterAtTarget(hunterType: HunterType, target: number): void {
+        sendCommand("scriptevent cmk:spawn_hunter_target " + hunterType + "|" + target)
     }
 
-    //% blockId=cmk_spawn_hunter_at block="ハンターを $position に スポーンさせる"
+    //% blockId=cmk_spawn_hunter_at block="$hunterType を $position に スポーンさせる"
+    //% hunterType.defl=HunterType.HunterA
     //% position.shadow=cmk_world_position
     //% group="スポーン"
     //% weight=69
-    export function spawnHunterAt(position: Position): void {
-        sendCommand("scriptevent cmk:spawn_hunter " + position.getValue(Axis.X) + "|" + position.getValue(Axis.Y) + "|" + position.getValue(Axis.Z))
+    export function spawnHunterAt(hunterType: HunterType, position: Position): void {
+        sendCommand("scriptevent cmk:spawn_hunter " + hunterType + "|" + position.getValue(Axis.X) + "|" + position.getValue(Axis.Y) + "|" + position.getValue(Axis.Z))
     }
 
     //% blockId=cmk_spawn_hunter_mob block="ハンターを $x $y $z に スポーンさせる"
@@ -770,7 +785,7 @@ namespace AreaD {
 
 //% color="#C58B45" weight=83 block="けんちく" groups='["たてる", "さくじょ"]'
 namespace BuildingBlocks {
-    //% blockId=cmk_build_structure block="あしもとに あかいネザーレンガ ブロックがあったら たてもの $building をたてる"
+    //% blockId=cmk_build_structure block="あしもとに あかいネザーレンガブロック があったら|たてもの $building をたてる"
     //% building.defl=BuildingType.WhiteHouse
     //% group="たてる"
     //% weight=110
@@ -810,7 +825,7 @@ namespace BuildingBlocks {
         sendCommand("scriptevent cmk:building_place 3")
     }
 
-    //% blockId=cmk_remove_selected_building block="あしもとに あかいネザーレンガ ブロックがあったら そのばしょの たてものを さくじょする"
+    //% blockId=cmk_remove_selected_building block="あしもとに あかいネザーレンガブロック があったら|そのばしょの たてものを さくじょする"
     //% group="さくじょ"
     //% weight=100
     export function removeSelectedBuilding(): void {

@@ -17,7 +17,7 @@ cmk-su26-game-tut=github:cmk-dev-team/cmk-su26-game-tut
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("start", function () {
+PlayerBlocks.onChatCommand("run", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -45,7 +45,7 @@ HunterSettings.setSpeed(HunterLevel.Lv1)
 HunterSettings.setStrength(HunterSightRange.Range16)
 HunterSettings.stopHunters(HunterRemoveTarget.All)
 HunterSettings.resumeHunters(HunterRemoveTarget.All)
-HunterSettings.spawnHunterAt(PlayerBlocks.currentPosition())
+HunterSettings.spawnHunterAt(HunterType.HunterA, PlayerBlocks.currentPosition())
 PlayerBlocks.currentPosition()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
 AreaA.setGate(ZoneColor.Red, GateState.Open)
@@ -72,7 +72,7 @@ if (Missions.missionFailed()) {
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("start", function () {
+PlayerBlocks.onChatCommand("run", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -100,7 +100,7 @@ HunterSettings.setSpeed(HunterLevel.Lv1)
 HunterSettings.setStrength(HunterSightRange.Range16)
 HunterSettings.stopHunters(HunterRemoveTarget.All)
 HunterSettings.resumeHunters(HunterRemoveTarget.All)
-HunterSettings.spawnHunterAt(PlayerBlocks.currentPosition())
+HunterSettings.spawnHunterAt(HunterType.HunterA, PlayerBlocks.currentPosition())
 PlayerBlocks.currentPosition()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
 AreaA.setGate(ZoneColor.Red, GateState.Open)
@@ -130,7 +130,7 @@ PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("start", function () {
+PlayerBlocks.onChatCommand("run", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -158,7 +158,7 @@ HunterSettings.setSpeed(HunterLevel.Lv1)
 HunterSettings.setStrength(HunterSightRange.Range16)
 HunterSettings.stopHunters(HunterRemoveTarget.All)
 HunterSettings.resumeHunters(HunterRemoveTarget.All)
-HunterSettings.spawnHunterAt(PlayerBlocks.currentPosition())
+HunterSettings.spawnHunterAt(HunterType.HunterA, PlayerBlocks.currentPosition())
 PlayerBlocks.currentPosition()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
 AreaA.setGate(ZoneColor.Red, GateState.Open)
@@ -191,7 +191,7 @@ VariableBlocks.setBountyStart(0)
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("start", function () {
+PlayerBlocks.onChatCommand("run", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -219,7 +219,7 @@ HunterSettings.setSpeed(HunterLevel.Lv1)
 HunterSettings.setStrength(HunterSightRange.Range16)
 HunterSettings.stopHunters(HunterRemoveTarget.All)
 HunterSettings.resumeHunters(HunterRemoveTarget.All)
-HunterSettings.spawnHunterAt(PlayerBlocks.currentPosition())
+HunterSettings.spawnHunterAt(HunterType.HunterA, PlayerBlocks.currentPosition())
 PlayerBlocks.currentPosition()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
 AreaA.setGate(ZoneColor.Red, GateState.Open)
@@ -253,7 +253,7 @@ GameSettings.endGame()
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("start", function () {
+PlayerBlocks.onChatCommand("run", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -281,7 +281,7 @@ HunterSettings.setSpeed(HunterLevel.Lv1)
 HunterSettings.setStrength(HunterSightRange.Range16)
 HunterSettings.stopHunters(HunterRemoveTarget.All)
 HunterSettings.resumeHunters(HunterRemoveTarget.All)
-HunterSettings.spawnHunterAt(PlayerBlocks.currentPosition())
+HunterSettings.spawnHunterAt(HunterType.HunterA, PlayerBlocks.currentPosition())
 PlayerBlocks.currentPosition()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
 AreaA.setGate(ZoneColor.Red, GateState.Open)
@@ -316,7 +316,7 @@ HunterSettings.removeHunter(HunterRemoveTarget.All)
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("start", function () {
+PlayerBlocks.onChatCommand("run", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -344,7 +344,7 @@ HunterSettings.setSpeed(HunterLevel.Lv1)
 HunterSettings.setStrength(HunterSightRange.Range16)
 HunterSettings.stopHunters(HunterRemoveTarget.All)
 HunterSettings.resumeHunters(HunterRemoveTarget.All)
-HunterSettings.spawnHunterAt(PlayerBlocks.currentPosition())
+HunterSettings.spawnHunterAt(HunterType.HunterA, PlayerBlocks.currentPosition())
 PlayerBlocks.currentPosition()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
 AreaA.setGate(ZoneColor.Red, GateState.Open)
@@ -378,7 +378,7 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("start", function () {
+PlayerBlocks.onChatCommand("run", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -406,7 +406,7 @@ HunterSettings.setSpeed(HunterLevel.Lv1)
 HunterSettings.setStrength(HunterSightRange.Range16)
 HunterSettings.stopHunters(HunterRemoveTarget.All)
 HunterSettings.resumeHunters(HunterRemoveTarget.All)
-HunterSettings.spawnHunterAt(PlayerBlocks.currentPosition())
+HunterSettings.spawnHunterAt(HunterType.HunterA, PlayerBlocks.currentPosition())
 PlayerBlocks.currentPosition()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
 AreaA.setGate(ZoneColor.Red, GateState.Open)
