@@ -37,7 +37,8 @@ VariableBlocks.timeLimit()
 VariableBlocks.lives()
 VariableBlocks.bountyStart()
 VariableBlocks.bountyIncrement()
-GameSettings.startGame(10)
+VariableBlocks.setCountdown(10)
+GameSettings.startGame()
 GameSettings.pauseGame()
 GameSettings.endGame()
 HunterSettings.setSpeed(HunterLevel.Lv1)
@@ -58,8 +59,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-Missions.onMissionFinished(MissionNumber.Mission1, function () {
-})
 if (Missions.missionSucceeded()) {
 }
 if (Missions.missionFailed()) {
@@ -93,7 +92,8 @@ VariableBlocks.timeLimit()
 VariableBlocks.lives()
 VariableBlocks.bountyStart()
 VariableBlocks.bountyIncrement()
-GameSettings.startGame(10)
+VariableBlocks.setCountdown(10)
+GameSettings.startGame()
 GameSettings.pauseGame()
 GameSettings.endGame()
 HunterSettings.setSpeed(HunterLevel.Lv1)
@@ -114,8 +114,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-Missions.onMissionFinished(MissionNumber.Mission1, function () {
-})
 if (Missions.missionSucceeded()) {
 }
 if (Missions.missionFailed()) {
@@ -152,7 +150,8 @@ VariableBlocks.timeLimit()
 VariableBlocks.lives()
 VariableBlocks.bountyStart()
 VariableBlocks.bountyIncrement()
-GameSettings.startGame(10)
+VariableBlocks.setCountdown(10)
+GameSettings.startGame()
 GameSettings.pauseGame()
 GameSettings.endGame()
 HunterSettings.setSpeed(HunterLevel.Lv1)
@@ -173,8 +172,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-Missions.onMissionFinished(MissionNumber.Mission1, function () {
-})
 if (Missions.missionSucceeded()) {
 }
 if (Missions.missionFailed()) {
@@ -214,7 +211,8 @@ VariableBlocks.timeLimit()
 VariableBlocks.lives()
 VariableBlocks.bountyStart()
 VariableBlocks.bountyIncrement()
-GameSettings.startGame(10)
+VariableBlocks.setCountdown(10)
+GameSettings.startGame()
 GameSettings.pauseGame()
 GameSettings.endGame()
 HunterSettings.setSpeed(HunterLevel.Lv1)
@@ -235,8 +233,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-Missions.onMissionFinished(MissionNumber.Mission1, function () {
-})
 if (Missions.missionSucceeded()) {
 }
 if (Missions.missionFailed()) {
@@ -244,7 +240,8 @@ if (Missions.missionFailed()) {
 ```
 
 ```blocks
-GameSettings.startGame(10)
+VariableBlocks.setCountdown(10)
+GameSettings.startGame()
 GameSettings.pauseGame()
 GameSettings.endGame()
 ```
@@ -276,7 +273,8 @@ VariableBlocks.timeLimit()
 VariableBlocks.lives()
 VariableBlocks.bountyStart()
 VariableBlocks.bountyIncrement()
-GameSettings.startGame(10)
+VariableBlocks.setCountdown(10)
+GameSettings.startGame()
 GameSettings.pauseGame()
 GameSettings.endGame()
 HunterSettings.setSpeed(HunterLevel.Lv1)
@@ -297,8 +295,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-Missions.onMissionFinished(MissionNumber.Mission1, function () {
-})
 if (Missions.missionSucceeded()) {
 }
 if (Missions.missionFailed()) {
@@ -340,7 +336,8 @@ VariableBlocks.timeLimit()
 VariableBlocks.lives()
 VariableBlocks.bountyStart()
 VariableBlocks.bountyIncrement()
-GameSettings.startGame(10)
+VariableBlocks.setCountdown(10)
+GameSettings.startGame()
 GameSettings.pauseGame()
 GameSettings.endGame()
 HunterSettings.setSpeed(HunterLevel.Lv1)
@@ -361,8 +358,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-Missions.onMissionFinished(MissionNumber.Mission1, function () {
-})
 if (Missions.missionSucceeded()) {
 }
 if (Missions.missionFailed()) {
@@ -403,7 +398,8 @@ VariableBlocks.timeLimit()
 VariableBlocks.lives()
 VariableBlocks.bountyStart()
 VariableBlocks.bountyIncrement()
-GameSettings.startGame(10)
+VariableBlocks.setCountdown(10)
+GameSettings.startGame()
 GameSettings.pauseGame()
 GameSettings.endGame()
 HunterSettings.setSpeed(HunterLevel.Lv1)
@@ -424,8 +420,6 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
 Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-Missions.onMissionFinished(MissionNumber.Mission1, function () {
-})
 if (Missions.missionSucceeded()) {
 }
 if (Missions.missionFailed()) {
@@ -435,10 +429,6 @@ if (Missions.missionFailed()) {
 ```blocks
 PlayerBlocks.onRemainingTime(30, function () {
     Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
-})
-Missions.onMissionFinished(MissionNumber.Mission1, function () {
-    if (Missions.missionSucceeded()) {
-    }
 })
 ```
 
