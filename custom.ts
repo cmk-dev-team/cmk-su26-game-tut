@@ -251,7 +251,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.35"
+        return "1.0.36"
     }
 }
 
@@ -311,7 +311,13 @@ namespace GameSettings {
     //% group="ゲーム"
     //% weight=59
     export function startGame(): void {
-        sendCommand("scriptevent cmk:start " + _timelimit + "|" + _countdown)
+        sendCommand(
+            "scriptevent cmk:start "
+            + _timelimit + "|"
+            + _countdown + "|"
+            + _bountyStart + "|"
+            + _bountyIncrement
+        )
     }
 
     //% blockId=cmk_pause_game block="ゲームを いちじ ていしする"
@@ -1016,27 +1022,35 @@ namespace Missions {
     }
 
     //% blockId=cmk_mission_settings
-    //% block="ミッション $missionNumber を せっていして かいしする|ないようを ひょうじ $message|しゅるい $missionType|クリアに ひつような にんずう $requiredPlayers|せいげん じかん $durationSec"
+    //% block="ミッション $missionNumber を せっていして かいしする|ミッションを せいこうに する ボタンの しゅるい： $buttonType|せいげん じかん $durationSec||ないようを ひょうじ $message|クリアに ひつような にんずう $requiredPlayers"
     //% missionNumber.defl=MissionNumber.Mission1
-    //% message.defl="ボタンを おそう"
-    //% missionType.defl=MissionType.Button
-    //% requiredPlayers.defl=1 requiredPlayers.min=1 requiredPlayers.max=5
+    //% buttonType.defl=ButtonType.Oak
     //% durationSec.shadow=cmk_mission_duration
+    //% message.defl="ボタンを おそう"
+    //% requiredPlayers.defl=1 requiredPlayers.min=1 requiredPlayers.max=5
+    //% expandableArgumentMode="enabled"
     //% inlineInputMode=external
     //% group="せってい"
     //% weight=100
     export function missionSettings(
         missionNumber: MissionNumber,
-        message: string,
-        missionType: MissionType,
-        requiredPlayers: number,
-        durationSec: number
+        buttonType: ButtonType,
+        durationSec: number,
+        message?: string,
+        requiredPlayers?: number
     ): void {
-        runMission(missionNumber, message, missionType, requiredPlayers, durationSec)
+        runMission(
+            missionNumber,
+            message || "ボタンを おそう",
+            MissionType.Button,
+            buttonType,
+            requiredPlayers || 1,
+            durationSec
+        )
     }
 
     //% blockId=cmk_on_mission_timeout
-    //% block="ミッション $missionNumber が じかんぎれの とき"
+    //% block="ミッション $missionNumber の せいげん じかんが きた とき"
     //% missionNumber.defl=MissionNumber.Mission1
     //% group="イベント"
     //% weight=99
@@ -1049,7 +1063,7 @@ namespace Missions {
     }
 
     //% blockId=cmk_on_mission_button_pressed
-    //% block="$buttonType の ボタンを おした とき"
+    //% block="$buttonType の ボタンが おされていた とき"
     //% buttonType.defl=ButtonType.Oak
     //% group="イベント"
     //% weight=98
@@ -1060,18 +1074,20 @@ namespace Missions {
         })
     }
 
-    //% blockId=cmk_mission_success block="ミッションを せいこうに する"
+    //% blockId=cmk_mission_success block="ミッションの 成功を $target に お知らせする"
+    //% target.shadow=cmk_player_selector
     //% group="けっか"
     //% weight=100
-    export function succeed(): void {
-        sendCommand("scriptevent cmk:mission_success")
+    export function succeed(target: number = PlayerSelector.Self): void {
+        sendCommand("scriptevent cmk:mission_success " + target)
     }
 
-    //% blockId=cmk_mission_fail block="ミッションを しっぱいに する"
+    //% blockId=cmk_mission_fail block="ミッションの 失敗を $target に おしらせする"
+    //% target.shadow=cmk_player_selector
     //% group="けっか"
     //% weight=99
-    export function fail(): void {
-        sendCommand("scriptevent cmk:mission_fail")
+    export function fail(target: number = PlayerSelector.Self): void {
+        sendCommand("scriptevent cmk:mission_fail " + target)
     }
 
     //% blockId=cmk_on_mission_finished
@@ -1097,6 +1113,7 @@ namespace Missions {
         missionNumber: MissionNumber,
         message: string,
         missionType: MissionType,
+        buttonType: ButtonType,
         requiredPlayers: number,
         durationSec: number
     ): void {
@@ -1115,7 +1132,7 @@ namespace Missions {
         sendCommand("scoreboard players set @s g_mission_number " + currentMissionNumber)
         sendCommand("scoreboard players set @s g_mission_type " + missionType)
         sendCommand("scoreboard players set @s g_mission_duration " + durationSec)
-        sendCommand("scriptevent cmk:mission_register " + missionNumber + "|" + currentMissionTrigger + "|" + missionType + "|" + durationSec + "|" + requiredPlayers + "|" + message)
+        sendCommand("scriptevent cmk:mission_register " + missionNumber + "|" + currentMissionTrigger + "|" + missionType + "|" + durationSec + "|" + requiredPlayers + "|" + buttonType + "|" + message)
 
         while (missionResult == 0) {
             loops.pause(100)
@@ -1132,7 +1149,7 @@ namespace Missions {
     }
 
     //% blockId=cmk_button_was_pressed
-    //% block="$buttonType の ボタンが おされた"
+    //% block="$buttonType の ボタンが おされていた"
     //% buttonType.defl=ButtonType.Oak
     //% group="けっか"
     //% weight=93

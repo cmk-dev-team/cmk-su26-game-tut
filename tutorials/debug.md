@@ -1,4 +1,4 @@
-﻿# CMK繧ｲ繝ｼ繝 繝・ヰ繝・げ逕ｨ
+﻿# CMKゲーム デバッグ用
 
 ### @explicitHints true
 
@@ -10,9 +10,9 @@ cmk-su26-game-tut=github:cmk-dev-team/cmk-su26-game-tut
 //
 ```
 
-## 縺ｯ縺倥ａ縺ｫ @showdialog
+## はじめに @showdialog
 
-諡｡蠑ｵ繝悶Ο繝・け縺縺代ｒ遒ｺ隱阪☆繧九◆繧√・繝・ヰ繝・げ逕ｨ繝√Η繝ｼ繝医Μ繧｢繝ｫ縺ｧ縺吶・
+拡張ブロックだけを確認するためのデバッグ用チュートリアルです。
 ```ghost
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
@@ -58,12 +58,12 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
+Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
-## 繝励Ξ繧､繝､繝ｼ
+## プレイヤー
 
-繝励Ξ繧､繝､繝ｼ繧ｫ繝・ざ繝ｪ縺ｮ陦ｨ遉ｺ遒ｺ隱咲畑縺ｧ縺吶・
+プレイヤーカテゴリの表示確認用です。
 ```ghost
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
@@ -109,15 +109,15 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
+Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
 ```blocks
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 ```
 
-## 縺ｸ繧薙☆縺・
-縺ｸ繧薙☆縺・き繝・ざ繝ｪ縺ｮ陦ｨ遉ｺ遒ｺ隱咲畑縺ｧ縺吶・
+## へんすう
+へんすうカテゴリの表示確認用です。
 ```ghost
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
@@ -163,7 +163,7 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
+Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
 ```blocks
@@ -172,9 +172,9 @@ VariableBlocks.setLives(3)
 VariableBlocks.setBountyStart(0)
 ```
 
-## 繧ｲ繝ｼ繝縺励ｓ縺薙≧
+## ゲームしんこう
 
-繧ｲ繝ｼ繝縺励ｓ縺薙≧繧ｫ繝・ざ繝ｪ縺ｮ陦ｨ遉ｺ遒ｺ隱咲畑縺ｧ縺吶・
+ゲームしんこうカテゴリの表示確認用です。
 ```ghost
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
@@ -220,7 +220,7 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
+Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
 ```blocks
@@ -230,9 +230,9 @@ GameSettings.pauseGame()
 GameSettings.endGame()
 ```
 
-## 繝上Φ繧ｿ繝ｼ
+## ハンター
 
-繝上Φ繧ｿ繝ｼ繧ｫ繝・ざ繝ｪ縺ｮ陦ｨ遉ｺ遒ｺ隱咲畑縺ｧ縺吶・
+ハンターカテゴリの表示確認用です。
 ```ghost
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
@@ -278,7 +278,7 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
+Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
 ```blocks
@@ -289,9 +289,9 @@ PlayerBlocks.currentPosition()
 HunterSettings.removeHunter(HunterRemoveTarget.All)
 ```
 
-## 繝√・繝繧ｨ繝ｪ繧｢
+## チームエリア
 
-繝√・繝繧ｨ繝ｪ繧｢繧ｫ繝・ざ繝ｪ縺ｮ陦ｨ遉ｺ遒ｺ隱咲畑縺ｧ縺吶・
+チームエリアカテゴリの表示確認用です。
 ```ghost
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
@@ -337,7 +337,7 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
+Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
 ```blocks
@@ -347,9 +347,9 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 ```
 
-## 繝溘ャ繧ｷ繝ｧ繝ｳ
+## ミッション
 
-繝溘ャ繧ｷ繝ｧ繝ｳ繧ｫ繝・ざ繝ｪ縺ｮ陦ｨ遉ｺ遒ｺ隱咲畑縺ｧ縺吶・
+ミッションカテゴリの表示確認用です。
 ```ghost
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
@@ -395,12 +395,12 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
+Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
 ```blocks
 PlayerBlocks.onRemainingTime(30, function () {
-    Missions.missionSettings(MissionNumber.Mission1, "繝懊ち繝ｳ繧偵♀縺昴≧", MissionType.Button, 1, 30)
+    Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
 })
 ```
 
