@@ -58,7 +58,7 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
+Missions.missionSettingsWithButton(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
 ## プレイヤー
@@ -109,7 +109,7 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
+Missions.missionSettingsWithButton(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
 ```blocks
@@ -163,7 +163,7 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
+Missions.missionSettingsWithButton(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
 ```blocks
@@ -220,7 +220,7 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
+Missions.missionSettingsWithButton(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
 ```blocks
@@ -278,7 +278,7 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
+Missions.missionSettingsWithButton(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
 ```blocks
@@ -337,7 +337,7 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
+Missions.missionSettingsWithButton(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
 ```blocks
@@ -395,12 +395,12 @@ AreaD.setGate(ZoneColor.Red, GateState.Open)
 AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.onRemainingTime(30, function () {
 })
-Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
+Missions.missionSettingsWithButton(MissionNumber.Mission1, ButtonType.Oak, 30)
 ```
 
 ```blocks
 PlayerBlocks.onRemainingTime(30, function () {
-    Missions.missionSettings(MissionNumber.Mission1, ButtonType.Oak, 30)
+    Missions.missionSettingsWithButton(MissionNumber.Mission1, ButtonType.Oak, 30)
 })
 ```
 

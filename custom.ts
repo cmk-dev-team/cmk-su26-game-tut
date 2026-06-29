@@ -251,7 +251,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.36"
+        return "1.0.37"
     }
 }
 
@@ -1030,9 +1030,50 @@ namespace Missions {
     //% requiredPlayers.defl=1 requiredPlayers.min=1 requiredPlayers.max=5
     //% expandableArgumentMode="enabled"
     //% inlineInputMode=external
+    //% blockHidden=true
     //% group="せってい"
     //% weight=100
     export function missionSettings(
+        missionNumber: MissionNumber,
+        buttonType: any,
+        durationSec: number,
+        message?: any,
+        requiredPlayers?: number
+    ): void {
+        if (typeof buttonType == "string") {
+            runMission(
+                missionNumber,
+                buttonType,
+                MissionType.Button,
+                ButtonType.Oak,
+                typeof message == "number" ? message : 1,
+                requiredPlayers || 10
+            )
+            return
+        }
+
+        runMission(
+            missionNumber,
+            message || "ボタンを おそう",
+            MissionType.Button,
+            buttonType,
+            requiredPlayers || 1,
+            durationSec
+        )
+    }
+
+    //% blockId=cmk_mission_settings_v2
+    //% block="ミッション $missionNumber を せっていして かいしする|ミッションを せいこうに する ボタンの しゅるい： $buttonType|せいげん じかん $durationSec||ないようを ひょうじ $message|クリアに ひつような にんずう $requiredPlayers"
+    //% missionNumber.defl=MissionNumber.Mission1
+    //% buttonType.defl=ButtonType.Oak
+    //% durationSec.shadow=cmk_mission_duration
+    //% message.defl="ボタンを おそう"
+    //% requiredPlayers.defl=1 requiredPlayers.min=1 requiredPlayers.max=5
+    //% expandableArgumentMode="enabled"
+    //% inlineInputMode=external
+    //% group="せってい"
+    //% weight=100
+    export function missionSettingsWithButton(
         missionNumber: MissionNumber,
         buttonType: ButtonType,
         durationSec: number,
