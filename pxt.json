@@ -10,6 +10,7 @@
     "custom.ts",
     "icons.jres",
     "tutorials/v1.md",
+    "tutorials/v2.md",
     "README.md"
   ],
   "public": true,
