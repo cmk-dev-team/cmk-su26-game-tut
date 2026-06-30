@@ -251,7 +251,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.37"
+        return "1.0.38"
     }
 }
 
@@ -267,6 +267,7 @@ namespace VariableBlocks {
     }
 
     //% blockId=cmk_set_countdown block="カウントダウンを $value びょうに する"
+    //% blockHidden=true
     //% value.defl=0 value.min=0 value.max=20
     //% group="せってい"
     //% weight=95
@@ -307,10 +308,17 @@ namespace VariableBlocks {
 }
 
 namespace GameSettings {
-    //% blockId=cmk_start_game block="ゲームを かいしする"
+    //% blockId=cmk_start_game block="ゲームを かいしする|カウントダウンを せってい $countdown びょう"
+    //% countdown.defl=0 countdown.min=0 countdown.max=20
+    //% expandableArgumentMode="enabled"
+    //% inlineInputMode=external
     //% group="ゲーム"
     //% weight=59
-    export function startGame(): void {
+    export function startGame(countdown?: number): void {
+        if (countdown !== undefined) {
+            _countdown = countdown
+        }
+        sendCommand("scoreboard players set @s g_countdown " + _countdown)
         sendCommand(
             "scriptevent cmk:start "
             + _timelimit + "|"
@@ -1104,7 +1112,7 @@ namespace Missions {
     }
 
     //% blockId=cmk_on_mission_button_pressed
-    //% block="$buttonType の ボタンが おされていた とき"
+    //% block="$buttonType の ボタンを おした とき"
     //% buttonType.defl=ButtonType.Oak
     //% group="イベント"
     //% weight=98
@@ -1115,7 +1123,7 @@ namespace Missions {
         })
     }
 
-    //% blockId=cmk_mission_success block="ミッションの 成功を $target に お知らせする"
+    //% blockId=cmk_mission_success block="ミッションの せいこうを $target に おしらせする"
     //% target.shadow=cmk_player_selector
     //% group="けっか"
     //% weight=100
@@ -1123,12 +1131,23 @@ namespace Missions {
         sendCommand("scriptevent cmk:mission_success " + target)
     }
 
-    //% blockId=cmk_mission_fail block="ミッションの 失敗を $target に おしらせする"
+    //% blockId=cmk_mission_fail block="ミッションの しっぱいを $target に おしらせする"
     //% target.shadow=cmk_player_selector
     //% group="けっか"
     //% weight=99
     export function fail(target: number = PlayerSelector.Self): void {
         sendCommand("scriptevent cmk:mission_fail " + target)
+    }
+
+    //% blockId=cmk_mission_if block="もし $condition なら"
+    //% condition.shadow=cmk_button_was_pressed
+    //% handlerStatement=1
+    //% group="けっか"
+    //% weight=98
+    export function ifCondition(condition: boolean, handler: () => void): void {
+        if (condition) {
+            handler()
+        }
     }
 
     //% blockId=cmk_on_mission_finished
