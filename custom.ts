@@ -251,7 +251,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.44"
+        return "1.0.45"
     }
 }
 
@@ -931,6 +931,7 @@ namespace Missions {
         cherryButtonPressed = false
         bambooButtonPressed = false
         stoneButtonPressed = false
+        sendCommand("scriptevent cmk:reset_btn")
     }
 
     function setMissionTimedOut(missionNumber: MissionNumber): void {
