@@ -251,7 +251,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.40"
+        return "1.0.41"
     }
 }
 
@@ -352,7 +352,7 @@ namespace PlayerBlocks {
     }
 
     //% blockId=cmk_on_chat_command block="チャットコマンド $command を にゅうりょくした とき"
-    //% command.defl="run"
+    //% command.defl="go"
     //% group="イベント"
     //% weight=55
     export function onChatCommand(command: string, handler: () => void): void {
@@ -950,27 +950,27 @@ namespace Missions {
         return "stone"
     }
 
-    function setButtonPressed(buttonType: ButtonType): void {
+    function setButtonPressed(buttonType: ButtonType, pressed: boolean): void {
         if (buttonType == ButtonType.Oak) {
-            oakButtonPressed = true
+            oakButtonPressed = pressed
         } else if (buttonType == ButtonType.Spruce) {
-            spruceButtonPressed = true
+            spruceButtonPressed = pressed
         } else if (buttonType == ButtonType.Birch) {
-            birchButtonPressed = true
+            birchButtonPressed = pressed
         } else if (buttonType == ButtonType.Jungle) {
-            jungleButtonPressed = true
+            jungleButtonPressed = pressed
         } else if (buttonType == ButtonType.Acacia) {
-            acaciaButtonPressed = true
+            acaciaButtonPressed = pressed
         } else if (buttonType == ButtonType.DarkOak) {
-            darkOakButtonPressed = true
+            darkOakButtonPressed = pressed
         } else if (buttonType == ButtonType.Mangrove) {
-            mangroveButtonPressed = true
+            mangroveButtonPressed = pressed
         } else if (buttonType == ButtonType.Cherry) {
-            cherryButtonPressed = true
+            cherryButtonPressed = pressed
         } else if (buttonType == ButtonType.Bamboo) {
-            bambooButtonPressed = true
+            bambooButtonPressed = pressed
         } else {
-            stoneButtonPressed = true
+            stoneButtonPressed = pressed
         }
     }
 
@@ -1118,7 +1118,7 @@ namespace Missions {
     //% weight=98
     export function onButtonPressed(buttonType: ButtonType, handler: () => void): void {
         player.onTellCommand("button_pressed_" + getButtonTypeKey(buttonType), function () {
-            setButtonPressed(buttonType)
+            setButtonPressed(buttonType, true)
             handler()
         })
     }
@@ -1216,6 +1216,15 @@ namespace Missions {
     //% weight=93
     export function buttonWasPressed(buttonType: ButtonType): boolean {
         return hasButtonPressed(buttonType)
+    }
+
+    //% blockId=cmk_reset_button_state
+    //% block="$buttonType の ボタンの じょうたいを リセットする"
+    //% buttonType.defl=ButtonType.Oak
+    //% group="けっか"
+    //% weight=92
+    export function resetButtonState(buttonType: ButtonType): void {
+        setButtonPressed(buttonType, false)
     }
 
     //% blockId=cmk_effect_slow block="$target に スピード ていか $level を $seconds びょう つける"

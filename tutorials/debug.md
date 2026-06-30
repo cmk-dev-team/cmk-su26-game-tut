@@ -22,7 +22,7 @@ if (Missions.buttonWasPressed(ButtonType.Oak)) {
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("run", function () {
+PlayerBlocks.onChatCommand("go", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -72,7 +72,7 @@ Missions.missionSettingsWithButton(MissionNumber.Mission1, ButtonType.Oak, 30)
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("run", function () {
+PlayerBlocks.onChatCommand("go", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -125,7 +125,7 @@ PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("run", function () {
+PlayerBlocks.onChatCommand("go", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -181,7 +181,7 @@ VariableBlocks.setBountyStart(0)
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("run", function () {
+PlayerBlocks.onChatCommand("go", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -237,7 +237,7 @@ GameSettings.endGame()
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("run", function () {
+PlayerBlocks.onChatCommand("go", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -295,7 +295,7 @@ HunterSettings.removeHunter(HunterRemoveTarget.All)
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("run", function () {
+PlayerBlocks.onChatCommand("go", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -352,7 +352,7 @@ AreaD.setGate(ZoneColor.Red, GateState.Closed)
 PlayerBlocks.setGameMode(MinecraftGameMode.Adventure)
 PlayerBlocks.onPlayerCaught(function () {
 })
-PlayerBlocks.onChatCommand("run", function () {
+PlayerBlocks.onChatCommand("go", function () {
 })
 PlayerBlocks.onRemainingTime(30, function () {
 })
@@ -399,9 +399,12 @@ Missions.missionSettingsWithButton(MissionNumber.Mission1, ButtonType.Oak, 30)
 PlayerBlocks.onRemainingTime(30, function () {
     Missions.missionSettingsWithButton(MissionNumber.Mission1, ButtonType.Oak, 30)
 })
+Missions.onButtonPressed(ButtonType.Oak, function () {
+})
 if (Missions.buttonWasPressed(ButtonType.Oak)) {
     Missions.succeed(PlayerSelector.Self)
 }
+Missions.resetButtonState(ButtonType.Oak)
 ```
 
 
