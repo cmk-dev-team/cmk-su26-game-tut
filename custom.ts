@@ -251,7 +251,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.41"
+        return "1.0.42"
     }
 }
 
@@ -352,7 +352,7 @@ namespace PlayerBlocks {
     }
 
     //% blockId=cmk_on_chat_command block="チャットコマンド $command を にゅうりょくした とき"
-    //% command.defl="go"
+    //% command.defl="run"
     //% group="イベント"
     //% weight=55
     export function onChatCommand(command: string, handler: () => void): void {
