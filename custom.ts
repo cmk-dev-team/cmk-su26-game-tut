@@ -251,7 +251,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.39"
+        return "1.0.40"
     }
 }
 
@@ -1140,6 +1140,7 @@ namespace Missions {
     }
 
     //% blockId=cmk_mission_if block="もし $condition なら"
+    //% blockHidden=true
     //% condition.shadow=cmk_button_was_pressed
     //% handlerStatement=1
     //% group="けっか"

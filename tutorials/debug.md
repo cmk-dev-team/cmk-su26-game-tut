@@ -6,6 +6,11 @@
 cmk-su26-game-tut=github:cmk-dev-team/cmk-su26-game-tut
 ```
 
+```blockconfig.global
+if (Missions.buttonWasPressed(ButtonType.Oak)) {
+}
+```
+
 ```template
 //
 ```
@@ -394,9 +399,9 @@ Missions.missionSettingsWithButton(MissionNumber.Mission1, ButtonType.Oak, 30)
 PlayerBlocks.onRemainingTime(30, function () {
     Missions.missionSettingsWithButton(MissionNumber.Mission1, ButtonType.Oak, 30)
 })
-Missions.ifCondition(Missions.buttonWasPressed(ButtonType.Oak), function () {
+if (Missions.buttonWasPressed(ButtonType.Oak)) {
     Missions.succeed(PlayerSelector.Self)
-})
+}
 ```
 
 
