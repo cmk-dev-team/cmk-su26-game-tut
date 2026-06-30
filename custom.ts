@@ -251,7 +251,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.38"
+        return "1.0.39"
     }
 }
 
@@ -308,7 +308,7 @@ namespace VariableBlocks {
 }
 
 namespace GameSettings {
-    //% blockId=cmk_start_game block="ゲームを かいしする|カウントダウンを せってい $countdown びょう"
+    //% blockId=cmk_start_game block="ゲームを かいしする||カウントダウンを せってい $countdown びょう"
     //% countdown.defl=0 countdown.min=0 countdown.max=20
     //% expandableArgumentMode="enabled"
     //% inlineInputMode=external
