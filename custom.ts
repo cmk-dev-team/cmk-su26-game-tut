@@ -251,7 +251,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.43"
+        return "1.0.44"
     }
 }
 
@@ -277,13 +277,29 @@ namespace VariableBlocks {
     }
 }
 
-//% color="#175BB4" weight=100 block="プレイヤー" groups='["せってい", "イベント", "スポーン", "テレポート", "セレクター"]'
+//% color="#175BB4" weight=100 block="プレイヤー" groups='["せってい", "ひょうじ", "イベント", "スポーン", "テレポート", "セレクター"]'
 namespace PlayerBlocks {
     //% blockId=cmk_set_game_mode block="ゲームモードを $mode に する"
     //% group="せってい"
     //% weight=95
     export function setGameMode(mode: MinecraftGameMode): void {
         sendCommand("gamemode " + getMinecraftGameModeCommand(mode) + " @s")
+    }
+
+    //% blockId=cmk_send_message block="メッセージ $message を おくる"
+    //% message.defl="こんにちは"
+    //% group="ひょうじ"
+    //% weight=90
+    export function sendMessage(message: string): void {
+        player.say(message)
+    }
+
+    //% blockId=cmk_show_title block="タイトル $title を ひょうじする"
+    //% title.defl="スタート"
+    //% group="ひょうじ"
+    //% weight=89
+    export function showTitle(title: string): void {
+        sendCommand("title @s title " + title)
     }
 }
 

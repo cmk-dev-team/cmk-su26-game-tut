@@ -15,9 +15,76 @@ for (let index = 0; index < 4; index++) {
 ```
 
 ```template
-//
+PlayerBlocks.onChatCommand("run", function () {
+})
 ```
 
 ## ゲームづくりコース
 
 わからないところはせんせいにきいてみよう！
+
+```ghost
+Missions.onMissionTimeout(MissionNumber.Mission1, function () {
+    for (let index = 0; index < 4; index++) {
+    }
+})
+PlayerBlocks.onChatCommand("run", function () {
+    PlayerBlocks.sendMessage("こんにちは")
+    PlayerBlocks.showTitle("スタート")
+    PlayerBlocks.teleport(
+        PlayerBlocks.selector(PlayerSelector.Self),
+        PlayerBlocks.worldPosition(0, 0, 0)
+    )
+})
+PlayerBlocks.onPlayerCaught(function () {
+    PlayerBlocks.setGameMode(MinecraftGameMode.Creative)
+    HunterSettings.setSpeed(HunterLevel.Lv1, HunterRemoveTarget.All)
+    HunterSettings.setStrength(HunterSightRange.Range16, HunterRemoveTarget.All)
+    HunterSettings.stopHunters(HunterRemoveTarget.All)
+    HunterSettings.resumeHunters(HunterRemoveTarget.All)
+    HunterSettings.spawnHunterAtTarget(
+        HunterType.HunterA,
+        PlayerBlocks.selector(PlayerSelector.Self)
+    )
+    HunterSettings.spawnHunterAt(HunterType.HunterA, PlayerBlocks.currentPosition())
+    HunterSettings.spawnHunterAt(
+        HunterType.HunterA,
+        PlayerBlocks.worldPosition(0, 0, 0)
+    )
+    HunterSettings.removeHunter(HunterRemoveTarget.All)
+})
+PlayerBlocks.onRemainingTime(30, function () {
+    VariableBlocks.changeBounty(100, BountyChange.Increase)
+    VariableBlocks.changeLives(TargetPlayer.Self, 1, BountyChange.Increase)
+    VariableBlocks.changeTimeLimit(VariableBlocks.timeLimit(), BountyChange.Increase)
+    VariableBlocks.setBountyIncrement(
+        BountyChange.Increase,
+        VariableBlocks.bountyIncrement()
+    )
+    VariableBlocks.setBountyStart(VariableBlocks.bountyStart())
+    VariableBlocks.setLives(VariableBlocks.lives())
+    VariableBlocks.setTimeLimit(5)
+    GameSettings.pauseGame()
+    GameSettings.startGame()
+    GameSettings.endGame()
+})
+Missions.onButtonPressed(ButtonType.Oak, function () {
+    Missions.missionSettingsWithButton(
+        MissionNumber.Mission1,
+        ButtonType.Oak,
+        Missions.missionDuration(10)
+    )
+    Missions.succeed(PlayerBlocks.selector(PlayerSelector.Self))
+    Missions.fail(PlayerBlocks.selector(PlayerSelector.Self))
+    Missions.resetButtonState(ButtonType.Oak)
+    if (Missions.missionTimedOut(MissionNumber.Mission1)) {
+        AreaA.setGate(ZoneColor.Red, GateState.Open)
+        AreaB.setGate(ZoneColor.Red, GateState.Open)
+    } else if (Missions.buttonWasPressed(ButtonType.Oak)) {
+        AreaC.setGate(ZoneColor.Red, GateState.Open)
+        AreaD.setGate(ZoneColor.Red, GateState.Open)
+    }
+    BuildingBlocks.build(BuildingType.WhiteHouse)
+    BuildingBlocks.removeSelectedBuilding()
+})
+```
