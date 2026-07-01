@@ -253,7 +253,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.52"
+        return "1.0.53"
     }
 }
 
@@ -1295,6 +1295,7 @@ namespace Missions {
     //% weight=92
     export function resetButtonState(buttonType: ButtonType): void {
         setButtonPressed(buttonType, false)
+        sendCommand("scriptevent cmk:reset_btn " + getButtonTypeKey(buttonType))
     }
 
     //% blockId=cmk_effect_slow block="$target に スピード ていか $level を $seconds びょう つける"
