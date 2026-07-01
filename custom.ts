@@ -1,5 +1,5 @@
 let _timelimit = 5
-let _lives = 3
+let _lives = 1
 let _bountyStart = 0
 let _bountyIncrement = 0
 let _countdown = 0
@@ -253,7 +253,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.51"
+        return "1.0.52"
     }
 }
 
@@ -307,12 +307,12 @@ namespace PlayerBlocks {
 
 namespace VariableBlocks {
     //% blockId=cmk_set_lives block="ざんきを $value に する"
-    //% value.defl=3 value.min=0 value.max=10
+    //% value.defl=1 value.min=1 value.max=10
     //% group="せってい"
     //% weight=90
     export function setLives(value: number): void {
-        _lives = value
-        sendCommand("scoreboard players set @s g_lives_default " + value)
+        _lives = Math.max(1, value)
+        sendCommand("scoreboard players set @s g_lives_default " + _lives)
     }
 
     //% blockId=cmk_set_bounty_start block="しょうきんを $value に する"
@@ -320,8 +320,8 @@ namespace VariableBlocks {
     //% group="せってい"
     //% weight=80
     export function setBountyStart(value: number): void {
-        _bountyStart = value
-        sendCommand("scoreboard players set @s g_bounty_start " + value)
+        _bountyStart = Math.max(0, value)
+        sendCommand("scriptevent cmk:bounty_set " + _bountyStart)
     }
 }
 
@@ -1044,13 +1044,6 @@ namespace Missions {
     //% weight=110
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
         let triggeredGeneration = -1
-        player.say(
-            "CMK DEBUG: "
-            + player.name()
-            + " が remaining_"
-            + triggerSec
-            + " の監視を開始"
-        )
         loops.forever(function () {
             if (
                 localGameTimerWatchEnabled
@@ -1063,13 +1056,6 @@ namespace Missions {
                 )
             ) {
                 triggeredGeneration = localGameGeneration
-                player.say(
-                    "CMK DEBUG: "
-                    + player.name()
-                    + " の remaining_"
-                    + triggerSec
-                    + " イベントが発火"
-                )
                 currentMissionTrigger = triggerSec
                 missionResult = 0
                 handler()
@@ -1110,7 +1096,7 @@ namespace Missions {
                 missionNumber,
                 buttonType,
                 MissionType.Button,
-                ButtonType.Oak,
+                -1,
                 typeof message == "number" ? message : 1,
                 requiredPlayers || 10
             )
@@ -1121,7 +1107,7 @@ namespace Missions {
             missionNumber,
             message || "ボタンを おそう",
             MissionType.Button,
-            buttonType,
+            -1,
             requiredPlayers || 1,
             durationSec
         )
@@ -1136,6 +1122,7 @@ namespace Missions {
     //% requiredPlayers.defl=1 requiredPlayers.min=1 requiredPlayers.max=5
     //% expandableArgumentMode="enabled"
     //% inlineInputMode=external
+    //% blockHidden=true
     //% group="せってい"
     //% weight=100
     export function missionSettingsWithButton(
@@ -1149,7 +1136,33 @@ namespace Missions {
             missionNumber,
             message || "ボタンを おそう",
             MissionType.Button,
-            buttonType,
+            -1,
+            requiredPlayers || 1,
+            durationSec
+        )
+    }
+
+    //% blockId=cmk_mission_settings_v3
+    //% block="ミッション $missionNumber を せっていして かいしする|せいげん じかん $durationSec||ないようを ひょうじ $message|クリアに ひつような にんずう $requiredPlayers"
+    //% missionNumber.defl=MissionNumber.Mission1
+    //% durationSec.shadow=cmk_mission_duration
+    //% message.defl="ボタンを おそう"
+    //% requiredPlayers.defl=1 requiredPlayers.min=1 requiredPlayers.max=5
+    //% expandableArgumentMode="enabled"
+    //% inlineInputMode=external
+    //% group="せってい"
+    //% weight=100
+    export function missionSettingsWithoutButton(
+        missionNumber: MissionNumber,
+        durationSec: number,
+        message?: string,
+        requiredPlayers?: number
+    ): void {
+        runMission(
+            missionNumber,
+            message || "ボタンを おそう",
+            MissionType.Button,
+            -1,
             requiredPlayers || 1,
             durationSec
         )
@@ -1231,7 +1244,7 @@ namespace Missions {
         missionNumber: MissionNumber,
         message: string,
         missionType: MissionType,
-        buttonType: ButtonType,
+        buttonType: number,
         requiredPlayers: number,
         durationSec: number
     ): void {
