@@ -251,7 +251,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.48"
+        return "1.0.49"
     }
 }
 
@@ -1032,6 +1032,13 @@ namespace Missions {
     //% weight=110
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
         player.onTellCommand("remaining_" + triggerSec, function () {
+            player.say(
+                "[CMK DEBUG] "
+                + player.name()
+                + " の remaining_"
+                + triggerSec
+                + " イベントが発火"
+            )
             currentMissionTrigger = triggerSec
             missionResult = 0
             handler()
