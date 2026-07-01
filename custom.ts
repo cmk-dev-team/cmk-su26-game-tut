@@ -253,7 +253,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.53"
+        return "1.0.54"
     }
 }
 
@@ -289,6 +289,7 @@ namespace PlayerBlocks {
     }
 
     //% blockId=cmk_send_message block="メッセージ $message を おくる"
+    //% blockHidden=true
     //% message.defl="こんにちは"
     //% group="ひょうじ"
     //% weight=90
@@ -297,11 +298,30 @@ namespace PlayerBlocks {
     }
 
     //% blockId=cmk_show_title block="タイトル $title を ひょうじする"
+    //% blockHidden=true
     //% title.defl="スタート"
     //% group="ひょうじ"
     //% weight=89
     export function showTitle(title: string): void {
         sendCommand("title @s title " + title)
+    }
+
+    //% blockId=cmk_send_message_v2 block="$target に メッセージ $message を おくる"
+    //% target.shadow=cmk_player_selector
+    //% message.defl="こんにちは"
+    //% group="ひょうじ"
+    //% weight=90
+    export function sendMessageTo(target: number, message: string): void {
+        sendCommand("scriptevent cmk:send_message " + target + "|" + message)
+    }
+
+    //% blockId=cmk_show_title_v2 block="$target に タイトル $title を ひょうじする"
+    //% target.shadow=cmk_player_selector
+    //% title.defl="スタート"
+    //% group="ひょうじ"
+    //% weight=89
+    export function showTitleTo(target: number, title: string): void {
+        sendCommand("scriptevent cmk:show_title " + target + "|" + title)
     }
 }
 
@@ -404,7 +424,7 @@ namespace PlayerBlocks {
         return player.position()
     }
 
-    //% blockId=cmk_world_position block="$x $y $z"
+    //% blockId=cmk_world_position block="ワールド $x $y $z"
     //% x.defl=0 y.defl=0 z.defl=0
     //% group="スポーン"
     //% weight=52
@@ -566,7 +586,7 @@ namespace VariableBlocks {
         sendCommand("scriptevent cmk:bounty_add " + value)
     }
 
-    //% blockId=cmk_set_bounty_increment block="1びょうごとの しょうきんを $mode $value に する"
+    //% blockId=cmk_set_bounty_increment block="1びょうごとの しょうきんを $value $mode"
     //% mode.defl=BountyChange.Increase
     //% value.defl=100 value.min=0 value.max=10000
     //% group="せってい"
@@ -1169,7 +1189,7 @@ namespace Missions {
     }
 
     //% blockId=cmk_on_mission_timeout
-    //% block="ミッション $missionNumber の せいげん じかんが きた とき"
+    //% block="ミッション $missionNumber が じかんぎれに なった とき"
     //% missionNumber.defl=MissionNumber.Mission1
     //% group="イベント"
     //% weight=99
