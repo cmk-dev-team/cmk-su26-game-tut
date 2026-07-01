@@ -3,6 +3,8 @@ let _lives = 3
 let _bountyStart = 0
 let _bountyIncrement = 0
 let _countdown = 0
+let localGameGeneration = 0
+let localGameTimerWatchEnabled = false
 
 function sendCommand(command: string): void {
     player.execute(command)
@@ -251,7 +253,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.49"
+        return "1.0.50"
     }
 }
 
@@ -334,6 +336,9 @@ namespace GameSettings {
         if (countdown !== undefined) {
             _countdown = countdown
         }
+        localGameGeneration++
+        const startingGeneration = localGameGeneration
+        localGameTimerWatchEnabled = false
         sendCommand("scoreboard players set @s g_countdown " + _countdown)
         sendCommand(
             "scriptevent cmk:start "
@@ -343,6 +348,12 @@ namespace GameSettings {
             + _bountyStart + "|"
             + _bountyIncrement
         )
+        loops.runInBackground(function () {
+            loops.pause(250)
+            if (localGameGeneration == startingGeneration) {
+                localGameTimerWatchEnabled = true
+            }
+        })
     }
 
     //% blockId=cmk_pause_game block="ゲームを いちじ ていしする"
@@ -356,6 +367,7 @@ namespace GameSettings {
     //% group="ゲーム"
     //% weight=57
     export function endGame(): void {
+        localGameTimerWatchEnabled = false
         sendCommand("scriptevent cmk:stop")
     }
 }
@@ -1031,19 +1043,39 @@ namespace Missions {
     //% group="イベント"
     //% weight=110
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
-        player.onTellCommand("remaining_" + triggerSec, function () {
-            player.say(
-                "[CMK DEBUG] "
-                + player.name()
-                + " の remaining_"
-                + triggerSec
-                + " イベントが発火"
-            )
-            currentMissionTrigger = triggerSec
-            missionResult = 0
-            handler()
+        let triggeredGeneration = -1
+        player.say(
+            "[CMK DEBUG] "
+            + player.name()
+            + " が remaining_"
+            + triggerSec
+            + " の監視を開始"
+        )
+        loops.forever(function () {
+            if (
+                localGameTimerWatchEnabled
+                && triggeredGeneration != localGameGeneration
+                && player.execute(
+                    "scoreboard players test @s g_timer "
+                    + triggerSec
+                    + " "
+                    + triggerSec
+                )
+            ) {
+                triggeredGeneration = localGameGeneration
+                player.say(
+                    "[CMK DEBUG] "
+                    + player.name()
+                    + " の remaining_"
+                    + triggerSec
+                    + " イベントが発火"
+                )
+                currentMissionTrigger = triggerSec
+                missionResult = 0
+                handler()
+            }
+            loops.pause(100)
         })
-        sendCommand("scriptevent cmk:register_remaining " + player.name() + "|" + triggerSec)
     }
 
     //% blockId=cmk_mission_duration block="$seconds びょう"
