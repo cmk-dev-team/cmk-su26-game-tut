@@ -253,7 +253,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.54"
+        return "1.0.55"
     }
 }
 
@@ -1194,7 +1194,10 @@ namespace Missions {
     //% group="イベント"
     //% weight=99
     export function onMissionTimeout(missionNumber: MissionNumber, handler: () => void): void {
-        player.onTellCommand("mission_timeout_" + missionNumber, function () {
+        const command = "mission_timeout_" + missionNumber
+        player.say("CMK_DEBUG|REGISTER|" + command)
+        player.onTellCommand(command, function () {
+            player.say("CMK_DEBUG|RECEIVE|" + command)
             currentMissionNumber = missionNumber
             setMissionTimedOut(missionNumber)
             handler()
@@ -1207,7 +1210,10 @@ namespace Missions {
     //% group="イベント"
     //% weight=98
     export function onButtonPressed(buttonType: ButtonType, handler: () => void): void {
-        player.onTellCommand("button_pressed_" + getButtonTypeKey(buttonType), function () {
+        const command = "button_pressed_" + getButtonTypeKey(buttonType)
+        player.say("CMK_DEBUG|REGISTER|" + command)
+        player.onTellCommand(command, function () {
+            player.say("CMK_DEBUG|RECEIVE|" + command)
             setButtonPressed(buttonType, true)
             handler()
         })
