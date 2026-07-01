@@ -253,7 +253,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.55"
+        return "1.0.56"
     }
 }
 
@@ -1000,6 +1000,20 @@ namespace Missions {
         return "stone"
     }
 
+    function watchScoreToggle(objectiveId: string, command: string, handler: () => void): void {
+        let lastValue = player.execute("scoreboard players test @s " + objectiveId + " 1 1")
+        player.say("CMK_DEBUG|REGISTER|" + command)
+        loops.forever(function () {
+            const currentValue = player.execute("scoreboard players test @s " + objectiveId + " 1 1")
+            if (currentValue != lastValue) {
+                lastValue = currentValue
+                player.say("CMK_DEBUG|RECEIVE|" + command)
+                handler()
+            }
+            loops.pause(100)
+        })
+    }
+
     function setButtonPressed(buttonType: ButtonType, pressed: boolean): void {
         if (buttonType == ButtonType.Oak) {
             oakButtonPressed = pressed
@@ -1195,9 +1209,7 @@ namespace Missions {
     //% weight=99
     export function onMissionTimeout(missionNumber: MissionNumber, handler: () => void): void {
         const command = "mission_timeout_" + missionNumber
-        player.say("CMK_DEBUG|REGISTER|" + command)
-        player.onTellCommand(command, function () {
-            player.say("CMK_DEBUG|RECEIVE|" + command)
+        watchScoreToggle("g_evt_mt" + missionNumber, command, function () {
             currentMissionNumber = missionNumber
             setMissionTimedOut(missionNumber)
             handler()
@@ -1210,10 +1222,9 @@ namespace Missions {
     //% group="イベント"
     //% weight=98
     export function onButtonPressed(buttonType: ButtonType, handler: () => void): void {
-        const command = "button_pressed_" + getButtonTypeKey(buttonType)
-        player.say("CMK_DEBUG|REGISTER|" + command)
-        player.onTellCommand(command, function () {
-            player.say("CMK_DEBUG|RECEIVE|" + command)
+        const buttonTypeKey = getButtonTypeKey(buttonType)
+        const command = "button_pressed_" + buttonTypeKey
+        watchScoreToggle("g_evt_" + buttonTypeKey, command, function () {
             setButtonPressed(buttonType, true)
             handler()
         })
