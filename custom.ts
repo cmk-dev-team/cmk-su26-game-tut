@@ -251,7 +251,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.47"
+        return "1.0.48"
     }
 }
 
@@ -337,6 +337,7 @@ namespace GameSettings {
         sendCommand("scoreboard players set @s g_countdown " + _countdown)
         sendCommand(
             "scriptevent cmk:start "
+            + player.name() + "|"
             + _timelimit + "|"
             + _countdown + "|"
             + _bountyStart + "|"
@@ -1035,7 +1036,7 @@ namespace Missions {
             missionResult = 0
             handler()
         })
-        sendCommand("scriptevent cmk:register_remaining " + triggerSec)
+        sendCommand("scriptevent cmk:register_remaining " + player.name() + "|" + triggerSec)
     }
 
     //% blockId=cmk_mission_duration block="$seconds びょう"
