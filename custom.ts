@@ -253,7 +253,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.50"
+        return "1.0.51"
     }
 }
 
@@ -1045,7 +1045,7 @@ namespace Missions {
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
         let triggeredGeneration = -1
         player.say(
-            "[CMK DEBUG] "
+            "CMK DEBUG: "
             + player.name()
             + " が remaining_"
             + triggerSec
@@ -1064,7 +1064,7 @@ namespace Missions {
             ) {
                 triggeredGeneration = localGameGeneration
                 player.say(
-                    "[CMK DEBUG] "
+                    "CMK DEBUG: "
                     + player.name()
                     + " の remaining_"
                     + triggerSec
