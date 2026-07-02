@@ -145,14 +145,38 @@ enum GateState {
 }
 
 enum BuildingType {
-    //% block="しろいいえ"
-    WhiteHouse = 0,
-    //% block="あおいいえ"
-    BlueHouse = 1,
+    //% block="あかいコンビニ"
+    RedConvenienceStore = 0,
+    //% block="みどりのコンビニ"
+    GreenConvenienceStore = 1,
+    //% block="そらいろテラコッタのビル"
+    LightBlueTerracottaBuilding = 2,
+    //% block="あかいテラコッタのビル"
+    RedTerracottaBuilding = 3,
     //% block="あかいいえ"
-    RedHouse = 2,
-    //% block="いしのとう"
-    StoneTower = 3
+    RedHouse = 4,
+    //% block="みどりのいえ"
+    GreenHouse = 5,
+    //% block="レンガのめいろ"
+    BrickMaze = 6,
+    //% block="おり（タワー）"
+    PrisonTower = 7,
+    //% block="おり（しかく）"
+    PrisonSquare = 8,
+    //% block="いけ"
+    Pond = 9,
+    //% block="しげみ"
+    Bushes = 10,
+    //% block="トンネル"
+    Tunnel = 11,
+    //% block="まるいしタワー"
+    CobblestoneTower = 12,
+    //% block="しぜん"
+    Nature = 13,
+    //% block="エンダーマンのぞう"
+    EndermanStatue = 14,
+    //% block="おおきなさぎょうだい"
+    LargeCraftingTable = 15
 }
 
 enum TargetPlayer {
@@ -253,7 +277,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.58"
+        return "1.0.59"
     }
 }
 
@@ -868,7 +892,7 @@ namespace AreaD {
 //% color="#C58B45" weight=83 block="けんちく" groups='["たてる", "さくじょ"]'
 namespace BuildingBlocks {
     //% blockId=cmk_build_structure block="あしもとに あかいネザーレンガブロック があったら|たてもの $building をたてる"
-    //% building.defl=BuildingType.WhiteHouse
+    //% building.defl=BuildingType.RedConvenienceStore
     //% inlineInputMode="external"
     //% group="たてる"
     //% weight=110
@@ -881,7 +905,7 @@ namespace BuildingBlocks {
     //% group="たてる"
     //% weight=100
     export function buildWhiteHouse(): void {
-        sendCommand("scriptevent cmk:building_place 0")
+        sendCommand("scriptevent cmk:building_place 16")
     }
 
     //% blockId=cmk_build_blue_house block="あしもとに あおみどりいろのようもう ブロックがあったら たてもの あおいいえ をたてる"
@@ -889,7 +913,7 @@ namespace BuildingBlocks {
     //% group="たてる"
     //% weight=90
     export function buildBlueHouse(): void {
-        sendCommand("scriptevent cmk:building_place 1")
+        sendCommand("scriptevent cmk:building_place 17")
     }
 
     //% blockId=cmk_build_red_house block="あしもとに あかいネザーレンガ ブロックがあったら たてもの あかいいえ をたてる"
@@ -897,7 +921,7 @@ namespace BuildingBlocks {
     //% group="たてる"
     //% weight=80
     export function buildRedHouse(): void {
-        sendCommand("scriptevent cmk:building_place 2")
+        sendCommand("scriptevent cmk:building_place 18")
     }
 
     //% blockId=cmk_build_stone_tower block="あしもとに いしレンガ ブロックがあったら たてもの いしのとう をたてる"
@@ -905,7 +929,7 @@ namespace BuildingBlocks {
     //% group="たてる"
     //% weight=70
     export function buildStoneTower(): void {
-        sendCommand("scriptevent cmk:building_place 3")
+        sendCommand("scriptevent cmk:building_place 19")
     }
 
     //% blockId=cmk_remove_selected_building block="あしもとに あかいネザーレンガブロック があったら|そのばしょの たてものを さくじょする"
