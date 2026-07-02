@@ -293,7 +293,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.62"
+        return "1.0.63"
     }
 }
 
@@ -965,8 +965,6 @@ namespace BuildingBlocks {
     }
 }
 
-//% color="#2FB3D0" weight=89 block="ミッション" groups='["イベント", "せってい", "けっか"]'
-//% blockHidden=true
 namespace Missions {
     let currentMissionNumber = MissionNumber.Mission1
     let currentMissionTrigger = 0
