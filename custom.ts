@@ -277,7 +277,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.59"
+        return "1.0.60"
     }
 }
 
@@ -425,7 +425,7 @@ namespace PlayerBlocks {
     }
 
     //% blockId=cmk_on_chat_command block="チャットコマンド $command を にゅうりょくした とき"
-    //% command.defl="run"
+    //% command.defl="go"
     //% group="イベント"
     //% weight=55
     export function onChatCommand(command: string, handler: () => void): void {
@@ -948,6 +948,7 @@ namespace BuildingBlocks {
 }
 
 //% color="#2FB3D0" weight=89 block="ミッション" groups='["イベント", "せってい", "けっか"]'
+//% blockHidden=true
 namespace Missions {
     let currentMissionNumber = MissionNumber.Mission1
     let currentMissionTrigger = 0
