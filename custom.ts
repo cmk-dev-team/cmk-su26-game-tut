@@ -293,7 +293,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.63"
+        return "1.0.64"
     }
 }
 
@@ -1122,9 +1122,9 @@ namespace Missions {
                 localGameTimerWatchEnabled
                 && triggeredGeneration != localGameGeneration
                 && player.execute(
-                    "scoreboard players test @s g_timer "
-                    + triggerSec
-                    + " "
+                    // Keep the condition true after the threshold is crossed so
+                    // delayed polling cannot permanently miss the event.
+                    "scoreboard players test @s g_timer 0 "
                     + triggerSec
                 )
             ) {
