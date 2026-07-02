@@ -253,7 +253,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.57"
+        return "1.0.58"
     }
 }
 
@@ -636,7 +636,7 @@ namespace VariableBlocks {
     }
 }
 
-//% color="#303030" weight=90 block="ハンター" groups='["せってい", "そうさ", "スポーン", "セレクター", "さくじょ"]'
+//% color="#5B2A86" weight=90 block="ハンター" groups='["せってい", "そうさ", "スポーン", "セレクター", "さくじょ"]'
 namespace HunterSettings {
     //% blockId=cmk_set_hunter_speed block="$target の すばやさを $level に する"
     //% level.defl=HunterLevel.Lv1
