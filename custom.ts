@@ -277,7 +277,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.60"
+        return "1.0.61"
     }
 }
 
@@ -1207,6 +1207,7 @@ namespace Missions {
     //% requiredPlayers.defl=1 requiredPlayers.min=1 requiredPlayers.max=5
     //% expandableArgumentMode="enabled"
     //% inlineInputMode=external
+    //% blockHidden=true
     //% group="せってい"
     //% weight=100
     export function missionSettingsWithoutButton(
@@ -1228,6 +1229,7 @@ namespace Missions {
     //% blockId=cmk_on_mission_timeout
     //% block="ミッション $missionNumber が じかんぎれに なった とき"
     //% missionNumber.defl=MissionNumber.Mission1
+    //% blockHidden=true
     //% group="イベント"
     //% weight=99
     export function onMissionTimeout(missionNumber: MissionNumber, handler: () => void): void {
@@ -1241,6 +1243,7 @@ namespace Missions {
     //% blockId=cmk_on_mission_button_pressed
     //% block="$buttonType の ボタンを おした とき"
     //% buttonType.defl=ButtonType.Oak
+    //% blockHidden=true
     //% group="イベント"
     //% weight=98
     export function onButtonPressed(buttonType: ButtonType, handler: () => void): void {
@@ -1253,6 +1256,7 @@ namespace Missions {
 
     //% blockId=cmk_mission_success block="ミッションの せいこうを $target に おしらせする"
     //% target.shadow=cmk_player_selector
+    //% blockHidden=true
     //% group="けっか"
     //% weight=100
     export function succeed(target: number = PlayerSelector.Self): void {
@@ -1261,6 +1265,7 @@ namespace Missions {
 
     //% blockId=cmk_mission_fail block="ミッションの しっぱいを $target に おしらせする"
     //% target.shadow=cmk_player_selector
+    //% blockHidden=true
     //% group="けっか"
     //% weight=99
     export function fail(target: number = PlayerSelector.Self): void {
@@ -1331,6 +1336,7 @@ namespace Missions {
     //% blockId=cmk_mission_timed_out
     //% block="ミッション $missionNumber が じかんぎれに なった"
     //% missionNumber.defl=MissionNumber.Mission1
+    //% blockHidden=true
     //% group="けっか"
     //% weight=94
     export function missionTimedOut(missionNumber: MissionNumber): boolean {
@@ -1340,6 +1346,7 @@ namespace Missions {
     //% blockId=cmk_button_was_pressed
     //% block="$buttonType の ボタンが おされていた"
     //% buttonType.defl=ButtonType.Oak
+    //% blockHidden=true
     //% group="けっか"
     //% weight=93
     export function buttonWasPressed(buttonType: ButtonType): boolean {
@@ -1349,6 +1356,7 @@ namespace Missions {
     //% blockId=cmk_reset_button_state
     //% block="$buttonType の ボタンの じょうたいを リセットする"
     //% buttonType.defl=ButtonType.Oak
+    //% blockHidden=true
     //% group="けっか"
     //% weight=92
     export function resetButtonState(buttonType: ButtonType): void {
