@@ -146,36 +146,52 @@ enum GateState {
 
 enum BuildingType {
     //% block="あかいコンビニ"
+    //% jres=BuildingIcon.connbini_a
     RedConvenienceStore = 0,
     //% block="みどりのコンビニ"
+    //% jres=BuildingIcon.connbini_b
     GreenConvenienceStore = 1,
     //% block="そらいろテラコッタのビル"
+    //% jres=BuildingIcon.building_a
     LightBlueTerracottaBuilding = 2,
     //% block="あかいテラコッタのビル"
+    //% jres=BuildingIcon.building_b
     RedTerracottaBuilding = 3,
     //% block="あかいいえ"
+    //% jres=BuildingIcon.house_red
     RedHouse = 4,
     //% block="みどりのいえ"
+    //% jres=BuildingIcon.house_green
     GreenHouse = 5,
     //% block="レンガのめいろ"
+    //% jres=BuildingIcon.brick_maze
     BrickMaze = 6,
     //% block="おり（タワー）"
+    //% jres=BuildingIcon.prison_tower
     PrisonTower = 7,
     //% block="おり（しかく）"
+    //% jres=BuildingIcon.prison_square
     PrisonSquare = 8,
     //% block="いけ"
+    //% jres=BuildingIcon.pond
     Pond = 9,
     //% block="しげみ"
+    //% jres=BuildingIcon.sigemi
     Bushes = 10,
     //% block="トンネル"
+    //% jres=BuildingIcon.tunnel
     Tunnel = 11,
     //% block="まるいしタワー"
+    //% jres=BuildingIcon.tower_cobble
     CobblestoneTower = 12,
     //% block="しぜん"
+    //% jres=BuildingIcon.nature
     Nature = 13,
     //% block="エンダーマンのぞう"
+    //% jres=BuildingIcon.enderman
     EndermanStatue = 14,
     //% block="おおきなさぎょうだい"
+    //% jres=BuildingIcon.crafting_table
     LargeCraftingTable = 15
 }
 
@@ -277,7 +293,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.61"
+        return "1.0.62"
     }
 }
 
@@ -893,6 +909,8 @@ namespace AreaD {
 namespace BuildingBlocks {
     //% blockId=cmk_build_structure block="あしもとに あかいネザーレンガブロック があったら|たてもの $building をたてる"
     //% building.defl=BuildingType.RedConvenienceStore
+    //% building.fieldEditor="imagedropdown"
+    //% building.fieldOptions.columns=4
     //% inlineInputMode="external"
     //% group="たてる"
     //% weight=110
