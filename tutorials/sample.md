@@ -4,7 +4,7 @@
 ### @hideIteration true
 
 ```package
-cmk-su26-game-tut=github:cmk-dev-team/cmk-su26-game-tut#v1.0.66
+cmk-su26-game-tut=github:cmk-dev-team/cmk-su26-game-tut#v1.0.67
 ```
 
 ```template

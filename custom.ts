@@ -293,7 +293,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.66"
+        return "1.0.67"
     }
 }
 
@@ -497,7 +497,7 @@ namespace PlayerBlocks {
 }
 
 namespace GameSettings {
-    //% blockId=cmk_on_remaining_time
+    //% blockId=cmk_game_settings_on_remaining_time_legacy
     //% block="のこり $triggerSec びょうに なった とき"
     //% blockHidden=true
     //% triggerSec.defl=30 triggerSec.min=0
