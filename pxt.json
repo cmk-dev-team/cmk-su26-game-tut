@@ -12,7 +12,8 @@
         "tutorials/v1.md",
         "tutorials/v2.md",
         "tutorials/sample.md",
-        "README.md"
+        "README.md",
+        "tutorial-info-cache.json"
     ],
     "public": true,
     "targetVersions": {
