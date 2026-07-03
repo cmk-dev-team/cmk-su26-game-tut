@@ -7,6 +7,10 @@
 cmk-su26-game-tut=github:cmk-dev-team/cmk-su26-game-tut#v1.0.68
 ```
 
+## ゲームづくりコース
+
+おてほんプログラム
+
 ```template
 PlayerBlocks.onRemainingTime(150, function () {
     PlayerBlocks.showTitleTo(PlayerBlocks.selector(PlayerSelector.All), "ハンタースピードアップ！！")
