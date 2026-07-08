@@ -218,14 +218,8 @@ enum BountyChange {
 enum PlayerSelector {
     //% block="じぶん"
     Self = 1,
-    //% block="ミッションに せいこうした 人"
-    MissionSuccess = 2,
-    //% block="ミッションに しっぱいした 人"
-    MissionFail = 3,
     //% block="ぜんいん"
-    All = 0,
-    //% block="ランダム"
-    Random = 4
+    All = 0
 }
 
 enum MinecraftGameMode {
@@ -293,7 +287,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.72"
+        return "1.0.73"
     }
 }
 
