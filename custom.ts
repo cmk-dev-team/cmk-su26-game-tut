@@ -253,28 +253,28 @@ enum HunterTarget {
 enum HunterRemoveTarget {
     //% block="すべてのハンター"
     All = 0,
-    //% block="ハンターA"
+    //% block="ハンターA（ゾンビ）"
     HunterA = 1,
-    //% block="ハンターB"
+    //% block="ハンターB（スケルトン）"
     HunterB = 2,
-    //% block="ハンターC"
+    //% block="ハンターC（クリーパー）"
     HunterC = 3,
-    //% block="ハンターD"
+    //% block="ハンターD（スティーブ）"
     HunterD = 4,
-    //% block="ハンターE"
+    //% block="ハンターE（ピグリン）"
     HunterE = 5
 }
 
 enum HunterType {
-    //% block="ハンターA"
+    //% block="ハンターA（ゾンビ）"
     HunterA = 1,
-    //% block="ハンターB"
+    //% block="ハンターB（スケルトン）"
     HunterB = 2,
-    //% block="ハンターC"
+    //% block="ハンターC（クリーパー）"
     HunterC = 3,
-    //% block="ハンターD"
+    //% block="ハンターD（スティーブ）"
     HunterD = 4,
-    //% block="ハンターE"
+    //% block="ハンターE（ピグリン）"
     HunterE = 5
 }
 
@@ -293,7 +293,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.70"
+        return "1.0.71"
     }
 }
 
@@ -319,11 +319,11 @@ namespace VariableBlocks {
     }
 }
 
-//% color="#175BB4" weight=100 block="プレイヤー" groups='["せってい", "ひょうじ", "イベント", "スポーン", "テレポート", "セレクター"]'
+//% color="#175BB4" weight=100 block="プレイヤー" groups='["せってい", "ひょうじ", "イベント", "スポーン", "テレポート", "セレクター", "ゲームモード"]'
 namespace PlayerBlocks {
     //% blockId=cmk_set_game_mode block="ゲームモードを $mode に する"
-    //% group="せってい"
-    //% weight=95
+    //% group="ゲームモード"
+    //% weight=1
     export function setGameMode(mode: MinecraftGameMode): void {
         sendCommand("gamemode " + getMinecraftGameModeCommand(mode) + " @s")
     }
