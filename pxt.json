@@ -1,6 +1,6 @@
 {
     "name": "cmk-su26-game-tut",
-    "version": "1.0.71",
+    "version": "1.0.72",
     "description": "ハンターからの大脱走！ゲーム設定ブロック",
     "dependencies": {
         "core": "*"
@@ -13,10 +13,7 @@
         "tutorials/v2.md",
         "tutorials/sample.md",
         "README.md",
-        "tutorial-info-cache.json",
-        "tutorials/v1-70.md",
-        "tutorials/v2-70.md",
-        "tutorials/sample-70.md"
+        "tutorial-info-cache.json"
     ],
     "public": true,
     "targetVersions": {

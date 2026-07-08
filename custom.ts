@@ -293,7 +293,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.71"
+        return "1.0.72"
     }
 }
 
