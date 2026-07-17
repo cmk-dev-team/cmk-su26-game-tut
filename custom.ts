@@ -3,6 +3,8 @@ let _lives = 1
 let _bountyStart = 0
 let _bountyIncrement = 0
 let _countdown = 0
+let localGameGeneration = 0
+let localGameTimerWatchEnabled = false
 
 function sendCommand(command: string): void {
     player.execute(command)
@@ -285,7 +287,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.75"
+        return "1.0.76"
     }
 }
 
@@ -388,6 +390,9 @@ namespace GameSettings {
         if (countdown !== undefined) {
             _countdown = countdown
         }
+        localGameGeneration++
+        const startingGeneration = localGameGeneration
+        localGameTimerWatchEnabled = false
         sendCommand("scoreboard players set @s g_countdown " + _countdown)
         sendCommand(
             "scriptevent cmk:start "
@@ -397,6 +402,12 @@ namespace GameSettings {
             + _bountyStart + "|"
             + _bountyIncrement
         )
+        loops.runInBackground(function () {
+            loops.pause(250)
+            if (localGameGeneration == startingGeneration) {
+                localGameTimerWatchEnabled = true
+            }
+        })
     }
 
     //% blockId=cmk_pause_game block="ゲームを いちじ ていしする"
@@ -410,6 +421,7 @@ namespace GameSettings {
     //% group="ゲーム"
     //% weight=57
     export function endGame(): void {
+        localGameTimerWatchEnabled = false
         sendCommand("scriptevent cmk:stop")
     }
 }
@@ -1098,15 +1110,24 @@ namespace Missions {
     //% group="イベント"
     //% weight=110
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
-        // Ask the addon to push a "remaining_N" event the instant g_timer hits
-        // triggerSec, instead of polling the scoreboard every 100ms.
-        // Uses "say" + onChat rather than "tell" + onTellCommand because
-        // onTellCommand only fires for the hosting player in multiplayer.
-        sendCommand("scriptevent cmk:register_remaining " + triggerSec)
-        player.onChat("remaining_" + triggerSec + "_" + player.name(), function () {
-            currentMissionTrigger = triggerSec
-            missionResult = 0
-            handler()
+        let triggeredGeneration = -1
+        loops.forever(function () {
+            if (
+                localGameTimerWatchEnabled
+                && triggeredGeneration != localGameGeneration
+                && player.execute(
+                    // Keep the condition true after the threshold is crossed so
+                    // delayed polling cannot permanently miss the event.
+                    "scoreboard players test @s g_timer 0 "
+                    + triggerSec
+                )
+            ) {
+                triggeredGeneration = localGameGeneration
+                currentMissionTrigger = triggerSec
+                missionResult = 0
+                handler()
+            }
+            loops.pause(100)
         })
     }
 
