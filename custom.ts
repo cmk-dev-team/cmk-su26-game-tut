@@ -285,7 +285,7 @@ namespace GameSettings {
     //% blockHidden=true
     //% weight=110
     export function extensionVersion(): string {
-        return "1.0.74"
+        return "1.0.75"
     }
 }
 
@@ -1098,10 +1098,12 @@ namespace Missions {
     //% group="イベント"
     //% weight=110
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
-        // Ask the addon to push a "remaining_N" tell the instant g_timer hits
+        // Ask the addon to push a "remaining_N" event the instant g_timer hits
         // triggerSec, instead of polling the scoreboard every 100ms.
+        // Uses "say" + onChat rather than "tell" + onTellCommand because
+        // onTellCommand only fires for the hosting player in multiplayer.
         sendCommand("scriptevent cmk:register_remaining " + triggerSec)
-        player.onTellCommand("remaining_" + triggerSec, function () {
+        player.onChat("remaining_" + triggerSec + "_" + player.name(), function () {
             currentMissionTrigger = triggerSec
             missionResult = 0
             handler()
