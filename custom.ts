@@ -1110,10 +1110,20 @@ namespace Missions {
     //% group="イベント"
     //% weight=110
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
+        let armedGeneration = -1
         let triggeredGeneration = -1
         loops.forever(function () {
+            // Latch "watch is enabled for this generation" locally instead of
+            // re-checking the shared localGameTimerWatchEnabled flag on every
+            // poll: another onRemainingTime handler (e.g. the "残り0秒" one
+            // calling GameSettings.endGame()) can flip that flag to false
+            // mid-round, which must not retroactively block thresholds that
+            // are still waiting to fire in the same round.
+            if (localGameTimerWatchEnabled && armedGeneration != localGameGeneration) {
+                armedGeneration = localGameGeneration
+            }
             if (
-                localGameTimerWatchEnabled
+                armedGeneration == localGameGeneration
                 && triggeredGeneration != localGameGeneration
                 && player.execute(
                     // Keep the condition true after the threshold is crossed so
