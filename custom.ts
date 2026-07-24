@@ -977,6 +977,12 @@ namespace Missions {
     let bambooButtonPressed = false
     let stoneButtonPressed = false
 
+    let remainingTimeTriggerSecs: number[] = []
+    let remainingTimeHandlers: (() => void)[] = []
+    let remainingTimeArmedGenerations: number[] = []
+    let remainingTimeTriggeredGenerations: number[] = []
+    let remainingTimeWatchLoopStarted = false
+
     function resetMissionFlags(missionNumber: MissionNumber): void {
         if (missionNumber == MissionNumber.Mission1) {
             missionTimeout1 = false
@@ -1103,6 +1109,50 @@ namespace Missions {
         return stoneButtonPressed
     }
 
+    function startRemainingTimeWatchLoop(): void {
+        if (remainingTimeWatchLoopStarted) {
+            return
+        }
+        remainingTimeWatchLoopStarted = true
+        loops.forever(function () {
+            // Check every registered threshold in a single shared fiber instead
+            // of one loops.forever per onRemainingTime call. With one fiber per
+            // threshold, thresholds registered later (2nd, 3rd, ...) end up
+            // queued behind every other background fiber's player.execute call
+            // each poll cycle, so their effective interval can drift far past
+            // 100ms while the first-registered one stays on time. Running all
+            // checks back-to-back in one fiber removes that inter-fiber
+            // contention entirely.
+            for (let i = 0; i < remainingTimeTriggerSecs.length; i++) {
+                // Latch "watch is enabled for this generation" locally instead
+                // of re-checking the shared localGameTimerWatchEnabled flag on
+                // every poll: another onRemainingTime handler (e.g. the
+                // "残り0秒" one calling GameSettings.endGame()) can flip that
+                // flag to false mid-round, which must not retroactively block
+                // other thresholds still waiting to fire in the same round.
+                if (localGameTimerWatchEnabled && remainingTimeArmedGenerations[i] != localGameGeneration) {
+                    remainingTimeArmedGenerations[i] = localGameGeneration
+                }
+                if (
+                    remainingTimeArmedGenerations[i] == localGameGeneration
+                    && remainingTimeTriggeredGenerations[i] != localGameGeneration
+                    && player.execute(
+                        // Keep the condition true after the threshold is crossed so
+                        // delayed polling cannot permanently miss the event.
+                        "scoreboard players test @s g_timer 0 "
+                        + remainingTimeTriggerSecs[i]
+                    )
+                ) {
+                    remainingTimeTriggeredGenerations[i] = localGameGeneration
+                    currentMissionTrigger = remainingTimeTriggerSecs[i]
+                    missionResult = 0
+                    remainingTimeHandlers[i]()
+                }
+            }
+            loops.pause(100)
+        })
+    }
+
     //% blockId=cmk_on_remaining_time
     //% block="のこり $triggerSec びょうに なった とき"
     //% blockHidden=true
@@ -1110,35 +1160,11 @@ namespace Missions {
     //% group="イベント"
     //% weight=110
     export function onRemainingTime(triggerSec: number, handler: () => void): void {
-        let armedGeneration = -1
-        let triggeredGeneration = -1
-        loops.forever(function () {
-            // Latch "watch is enabled for this generation" locally instead of
-            // re-checking the shared localGameTimerWatchEnabled flag on every
-            // poll: another onRemainingTime handler (e.g. the "残り0秒" one
-            // calling GameSettings.endGame()) can flip that flag to false
-            // mid-round, which must not retroactively block thresholds that
-            // are still waiting to fire in the same round.
-            if (localGameTimerWatchEnabled && armedGeneration != localGameGeneration) {
-                armedGeneration = localGameGeneration
-            }
-            if (
-                armedGeneration == localGameGeneration
-                && triggeredGeneration != localGameGeneration
-                && player.execute(
-                    // Keep the condition true after the threshold is crossed so
-                    // delayed polling cannot permanently miss the event.
-                    "scoreboard players test @s g_timer 0 "
-                    + triggerSec
-                )
-            ) {
-                triggeredGeneration = localGameGeneration
-                currentMissionTrigger = triggerSec
-                missionResult = 0
-                handler()
-            }
-            loops.pause(100)
-        })
+        remainingTimeTriggerSecs.push(triggerSec)
+        remainingTimeHandlers.push(handler)
+        remainingTimeArmedGenerations.push(-1)
+        remainingTimeTriggeredGenerations.push(-1)
+        startRemainingTimeWatchLoop()
     }
 
     //% blockId=cmk_mission_duration block="$seconds びょう"
